@@ -1,15 +1,8 @@
 {
-  "name": "e-school-global",
+  "name": "e-school-daara",
   "version": "1.0.0",
-  "description": "E-School Global Multi-Portal School Management System with REST API and SQLite Database",
-  "main": "server.js",
+  "description": "E-School Daara Digital School Management OS",
   "scripts": {
-    "start": "node server.js"
-  },
-  "dependencies": {
-    "better-sqlite3": "^11.10.0",
-    "cors": "^2.8.6",
-    "express": "^4.22.2",
-    "sqlite3": "^6.0.1"
+    "build": "echo 'Static Build Complete'"
   }
 }

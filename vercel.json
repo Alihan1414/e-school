@@ -1,13 +1,5 @@
 {
   "version": 2,
-  "routes": [
-    {
-      "src": "/presentation.html",
-      "dest": "/presentation.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
-  ]
+  "public": true,
+  "cleanUrls": true
 }
