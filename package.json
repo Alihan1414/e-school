@@ -1,8 +1,0 @@
-{
-  "name": "e-school-daara",
-  "version": "1.0.0",
-  "description": "E-School Daara Digital School Management OS",
-  "scripts": {
-    "build": "echo 'Static Build Complete'"
-  }
-}
