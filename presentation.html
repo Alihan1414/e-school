@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-School Daara — Institutional Pitch Deck & Executive Presentation</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap">
+  <style>
+    :root {
+      --bg-dark: #070D18;
+      --card-dark: #0F172A;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --emerald-accent: #10B981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --cyan-accent: #38BDF8;
+      --amber-accent: #F59E0B;
+      --purple-accent: #A855F7;
+      --text-main: #FFFFFF;
+      --text-muted: #94A3B8;
+      --font-main: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Presentation Header & Navigation */
+    .deck-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(7, 13, 24, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .brand-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: #0F172A;
+      border: 1px solid var(--emerald-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--emerald-accent);
+      box-shadow: 0 0 15px var(--emerald-glow);
+    }
+
+    .slide-jump-links {
+      display: flex;
+      gap: 18px;
+    }
+
+    .slide-jump-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .slide-jump-links a:hover {
+      color: var(--emerald-accent);
+    }
+
+    .btn-launch-demo {
+      background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+      color: #FFF;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.78rem;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 0 15px var(--emerald-glow);
+    }
+
+    /* Container & Slide Structure */
+    .deck-container {
+      max-width: 1180px;
+      margin: 80px auto 40px auto;
+      padding: 20px;
+    }
+
+    .slide-section {
+      background: var(--card-dark);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .slide-section::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--emerald-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .slide-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--emerald-accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .slide-title {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      color: #FFF;
+    }
+
+    .slide-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 32px;
+    }
+
+    /* Layout Grids */
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .grid-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-4col {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    /* Visual Feature Cards */
+    .feat-card {
+      background: rgba(7, 13, 24, 0.7);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s ease;
+    }
+
+    .feat-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--emerald-accent);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+    }
+
+    .feat-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-weight: 900;
+      font-size: 1.2rem;
+    }
+
+    .feat-card h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #FFF;
+    }
+
+    .feat-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Interactive Live Demo Frame Mockup */
+    .mockup-preview-window {
+      background: #000;
+      border: 2px solid rgba(16, 185, 129, 0.4);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+      position: relative;
+    }
+
+    .mockup-header-bar {
+      background: #0A1628;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .dots-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #EF4444; }
+    .dot-yellow { background: #F59E0B; }
+    .dot-green { background: #10B981; }
+
+    .mockup-body {
+      padding: 24px;
+      background: radial-gradient(circle at center, #0F172A 0%, #070D18 100%);
+      font-size: 0.82rem;
+    }
+
+    /* Stat Highlight Banner */
+    .stat-pill-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .stat-pill {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--emerald-accent);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    /* Pricing Comparison Box */
+    .pricing-table-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .price-tag {
+      font-size: 2rem;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      margin: 12px 0 6px 0;
+      color: #FFF;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2col, .grid-3col, .grid-4col {
+        grid-template-columns: 1fr;
+      }
+      .slide-jump-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <nav class="deck-nav">
+    <div class="brand-logo-row">
+      <div class="brand-badge-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+      </div>
+      <div>
+        <div style="font-size: 0.95rem; font-weight: 900; color: #FFF; letter-spacing: -0.3px;">E-School Daara</div>
+        <div style="font-size: 0.62rem; color: var(--emerald-accent); font-weight: 800; text-transform: uppercase;">Digital School Operating System</div>
+      </div>
+    </div>
+
+    <div class="slide-jump-links">
+      <a href="#slide-overview">Executive Summary</a>
+      <a href="#slide-value">Institutional Value</a>
+      <a href="#slide-portals">4-Role Portals</a>
+      <a href="#slide-features">Core Features</a>
+      <a href="#slide-security">Enterprise Security</a>
+      <a href="#slide-licensing">B2B Licensing</a>
+    </div>
+
+    <a href="http://localhost:8085" target="_blank" class="btn-launch-demo">
+      Launch Live App ↗
+    </a>
+  </nav>
+
+
+  <div class="deck-container">
+
+    <!-- =========================================================
+         SLIDE 1: HERO & EXECUTIVE SUMMARY
+         ========================================================= -->
+    <section class="slide-section" id="slide-overview">
+      <div class="slide-eyebrow">Institutional Overview • Senegal &amp; Global</div>
+      <h1 class="slide-title">Empowering Educational Institutions with a Next-Gen Digital OS</h1>
+      <p class="slide-subtitle">
+        <strong>E-School Daara</strong> is an enterprise-grade school management and learning operation platform. It replaces outdated paperwork with unified real-time roll call, official sealed transcripts, instant academic transparency, and zero-friction communication between Administration, Faculty, Students, and Parents.
+      </p>
+
+      <div class="grid-4col">
+        <div class="feat-card" style="border-color: rgba(56, 189, 248, 0.3);">
+          <div class="feat-icon-box" style="background: rgba(56, 189, 248, 0.15); color: var(--cyan-accent);">
+            👥
+          </div>
+          <h3>Unified 4-Role RBAC</h3>
+          <p>Strict role-based portals tailored specifically for Administrators, Teachers, Students, and Multi-Child Parents.</p>
+        </div>
+
+        <div class="feat-card" style="border-color: rgba(16, 185, 129, 0.3);">
+          <div class="feat-icon-box" style="background: rgba(16, 185, 129, 0.15); color: var(--emerald-accent);">
+            📷
+          </div>
+          <h3>Live QR Attendance</h3>
+          <p>Instant camera badge scanner with haptic confirmation and automated time-stamped cloud roll-call logging.</p>
+        </div>
+
+        <div class="feat-card" style="border-color: rgba(245, 158, 11, 0.3);">
+          <div class="feat-icon-box" style="background: rgba(245, 158, 11, 0.15); color: var(--amber-accent);">
+            📄
+          </div>
+          <h3>Official PDF Engine</h3>
+          <p>One-click generation of Ministry-standard sealed quarterly report cards and academic transcripts.</p>
+        </div>
+
+        <div class="feat-card" style="border-color: rgba(168, 85, 247, 0.3);">
+          <div class="feat-icon-box" style="background: rgba(168, 85, 247, 0.15); color: var(--purple-accent);">
+            🌍
+          </div>
+          <h3>4-Language Parity</h3>
+          <p>100% synchronized interface in French, Wolof, English, and Spanish with zero missing terms.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         SLIDE 2: INSTITUTIONAL VALUE PROPOSITION
+         ========================================================= -->
+    <section class="slide-section" id="slide-value">
+      <div class="slide-eyebrow">Strategic Benefits for School Leadership</div>
+      <h2 class="slide-title">Why Modern Schools Choose E-School Daara</h2>
+      <p class="slide-subtitle">
+        Designed to solve daily administrative bottlenecks, boost student achievement, and increase parental trust.
+      </p>
+
+      <div class="grid-3col">
+        <div class="feat-card">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">⏱️</div>
+          <h3>85% Faster Daily Administrative Workflows</h3>
+          <p>Eliminate manual paper attendance sheets and physical grade tallying. Teachers take attendance via QR code in under 3 seconds per classroom.</p>
+          <div class="stat-pill-row">
+            <span class="stat-pill">Zero Paper Waste</span>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">🛡️</div>
+          <h3>100% Transparent Parental Engagement</h3>
+          <p>Parents receive real-time notifications for daily check-ins, exam scores, and can submit official doctor notes or leave excuses digitally.</p>
+          <div class="stat-pill-row">
+            <span class="stat-pill" style="color: var(--cyan-accent); border-color: var(--cyan-accent); background: rgba(56, 189, 248, 0.1);">Multi-Child Switcher</span>
+          </div>
+        </div>
+
+        <div class="feat-card">
+          <div style="font-size: 1.8rem; margin-bottom: 12px;">🤖</div>
+          <h3>Pedagogical AI Learning Insights</h3>
+          <p>Integrated <strong>Daara AI</strong> analyzes student grade progression across subjects and recommends personalized revision exercises.</p>
+          <div class="stat-pill-row">
+            <span class="stat-pill" style="color: var(--purple-accent); border-color: var(--purple-accent); background: rgba(168, 85, 247, 0.1);">Automated Analysis</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         SLIDE 3: 4-ROLE SPECIALIZED PORTALS
+         ========================================================= -->
+    <section class="slide-section" id="slide-portals">
+      <div class="slide-eyebrow">User Experience &amp; Ecosystem</div>
+      <h2 class="slide-title">Tailored Portals for Every Member of the School</h2>
+      <p class="slide-subtitle">
+        Each stakeholder accesses a dedicated, distraction-free environment built specifically for their operational responsibilities.
+      </p>
+
+      <div class="grid-2col">
+        <div class="feat-card" style="border-left: 4px solid var(--purple-accent);">
+          <h3 style="color: var(--purple-accent);">1. Administration &amp; Principal Directorate</h3>
+          <p style="margin-bottom: 10px;">
+            • Real-time campus KPI dashboard (Enrollment, Faculty count, School-wide GPA, Attendance rate).<br>
+            • Complete User Directory CRUD with instant search and permission control.<br>
+            • Review and approve parent absence excuses and medical certificates.<br>
+            • Broadcast emergency school-wide announcements with priority banners.
+          </p>
+          <span style="font-size: 0.72rem; color: #94A3B8; font-family: var(--font-mono);">Login ID: ADM-01</span>
+        </div>
+
+        <div class="feat-card" style="border-left: 4px solid var(--emerald-accent);">
+          <h3 style="color: var(--emerald-accent);">2. Faculty &amp; Teacher Workspace</h3>
+          <p style="margin-bottom: 10px;">
+            • Camera-based QR code attendance roll call with instant "All Present" shortcut.<br>
+            • Interactive gradebook entry synced instantly to cloud Firestore.<br>
+            • Assignment review with feedback remarks and digital grading.<br>
+            • Direct two-way secure messaging thread with parents.
+          </p>
+          <span style="font-size: 0.72rem; color: #94A3B8; font-family: var(--font-mono);">Login ID: TCH-01</span>
+        </div>
+
+        <div class="feat-card" style="border-left: 4px solid var(--cyan-accent);">
+          <h3 style="color: var(--cyan-accent);">3. Student Learning Hub</h3>
+          <p style="margin-bottom: 10px;">
+            • Live GPA hero card with honor roll distinction.<br>
+            • Digital homework submission with file/photo attachments.<br>
+            • Weekly interactive timetable showing classrooms and instructors.<br>
+            • One-click official Senegalese sealed transcript PDF download.
+          </p>
+          <span style="font-size: 0.72rem; color: #94A3B8; font-family: var(--font-mono);">Login ID: STU-101</span>
+        </div>
+
+        <div class="feat-card" style="border-left: 4px solid var(--amber-accent);">
+          <h3 style="color: var(--amber-accent);">4. Multi-Child Parent Portal</h3>
+          <p style="margin-bottom: 10px;">
+            • One account to monitor multiple children across different grades and classrooms.<br>
+            • Real-time presence indicator badge (*Présent aujourd'hui - 08:15*).<br>
+            • Formal medical leave &amp; absence excuse submission portal.<br>
+            • Direct communication channel with primary academic advisors.
+          </p>
+          <span style="font-size: 0.72rem; color: #94A3B8; font-family: var(--font-mono);">Login ID: PAR-101</span>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         SLIDE 4: ARCHITECTURE & HIGHLIGHT FEATURES
+         ========================================================= -->
+    <section class="slide-section" id="slide-features">
+      <div class="slide-eyebrow">Enterprise Engineering</div>
+      <h2 class="slide-title">Full Feature Matrix &amp; Live Architecture</h2>
+
+      <div class="grid-3col">
+        <div class="feat-card">
+          <h4 style="color: #38BDF8; font-size: 0.95rem; margin-bottom: 6px;">📷 Live Camera QR Scanner</h4>
+          <p>Built with HTML5 QR Code engine. Validates digital student IDs and registers attendance timestamps directly into SQLite and Firestore.</p>
+        </div>
+
+        <div class="feat-card">
+          <h4 style="color: #10B981; font-size: 0.95rem; margin-bottom: 6px;">📄 Official PDF Generator</h4>
+          <p>High-resolution HTML2PDF export formatted to the Republic of Senegal Ministry standards, with weighted course grades and signatures.</p>
+        </div>
+
+        <div class="feat-card">
+          <h4 style="color: #F59E0B; font-size: 0.95rem; margin-bottom: 6px;">📑 Leave &amp; Medical Excuse Portal</h4>
+          <p>Automated parent-to-administration workflow with real-time HTTPS webhook dispatches to authorized school directors.</p>
+        </div>
+
+        <div class="feat-card">
+          <h4 style="color: #A855F7; font-size: 0.95rem; margin-bottom: 6px;">📤 Digital Homework Hub</h4>
+          <p>Supports document uploads, solution notes, teacher grading feedback, and real-time submission status tracking.</p>
+        </div>
+
+        <div class="feat-card">
+          <h4 style="color: #34D399; font-size: 0.95rem; margin-bottom: 6px;">💬 Real-Time Live Chat Stream</h4>
+          <p>Two-way encrypted communication channels between parents and teachers for continuous academic collaboration.</p>
+        </div>
+
+        <div class="feat-card">
+          <h4 style="color: #F43F5E; font-size: 0.95rem; margin-bottom: 6px;">🎨 Palette Customizer</h4>
+          <p>Executive UI themes including OLED Dark, High-Contrast Executive Navy, and Emerald Academic without page refresh.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         SLIDE 5: ENTERPRISE SECURITY & 2FA OTP
+         ========================================================= -->
+    <section class="slide-section" id="slide-security">
+      <div class="slide-eyebrow">Bank-Grade Privacy &amp; Data Protection</div>
+      <h2 class="slide-title">Enterprise Security &amp; Identity Protection</h2>
+      <p class="slide-subtitle">
+        Schools manage sensitive student data. E-School Daara provides robust security mechanisms to prevent unauthorized access.
+      </p>
+
+      <div class="grid-3col">
+        <div class="feat-card">
+          <div style="color: var(--cyan-accent); font-size: 1.6rem; margin-bottom: 8px;">🔑</div>
+          <h3>2-Factor OTP Recovery</h3>
+          <p>Forgot password requests generate a time-limited 6-digit cryptographic OTP transmitted to the registered contact for identity verification.</p>
+        </div>
+
+        <div class="feat-card">
+          <div style="color: var(--amber-accent); font-size: 1.6rem; margin-bottom: 8px;">🔒</div>
+          <h3>Self-Service Password Manager</h3>
+          <p>Every logged-in user (Admin, Teacher, Student, Parent) can securely update their credentials at any time directly from their profile.</p>
+        </div>
+
+        <div class="feat-card">
+          <div style="color: var(--emerald-accent); font-size: 1.6rem; margin-bottom: 8px;">📜</div>
+          <h3>Immutable Audit Trail</h3>
+          <p>All sensitive operations (account creation, deletion, grade changes, contract dispatches) are logged with IP and timestamp in `audit_logs`.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- =========================================================
+         SLIDE 6: B2B LICENSING & PRICING
+         ========================================================= -->
+    <section class="slide-section" id="slide-licensing">
+      <div class="slide-eyebrow">Institutional Packaging &amp; Rollout</div>
+      <h2 class="slide-title">Scalable B2B Institutional Plans</h2>
+      <p class="slide-subtitle">
+        Transparent pricing designed for primary, secondary, and higher educational institutions of all sizes.
+      </p>
+
+      <div class="grid-3col">
+        <div class="pricing-table-card" style="border-color: rgba(34, 197, 94, 0.3);">
+          <span style="font-size: 0.72rem; font-weight: 800; color: #4ADE80; text-transform: uppercase;">Starter Tier</span>
+          <h3 style="font-size: 1.25rem; font-weight: 900; color: #FFF; margin-top: 4px;">Daara Basic</h3>
+          <div class="price-tag" style="color: #4ADE80;">$1<span style="font-size: 0.8rem; color: #94A3B8;"> / student / mo</span></div>
+          <div style="font-size: 0.72rem; color: #F59E0B; font-weight: 800; margin-bottom: 14px;">Setup Fee: $300 USD</div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.6;">
+            Student profiles, official gradebook, attendance tracking, weekly timetable, and parent portal access.
+          </p>
+        </div>
+
+        <div class="pricing-table-card" style="border-color: rgba(59, 130, 246, 0.6); box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);">
+          <span style="background: rgba(59, 130, 246, 0.2); color: #60A5FA; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase;">Recommended</span>
+          <h3 style="font-size: 1.25rem; font-weight: 900; color: #FFF; margin-top: 4px;">Daara Pro</h3>
+          <div class="price-tag" style="color: #60A5FA;">$2<span style="font-size: 0.8rem; color: #94A3B8;"> / student / mo</span></div>
+          <div style="font-size: 0.72rem; color: #F59E0B; font-weight: 800; margin-bottom: 14px;">Setup Fee: $500 USD</div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.6;">
+            Everything in Basic + Two-way live chat, homework uploads, course materials hub, and WhatsApp academic alerts.
+          </p>
+        </div>
+
+        <div class="pricing-table-card" style="border-color: rgba(168, 85, 247, 0.4);">
+          <span style="font-size: 0.72rem; font-weight: 800; color: #C084FC; text-transform: uppercase;">Full Suite</span>
+          <h3 style="font-size: 1.25rem; font-weight: 900; color: #FFF; margin-top: 4px;">Daara Enterprise</h3>
+          <div class="price-tag" style="color: #C084FC;">$3<span style="font-size: 0.8rem; color: #94A3B8;"> / student / mo</span></div>
+          <div style="font-size: 0.72rem; color: #F59E0B; font-weight: 800; margin-bottom: 14px;">Setup Fee: $700 USD</div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.6;">
+            Everything in Pro + Unlimited Daara AI Assistant, predictive student analytics, and 24/7 dedicated engineering support.
+          </p>
+        </div>
+      </div>
+
+      <div style="margin-top: 36px; text-align: center;">
+        <a href="http://localhost:8085" target="_blank" class="btn-launch-demo" style="padding: 14px 32px; font-size: 0.95rem;">
+          Experience Live Demonstration Now ↗
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>

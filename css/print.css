@@ -1,0 +1,57 @@
+/* Print Stylesheet for Official Report Card / Bulletin Scolaire */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11pt;
+  }
+
+  .sidebar,
+  .top-bar,
+  .header-actions,
+  .role-switcher-group,
+  .btn-primary,
+  .theme-toggle-btn,
+  .toast-message,
+  .nav-menu {
+    display: none !important;
+  }
+
+  .app-container {
+    display: block !important;
+  }
+
+  .main-wrapper {
+    width: 100% !important;
+  }
+
+  .content-viewport {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .tab-view {
+    display: none !important;
+  }
+
+  #tab-report_card {
+    display: block !important;
+  }
+
+  .report-card-container {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .rc-table th, .rc-table td {
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+  }
+
+  .rc-cert-badge {
+    border: 1px solid #000000 !important;
+    color: #000000 !important;
+  }
+}

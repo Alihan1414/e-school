@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>E-School Daara - Digital School Management OS</title>
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- HTML5 QR Code Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <!-- High Quality PDF Generator Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body data-theme="dark">
+
+  <!-- =========================================================
+       1. HARDWARE PERMISSIONS MODAL
+       ========================================================= -->
+  <div id="modal-hardware-permissions" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card">
+      <div style="width: 48px; height: 48px; margin: 0 auto 12px auto; border-radius: 12px; background: rgba(16, 185, 129, 0.15); border: 1px solid var(--senegal-green); display: flex; align-items: center; justify-content: center; color: var(--senegal-green);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      </div>
+
+      <h3 style="font-size: 1.1rem; font-weight: 800; letter-spacing: -0.3px;" data-i18n="perm.modal_title">Autorisations Matérielles Requises</h3>
+      <p style="font-size: 0.72rem; color: #94A3B8; margin-top: 4px; line-height: 1.5;" data-i18n="perm.modal_sub">
+        Veuillez activer les autorisations requises pour le bon fonctionnement de l'application scolaire.
+      </p>
+
+      <div class="perm-items-list">
+        <div class="perm-item-row">
+          <div style="color: var(--neon-cyan);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          </div>
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 800;" data-i18n="perm.notif_title">Notifications Push</div>
+            <div style="font-size: 0.66rem; color: #94A3B8;" data-i18n="perm.notif_desc">Alertes instantanées pour les notes, devoirs et absences.</div>
+          </div>
+        </div>
+
+        <div class="perm-item-row">
+          <div style="color: var(--neon-blue);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+          </div>
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 800;" data-i18n="perm.cam_title">Appareil Photo &amp; Scanner QR</div>
+            <div style="font-size: 0.66rem; color: #94A3B8;" data-i18n="perm.cam_desc">Pour scanner les QR codes de présence et envoyer les devoirs.</div>
+          </div>
+        </div>
+
+        <div class="perm-item-row">
+          <div style="color: var(--senegal-yellow);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          </div>
+          <div>
+            <div style="font-size: 0.78rem; font-weight: 800;" data-i18n="perm.loc_title">Géolocalisation &amp; Présence Campus</div>
+            <div style="font-size: 0.66rem; color: #94A3B8;" data-i18n="perm.loc_desc">Vérifie la présence physique dans l'enceinte de l'école.</div>
+          </div>
+        </div>
+      </div>
+
+      <button id="btn-grant-all-permissions" class="btn-emerald-glow" data-i18n="perm.grant_all_btn">
+        Activer Toutes les Autorisations
+      </button>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       2. FORGOT PASSWORD (2FA OTP) MODAL
+       ========================================================= -->
+  <div id="modal-forgot-password-flow" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 390px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #38BDF8;" data-i18n="sec.forgot_title">RÉCUPÉRATION DU MOT DE PASSE</span>
+        <button id="btn-close-forgot-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <!-- Step 1: Request Code -->
+      <div id="forgot-step-1-request">
+        <p style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 10px;" data-i18n="sec.forgot_sub">
+          Entrez votre identifiant / matricule. Un code de sécurité unique (OTP) sera généré et transmis à votre contact enregistré.
+        </p>
+        <form id="form-forgot-request-code">
+          <input type="text" id="forgot-input-id" class="form-input-dark" placeholder="Identifiant / Matricule" required style="margin-bottom: 10px;" data-i18n-placeholder="auth.id_label">
+          <button type="submit" class="btn-emerald-glow" style="padding: 10px; font-size: 0.75rem;" data-i18n="sec.forgot_send_btn">
+            Envoyer le Code de Sécurité (OTP)
+          </button>
+        </form>
+      </div>
+
+      <!-- Step 2: Verify OTP & Reset -->
+      <div id="forgot-step-2-reset" style="display: none;">
+        <div id="forgot-otp-banner" style="background: rgba(56, 189, 248, 0.12); border: 1px solid #38BDF8; padding: 8px; border-radius: 8px; font-size: 0.72rem; color: #38BDF8; margin-bottom: 10px;"></div>
+        <form id="form-forgot-verify-reset">
+          <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="sec.otp_label">Code de Sécurité à 6 chiffres (OTP)</label>
+          <input type="text" id="forgot-input-otp" class="form-input-dark" placeholder="849201" maxlength="6" required style="margin: 2px 0 8px 0; text-align: center; letter-spacing: 4px; font-size: 1.1rem; font-weight: 900;">
+
+          <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="sec.new_pass_label">Nouveau Mot de Passe</label>
+          <input type="password" id="forgot-input-newpass" class="form-input-dark" placeholder="••••••••" required style="margin: 2px 0 12px 0;">
+
+          <button type="submit" class="btn-emerald-glow" style="padding: 10px; font-size: 0.75rem;" data-i18n="sec.confirm_reset_btn">
+            Confirmer &amp; Mettre à Jour le Mot de Passe
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       3. CHANGE PASSWORD MODAL (Logged in User)
+       ========================================================= -->
+  <div id="modal-change-password-user" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 380px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #10B981;" data-i18n="sec.change_title">MODIFIER MON MOT DE PASSE</span>
+        <button id="btn-close-change-pass-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <form id="form-user-change-password">
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="sec.current_pass_label">Mot de Passe Actuel</label>
+        <input type="password" id="change-pass-current" class="form-input-dark" placeholder="••••••••" required style="margin: 2px 0 8px 0;">
+
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="sec.new_pass_label">Nouveau Mot de Passe</label>
+        <input type="password" id="change-pass-new" class="form-input-dark" placeholder="••••••••" required style="margin: 2px 0 8px 0;">
+
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="sec.confirm_pass_label">Confirmer Nouveau Mot de Passe</label>
+        <input type="password" id="change-pass-confirm" class="form-input-dark" placeholder="••••••••" required style="margin: 2px 0 12px 0;">
+
+        <button type="submit" class="btn-emerald-glow" style="padding: 10px; font-size: 0.75rem;" data-i18n="sec.save_pass_btn">
+          Enregistrer les Modifications
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       4. LIVE CAMERA QR SCANNER MODAL
+       ========================================================= -->
+  <div id="modal-qr-attendance-scanner" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 380px; padding: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #10B981;" data-i18n="qr.modal_title">SCANNER QR CODE DE PRÉSENCE</span>
+        <button id="btn-close-qr-scanner" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <div style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 10px;" data-i18n="qr.modal_sub">
+        Placez la carte scolaire ou le badge QR de l'élève devant l'objectif pour valider la présence.
+      </div>
+
+      <div id="qr-reader-container" style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; border: 2px solid var(--senegal-green);"></div>
+
+      <div id="qr-scan-feedback" style="display: none; margin-top: 12px; padding: 10px; background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 8px; font-size: 0.75rem; color: #34D399; font-weight: 800;"></div>
+
+      <div style="display: flex; gap: 8px; margin-top: 12px;">
+        <button id="btn-simulate-qr-scan" class="btn-emerald-glow" style="flex: 1; padding: 8px; font-size: 0.72rem; background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);" data-i18n="qr.sim_btn">
+          Scanner Badge Amadou (STU-101)
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       5. ABSENCE EXCUSE SUBMISSION MODAL (Parent -> Admin)
+       ========================================================= -->
+  <div id="modal-submit-absence-excuse" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 400px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #F59E0B;" data-i18n="excuse.modal_title">JUSTIFICATIF D'ABSENCE &amp; CONGÉ</span>
+        <button id="btn-close-excuse-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <form id="form-parent-absence-excuse">
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="excuse.reason_type">Type de Motif</label>
+        <select id="excuse-reason-type" class="form-input-dark" style="margin: 2px 0 8px 0; font-size: 0.75rem;">
+          <option value="Médical (Maladie / Certificat)" data-i18n="excuse.medical">Médical (Maladie / Certificat)</option>
+          <option value="Urgence Familiale" data-i18n="excuse.family">Urgence Familiale</option>
+          <option value="Formalité Officielle" data-i18n="excuse.official">Formalité Officielle</option>
+          <option value="Autre Raison" data-i18n="excuse.other">Autre Raison</option>
+        </select>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+          <div>
+            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="excuse.date_start">Date Début</label>
+            <input type="date" id="excuse-date-start" class="form-input-dark" style="margin: 2px 0 0 0; font-size: 0.75rem;" required>
+          </div>
+          <div>
+            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="excuse.date_end">Date Fin</label>
+            <input type="date" id="excuse-date-end" class="form-input-dark" style="margin: 2px 0 0 0; font-size: 0.75rem;" required>
+          </div>
+        </div>
+
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="excuse.details_label">Détails &amp; Notes Complémentaires</label>
+        <textarea id="excuse-reason-details" class="form-input-dark" rows="3" placeholder="Expliquez brièvement le motif..." required style="margin: 2px 0 12px 0;" data-i18n-placeholder="excuse.details_ph"></textarea>
+
+        <button type="submit" class="btn-emerald-glow" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); padding: 10px; font-size: 0.76rem;" data-i18n="excuse.submit_btn">
+          Transmettre à la Direction
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       6. STUDENT HOMEWORK SUBMISSION MODAL
+       ========================================================= -->
+  <div id="modal-submit-homework-file" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 390px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #38BDF8;" data-i18n="hw.upload_modal_title">DÉPÔT NUMÉRIQUE DE DEVOIR</span>
+        <button id="btn-close-hw-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <form id="form-student-submit-hw">
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="hw.subject_title_label">Matière &amp; Titre du Devoir</label>
+        <input type="text" id="hw-submit-title" class="form-input-dark" value="Mathématiques : Fonctions et Dérivées" readonly style="margin: 2px 0 8px 0;">
+
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="hw.file_label">Fichier / Photo du Devoir (PDF ou Image)</label>
+        <input type="file" id="hw-submit-file" class="form-input-dark" style="margin: 2px 0 8px 0; font-size: 0.72rem;">
+
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="hw.notes_label">Commentaire de l'élève</label>
+        <textarea id="hw-submit-notes" class="form-input-dark" rows="2" placeholder="Notes pour le professeur..." style="margin: 2px 0 12px 0;" data-i18n-placeholder="hw.notes_ph"></textarea>
+
+        <button type="submit" class="btn-emerald-glow" style="padding: 10px; font-size: 0.76rem;" data-i18n="hw.submit_btn">
+          Valider le Rendu du Devoir
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       7. OFFICIAL CONTRACT & INVOICE MODAL
+       ========================================================= -->
+  <div id="modal-official-contract" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 420px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 10px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #10B981;" data-i18n="b2b.contract_title">CONTRAT OFFICIEL &amp; FACTURE INSTITUTIONNELLE</span>
+        <span id="contract-badge-type" style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;">PRO</span>
+      </div>
+
+      <div style="font-size: 0.72rem; color: #94A3B8; line-height: 1.6; max-height: 220px; overflow-y: auto; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+        <strong style="color: #FFF;">OFFICIAL LICENCE ACCORD &amp; SERVICE AGREEMENT</strong><br>
+        • Order Ref: <strong id="contract-order-ref" style="color: #38BDF8;">ORD-101</strong><br>
+        • Institution: <strong id="contract-school-name">Lycée d'Excellence Dakar</strong><br>
+        • Selected Tier: <strong id="contract-tier-name" style="color: #38BDF8;">Daara Pro ($2/Student/Month)</strong><br>
+        • Enrolled Students: <strong id="contract-students-count" style="color: #FFF;">500 Students</strong><br>
+        • Monthly Billing (Invoice): <strong id="contract-monthly-invoice" style="color: #34D399; font-size: 0.82rem;">$1,000 USD / Month</strong><br>
+        • Annual Commitment: <strong id="contract-yearly-invoice" style="color: #A78BFA;">$12,000 USD / Year</strong><br>
+        • Setup Fee: <strong id="contract-setup-fee" style="color: #F59E0B;">$500 USD (Authorized Service Dispatch)</strong><br>
+        • Live Dispatch Target: <strong style="color: #FFF;">alihandivanli8@gmail.com | +90 541 520 84 14</strong><br><br>
+        <em>"Official dispatch recorded and transmitted to Authorized Support Center."</em>
+      </div>
+
+      <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 10px; border-radius: 8px; margin-bottom: 14px; font-size: 0.72rem; color: #34D399;">
+        ✓ Official contract details have been securely transmitted to <strong>alihandivanli8@gmail.com</strong> and <strong>+90 541 520 84 14</strong>.
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button id="btn-close-contract-modal" class="btn-emerald-glow" style="flex: 1; padding: 10px; font-size: 0.75rem;" data-i18n="b2b.contract_confirm">
+          Confirmer &amp; Retourner à l'Accueil
+        </button>
+        <button id="btn-trigger-cancellation-flow" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 10px; border-radius: 8px; font-size: 0.72rem; font-weight: 800; cursor: pointer;" data-i18n="b2b.cancel_flow_btn">
+          Demande de Résiliation de Contrat
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       8. CANCELLATION REQUEST MODAL
+       ========================================================= -->
+  <div id="modal-cancellation-request" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 390px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #EF4444;" data-i18n="b2b.cancel_title">PROCÉDURE DE RÉSILIATION &amp; AVIS</span>
+        <button id="btn-cancel-modal-dismiss" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1rem;">✕</button>
+      </div>
+
+      <p style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 10px;" data-i18n="b2b.cancel_sub">
+        Veuillez indiquer le motif institutionnel de résiliation. Votre demande sera transmise au support central (alihandivanli8@gmail.com / +90 541 520 84 14).
+      </p>
+
+      <form id="form-submit-cancellation">
+        <label style="font-size: 0.68rem; color: #CBD5E1; font-weight: 700; text-transform: uppercase;" data-i18n="b2b.cancel_reason_label">Justification de la Résiliation</label>
+        <textarea id="input-cancellation-reason" class="form-input-dark" rows="3" placeholder="..." required style="margin-top: 4px;"></textarea>
+
+        <button type="submit" class="btn-emerald-glow" style="background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%); padding: 10px; font-size: 0.75rem; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);" data-i18n="b2b.cancel_submit">
+          Transmettre la Demande de Résiliation
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="phone-viewport-wrapper">
+
+    <!-- Top Status Bar with 4 Languages & Live Clock -->
+    <div class="phone-top-bar">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <span id="live-phone-clock" style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">00:00:00</span>
+        <span id="live-phone-tz-badge" style="font-size: 0.58rem; color: #38BDF8; background: rgba(56, 189, 248, 0.12); padding: 1px 6px; border-radius: 4px; font-weight: 800; text-transform: uppercase;">
+          LOCAL
+        </span>
+      </div>
+      <div class="lang-selector-pills">
+        <button class="lang-pill-btn active" data-lang="fr">FR</button>
+        <button class="lang-pill-btn" data-lang="wo">WO</button>
+        <button class="lang-pill-btn" data-lang="en">EN</button>
+        <button class="lang-pill-btn" data-lang="es">ES</button>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         9. AUTH / UNIFIED SECURE LOGIN (With Forgot Password Link)
+         ========================================================= -->
+    <div id="view-auth-portal" style="padding: 24px 18px; text-align: center;">
+      <div style="width: 52px; height: 52px; margin: 0 auto 12px auto; border-radius: 14px; background: #0F172A; border: 1px solid var(--border-emerald); display: flex; align-items: center; justify-content: center; color: var(--senegal-green); box-shadow: 0 0 20px var(--senegal-green-glow);">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+      </div>
+      
+      <div style="font-size: 0.65rem; color: #10B981; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;" data-i18n="app.republic">
+        RÉPUBLIQUE DU SÉNÉGAL
+      </div>
+      <h1 style="font-size: 1.35rem; font-weight: 900; letter-spacing: -0.5px; color: #FFFFFF; margin-top: 2px;" data-i18n="app.title">
+        E-School Daara
+      </h1>
+      <p style="font-size: 0.72rem; color: #94A3B8; margin-top: 2px;" data-i18n="app.tagline">
+        L'application scolaire intelligente qui connecte toute la communauté éducative.
+      </p>
+
+      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 20px; padding: 5px 12px; margin: 12px auto 14px auto; width: fit-content; font-size: 0.65rem; color: #10B981; font-weight: 800;" data-i18n="auth.sec_badge">
+        Enterprise Identity &amp; RBAC Access
+      </div>
+
+      <!-- Login Form -->
+      <form id="form-auth-login">
+        <div id="auth-error-notice" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; margin-bottom: 8px;"></div>
+
+        <div style="text-align: left; margin-bottom: 3px; font-size: 0.7rem; color: #94A3B8; font-weight: 700;" data-i18n="auth.id_label">
+          Identifiant / Matricule (ID)
+        </div>
+        <input type="text" id="input-login-id" class="form-input-dark" placeholder="Ex: ADM-01, TCH-01, STU-101, PAR-101" value="ADM-01" required>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+          <span style="font-size: 0.7rem; color: #94A3B8; font-weight: 700;" data-i18n="auth.pass_label">Mot de passe</span>
+          <button type="button" id="btn-trigger-forgot-pass" style="background: none; border: none; color: #38BDF8; font-size: 0.68rem; font-weight: 700; cursor: pointer; text-decoration: underline;" data-i18n="auth.forgot_pass_link">
+            Mot de passe oublié ?
+          </button>
+        </div>
+        <input type="password" id="input-login-pass" class="form-input-dark" placeholder="••••••••" value="admin123" required>
+
+        <button type="submit" class="btn-emerald-glow" data-i18n="auth.login_btn">
+          Se Connecter à E-School
+        </button>
+      </form>
+
+      <!-- DIRECT B2B PURCHASE & SUBSCRIPTION BUTTON -->
+      <div style="margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-glass); display: flex; flex-direction: column; gap: 8px;">
+        <a href="presentation.html" target="_blank" style="width: 100%; background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(139, 92, 246, 0.3)); border: 1px solid #A855F7; color: #C084FC; padding: 10px; border-radius: 12px; font-weight: 900; font-size: 0.78rem; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 15px rgba(168, 85, 247, 0.2);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>Executive Presentation &amp; Pitch Deck (EN) ↗</span>
+        </a>
+
+        <button id="btn-open-b2b-purchase-portal" style="width: 100%; background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(59, 130, 246, 0.25)); border: 1px solid #38BDF8; color: #38BDF8; padding: 12px; border-radius: 12px; font-weight: 900; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          <span data-i18n="auth.b2b_btn">Achats &amp; Abonnements Établissements (B2B)</span>
+        </button>
+      </div>
+
+      <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-glass); border-radius: 12px; padding: 10px; margin-top: 14px; font-size: 0.65rem; text-align: left; line-height: 1.8;">
+        <strong style="color: #10B981;" data-i18n="auth.quick_demo">Comptes de Démonstration :</strong><br>
+        • <span class="demo-chip-dark" data-cred="ADM-01:admin123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #A78BFA; cursor: pointer;">Admin : ADM-01</span><br>
+        • <span class="demo-chip-dark" data-cred="TCH-01:teach123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #34D399; cursor: pointer;">Professeur : TCH-01</span><br>
+        • <span class="demo-chip-dark" data-cred="STU-101:stud123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #38BDF8; cursor: pointer;">Élève : STU-101</span><br>
+        • <span class="demo-chip-dark" data-cred="PAR-101:parent123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #F59E0B; cursor: pointer;">Parent : PAR-101</span>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         10. DEDICATED B2B PURCHASE & PRICING PANEL
+         ========================================================= -->
+    <div id="view-b2b-purchase-portal" style="display: none; padding: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <button id="btn-back-from-purchase" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #FFF; padding: 6px 12px; border-radius: 8px; font-size: 0.72rem; font-weight: 800; cursor: pointer;" data-i18n="b2b.back_btn">
+          ← Retour à l'Accueil
+        </button>
+        <span style="font-size: 0.7rem; color: #10B981; font-weight: 800;">OFFICIAL B2B PLANS</span>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="font-size: 0.65rem; color: #38BDF8; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">
+          INSTITUTIONAL LICENSING
+        </div>
+        <h2 style="font-size: 1.25rem; font-weight: 900; color: #FFF;" data-i18n="b2b.title">Achats &amp; Abonnements Institutionnels</h2>
+        <p style="font-size: 0.72rem; color: #94A3B8; margin-top: 2px;" data-i18n="b2b.subtitle">
+          Calculez vos factures en temps réel par effectif d'élèves et activez avec un contrat officiel.
+        </p>
+      </div>
+
+      <!-- Institution Details Form -->
+      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(56, 189, 248, 0.2);">
+        <strong style="color: #38BDF8; font-size: 0.8rem;" data-i18n="b2b.inst_details">1. Informations sur l'Établissement</strong>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
+          <input type="text" id="b2b-school-name" class="form-input-dark" placeholder="School / Institution Name" value="Lycée d'Excellence Dakar" style="margin: 0; font-size: 0.72rem;" data-i18n-placeholder="b2b.school_name">
+          <input type="text" id="b2b-rep-name" class="form-input-dark" placeholder="Authorized Contact Person" value="M. Ousmane Diop" style="margin: 0; font-size: 0.72rem;" data-i18n-placeholder="b2b.rep_name">
+          <input type="text" id="b2b-rep-phone" class="form-input-dark" placeholder="Phone Number" value="+221 77 123 4567" style="margin: 0; font-size: 0.72rem;" data-i18n-placeholder="b2b.rep_phone">
+          <input type="email" id="b2b-rep-email" class="form-input-dark" placeholder="Official Email" value="direction@ecole.sn" style="margin: 0; font-size: 0.72rem;" data-i18n-placeholder="b2b.rep_email">
+        </div>
+      </div>
+
+      <!-- 3 Tier Cards -->
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px;">
+        
+        <!-- 1. Starter Tier -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(34, 197, 94, 0.35); border-radius: 12px; padding: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 0.62rem; font-weight: 800; color: #4ADE80; text-transform: uppercase;" data-i18n="b2b.basic_tier">Pack Débutant</span>
+              <h4 style="font-size: 0.95rem; font-weight: 900; color: #FFF;" data-i18n="b2b.basic_name">Daara Basic</h4>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.25rem; font-weight: 900; color: #4ADE80; font-family: var(--font-mono);">$1<span style="font-size: 0.65rem; color: #94A3B8;"> /stu/mo</span></div>
+              <div style="font-size: 0.62rem; color: #F59E0B; font-weight: 800;">Setup: $300</div>
+            </div>
+          </div>
+          <p style="font-size: 0.7rem; color: #94A3B8; margin: 6px 0;" data-i18n="b2b.basic_desc">Profils élèves, bulletins de notes, absences, emploi du temps et accès parents.</p>
+          <button class="btn-select-b2b-package" data-tier="basic" data-price="1" data-setup="300" data-tiername="Daara Basic" style="width: 100%; background: rgba(34, 197, 94, 0.15); border: 1px solid #22C55E; color: #4ADE80; padding: 9px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer;">
+            Daara Basic ($1/mo + $300 Setup)
+          </button>
+        </div>
+
+        <!-- 2. Pro Tier -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(59, 130, 246, 0.5); border-radius: 12px; padding: 12px; box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 0.62rem; font-weight: 800; color: #60A5FA; text-transform: uppercase;" data-i18n="b2b.pro_tier">Recommandé</span>
+              <h4 style="font-size: 0.95rem; font-weight: 900; color: #FFF;" data-i18n="b2b.pro_name">Daara Pro</h4>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.25rem; font-weight: 900; color: #60A5FA; font-family: var(--font-mono);">$2<span style="font-size: 0.65rem; color: #94A3B8;"> /stu/mo</span></div>
+              <div style="font-size: 0.62rem; color: #F59E0B; font-weight: 800;">Setup: $500</div>
+            </div>
+          </div>
+          <p style="font-size: 0.7rem; color: #94A3B8; margin: 6px 0;" data-i18n="b2b.pro_desc">Messagerie bidirectionnelle, supports de cours, rapports avancés et alertes WhatsApp.</p>
+          <button class="btn-select-b2b-package" data-tier="pro" data-price="2" data-setup="500" data-tiername="Daara Pro" style="width: 100%; background: #2563EB; border: none; color: #FFF; padding: 9px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer;">
+            Daara Pro ($2/mo + $500 Setup)
+          </button>
+        </div>
+
+        <!-- 3. Enterprise Tier -->
+        <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 12px; padding: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span style="font-size: 0.62rem; font-weight: 800; color: #C084FC; text-transform: uppercase;" data-i18n="b2b.ent_tier">Suite Complète</span>
+              <h4 style="font-size: 0.95rem; font-weight: 900; color: #FFF;" data-i18n="b2b.ent_name">Daara Enterprise</h4>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 1.25rem; font-weight: 900; color: #C084FC; font-family: var(--font-mono);">$3<span style="font-size: 0.65rem; color: #94A3B8;"> /stu/mo</span></div>
+              <div style="font-size: 0.62rem; color: #F59E0B; font-weight: 800;">Setup: $700</div>
+            </div>
+          </div>
+          <p style="font-size: 0.7rem; color: #94A3B8; margin: 6px 0;" data-i18n="b2b.ent_desc">Assistant IA illimité, encaissement en ligne, analyses prédictives et support dédié 24/7.</p>
+          <button class="btn-select-b2b-package" data-tier="enterprise" data-price="3" data-setup="700" data-tiername="Daara Enterprise" style="width: 100%; background: linear-gradient(135deg, #7C3AED, #A855F7); border: none; color: #FFF; padding: 9px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer;">
+            Daara Enterprise ($3/mo + $700 Setup)
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Cost & Invoice Calculator -->
+      <div class="metric-card-dark" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); padding: 14px; margin-bottom: 14px;">
+        <strong style="font-size: 0.82rem; color: #FFF;" data-i18n="b2b.calc_title">Calculateur d'Investissement &amp; Facturation</strong>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <div style="flex: 1;">
+            <label style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="b2b.calc_headcount">Effectif Total des Élèves</label>
+            <input type="number" id="calc-students-count" class="form-input-dark" value="500" min="10" max="10000" style="padding: 8px; margin: 3px 0 0 0; font-size: 0.8rem;">
+          </div>
+          <div style="flex: 1;">
+            <label style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="b2b.calc_package">Formule Sélectionnée</label>
+            <select id="calc-package-select" class="form-input-dark" style="padding: 8px; margin: 3px 0 0 0; font-size: 0.8rem;">
+              <option value="1">Basic — $1</option>
+              <option value="2" selected>Pro — $2</option>
+              <option value="3">Enterprise — $3</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; text-align: center;">
+          <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 8px; border: 1px solid rgba(56, 189, 248, 0.2);">
+            <span style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;" data-i18n="b2b.calc_monthly">Facture Mensuelle</span>
+            <div id="calc-monthly-out" style="font-size: 1.15rem; font-weight: 900; color: #38BDF8; font-family: var(--font-mono);">$1,000</div>
+          </div>
+          <div style="background: rgba(255,255,255,0.04); padding: 8px; border-radius: 8px; border: 1px solid rgba(52, 211, 153, 0.2);">
+            <span style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;" data-i18n="b2b.calc_annual">Contrat Annuel Total</span>
+            <div id="calc-yearly-out" style="font-size: 1.15rem; font-weight: 900; color: #34D399; font-family: var(--font-mono);">$12,000</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         11. STUDENT & PARENT ECOSYSTEM
+         ========================================================= -->
+    <div id="view-student-parent-root" style="display: none;">
+
+      <!-- Parent Multi-Child Switcher Tabs -->
+      <div id="parent-child-selector-bar" style="display: none;">
+        <div style="padding: 0 18px 6px 18px; font-size: 0.7rem; color: #94A3B8; font-weight: 700;" data-i18n="parent.children_title">
+          Mes Enfants Inscrits :
+        </div>
+        <div class="child-switcher-scroll" id="parent-children-pills-container"></div>
+      </div>
+
+      <!-- Profile Header -->
+      <div class="profile-header-section">
+        <div class="profile-header-left">
+          <div class="avatar-neon-frame">
+            <img id="sp-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Avatar">
+          </div>
+          <div>
+            <div class="user-text-greeting">
+              <span data-i18n="app.greeting">Asalaamu Alaykum,</span>
+            </div>
+            <div class="user-text-fullname" id="sp-header-name">Amadou Diallo</div>
+            <div class="user-pills-row">
+              <span class="meta-chip" id="sp-header-grade">10th Grade – Sc. &amp; Tech</span>
+              <span class="meta-chip" id="sp-header-advisor" data-i18n="app.advisor">Prof. Jean-Marc Fall</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="notif-bell-btn btn-user-logout-trigger" title="Logout">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </button>
+      </div>
+
+      <div style="padding: 0 18px 8px 18px; display: flex; justify-content: space-between; align-items: center;">
+        <span id="user-live-location-badge" style="font-size: 0.68rem; color: #64748B; font-weight: 700;" data-i18n="app.location">
+          Campus Dakar Connecté
+        </span>
+        <span id="parent-live-attendance-pill" style="display: none; background: rgba(16, 185, 129, 0.15); color: #10B981; padding: 2px 8px; border-radius: 12px; font-size: 0.68rem; font-weight: 800;" data-i18n="parent.status_today">
+          Présent aujourd'hui (08:15)
+        </span>
+      </div>
+
+
+      <!-- ================= TAB 1: ACCUEIL ================= -->
+      <div id="tab-pane-home">
+        <!-- Hero GPA Card -->
+        <div class="hero-gpa-card">
+          <div class="hero-gpa-title" data-i18n="dash.gpa_title">MOYENNE GÉNÉRALE (GPA)</div>
+          <div class="hero-gpa-number" id="sp-hero-gpa-val">91.32</div>
+          <div class="hero-takdir-badge" data-i18n="dash.takdir_badge">
+            TABLEAU D'HONNEUR
+          </div>
+        </div>
+
+        <!-- Official Report Card Download & Absence Request Buttons -->
+        <div style="padding: 0 18px 10px 18px; display: flex; gap: 8px;">
+          <button id="btn-download-pdf-transcript" class="btn-emerald-glow" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.74rem; padding: 10px;" data-i18n="dash.btn_pdf">
+            Bulletin PDF
+          </button>
+          <button id="btn-open-absence-excuse-modal" style="flex: 1; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; border-radius: 12px; font-weight: 800; font-size: 0.74rem; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; padding: 10px;" data-i18n="dash.btn_excuse">
+            Justifier Absence
+          </button>
+        </div>
+
+        <!-- Exam Countdown Widget -->
+        <div class="countdown-box-widget">
+          <div>
+            <div style="font-size: 0.65rem; color: #F59E0B; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="exam.countdown_title">
+              Prochaine Épreuve Programmée
+            </div>
+            <div style="font-size: 0.88rem; font-weight: 900; color: #FFF; margin-top: 2px;" id="countdown-exam-subject">
+              Mathématiques &amp; Algèbre
+            </div>
+            <div style="font-size: 0.66rem; color: #94A3B8;">Salle B-104 • Prof. Fall</div>
+          </div>
+          <div class="countdown-digits">
+            <div class="countdown-digit-pill"><span id="cd-days">03</span>d</div>
+            <div class="countdown-digit-pill"><span id="cd-hours">14</span>h</div>
+          </div>
+        </div>
+
+        <!-- 2x2 Metrics Grid -->
+        <div class="metrics-2x2-grid">
+          <div class="metric-card-dark" id="btn-metric-average">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.72rem; color: #38BDF8; font-weight: 800; text-transform: uppercase;">GPA</span>
+              <div class="metric-val-large" id="metric-avg-val">91.32</div>
+            </div>
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800;" data-i18n="dash.card_average_title">Moyenne Semestre</div>
+              <div style="font-size: 0.62rem; color: #94A3B8;" data-i18n="dash.card_average_sub">Calcul sur 100</div>
+            </div>
+          </div>
+
+          <div class="metric-card-dark" id="btn-metric-absences">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.72rem; color: #EF4444; font-weight: 800; text-transform: uppercase;">ABS</span>
+              <div class="metric-val-large">7.5</div>
+            </div>
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800;" data-i18n="dash.card_absence_title">Absences</div>
+              <div style="font-size: 0.62rem; color: #94A3B8;" data-i18n="dash.card_absence_sub">Max: 10 jours</div>
+            </div>
+          </div>
+
+          <div class="metric-card-dark" id="btn-metric-hw">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.72rem; color: #A78BFA; font-weight: 800; text-transform: uppercase;">HW</span>
+              <div class="metric-val-large" style="color: #38BDF8;">2</div>
+            </div>
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800;" data-i18n="dash.card_hw_title">Devoirs en cours</div>
+              <div style="font-size: 0.62rem; color: #94A3B8;" data-i18n="dash.card_hw_sub">À rendre cette semaine</div>
+            </div>
+          </div>
+
+          <div class="metric-card-dark" id="btn-metric-exams">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span style="font-size: 0.72rem; color: #F59E0B; font-weight: 800; text-transform: uppercase;">EXM</span>
+              <div class="metric-val-large" style="color: #F59E0B;">5</div>
+            </div>
+            <div>
+              <div style="font-size: 0.76rem; font-weight: 800;" data-i18n="dash.card_exams_title">Examens à Venir</div>
+              <div style="font-size: 0.62rem; color: #94A3B8;" data-i18n="dash.card_exams_sub">Calendrier officiel</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daara AI Assistant Card -->
+        <div style="padding: 0 18px;">
+          <div class="ai-assistant-card">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="color: var(--neon-purple);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              </div>
+              <div>
+                <strong style="color: #A78BFA; font-size: 0.85rem;" data-i18n="ai.title">Assistant Pédagogique Daara AI</strong>
+                <div style="font-size: 0.66rem; color: #94A3B8;" data-i18n="ai.sub">Conseils personnalisés d'apprentissage</div>
+              </div>
+            </div>
+            <div id="ai-response-box" style="margin-top: 10px; font-size: 0.74rem; color: #E2E8F0; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; line-height: 1.5;">
+              <strong>Analyse Académique :</strong> Amadou excelle en Mathématiques (94/100) et Physique (89/100). Pour consolider la mention Très Bien, concentrez les révisions sur l'Histoire-Géographie.
+            </div>
+            <div class="ai-chat-input-row">
+              <input type="text" id="input-ai-prompt" class="ai-chat-input" placeholder="Posez une question à Daara AI..." data-i18n-placeholder="ai.ask_placeholder">
+              <button id="btn-submit-ai" class="btn-emerald-glow" style="width: auto; padding: 8px 14px; font-size: 0.76rem;" data-i18n="ai.send">
+                Analyser
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ================= TAB 2: NOTES ================= -->
+      <div id="tab-pane-notes" style="display: none; padding: 0 18px;">
+        <h3 style="color: #10B981; font-weight: 800; font-size: 1.1rem; margin-bottom: 2px;" data-i18n="tab.notes">Notes &amp; Évaluations</h3>
+        <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;">Relevé officiel du 2ème Semestre (Cloud Firestore &amp; SQLite)</p>
+        
+        <div id="sp-grades-live-container"></div>
+      </div>
+
+
+      <!-- ================= TAB 3: DEVOIRS ================= -->
+      <div id="tab-pane-devoirs" style="display: none; padding: 0 18px;">
+        <h3 style="color: #38BDF8; font-weight: 800; font-size: 1.1rem; margin-bottom: 2px;" data-i18n="hw.title">Cahier de Textes &amp; Devoirs</h3>
+        <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;" data-i18n="hw.subtitle">Gestion des rendus numériques et évaluations</p>
+        
+        <div id="homeworks-list-container"></div>
+
+        <h4 style="margin: 20px 0 10px 0; color: #A78BFA; font-size: 0.88rem; font-weight: 800;" data-i18n="mat.title">
+          Supports Pédagogiques &amp; Fichiers de Cours
+        </h4>
+        <div id="course-materials-container"></div>
+      </div>
+
+
+      <!-- ================= TAB 4: EMPLOI ================= -->
+      <div id="tab-pane-emploi" style="display: none; padding: 0 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+          <h3 style="color: #F59E0B; font-weight: 800; font-size: 1.1rem;" data-i18n="tt.title">Emploi du Temps Hebdomadaire</h3>
+          <span style="font-size: 0.65rem; color: #38BDF8; background: rgba(56, 189, 248, 0.12); padding: 2px 6px; border-radius: 4px; font-weight: 800;" data-i18n="tt.class_badge">CLASSE 10-A</span>
+        </div>
+        <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;" data-i18n="tt.subtitle">Planning interactif des cours</p>
+        
+        <div id="timetable-interactive-container"></div>
+      </div>
+
+
+      <!-- ================= TAB 5: LIVE TWO-WAY CHAT ROOM ================= -->
+      <div id="tab-pane-messages" style="display: none; padding: 0 18px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <div>
+            <h3 style="color: #10B981; font-weight: 800; font-size: 1.1rem;" data-i18n="msg.title">Messagerie Sécurisée</h3>
+            <p style="font-size: 0.7rem; color: #94A3B8;" data-i18n="msg.subtitle">Fil de discussion en direct avec le Prof. Jean-Marc Fall</p>
+          </div>
+          <span style="background: rgba(16, 185, 129, 0.15); color: #10B981; font-size: 0.62rem; font-weight: 800; padding: 2px 6px; border-radius: 4px;" data-i18n="msg.online">EN LIGNE</span>
+        </div>
+
+        <div id="chat-messages-stream-box" style="background: rgba(15, 23, 42, 0.9); border: 1px solid var(--border-glass); border-radius: 14px; padding: 14px; min-height: 280px; max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin: 10px 0;"></div>
+
+        <form id="form-chat-send-msg" style="display: flex; gap: 8px;">
+          <input type="text" id="chat-input-text" class="form-input-dark" placeholder="Écrire un message en direct..." required style="margin: 0; flex: 1;" data-i18n-placeholder="msg.input_ph">
+          <button type="submit" class="btn-emerald-glow" style="width: auto; padding: 0 16px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </form>
+      </div>
+
+
+      <!-- ================= TAB 6: PROFIL & SECURITY ================= -->
+      <div id="tab-pane-profil" style="display: none; padding: 0 18px;">
+        <h3 style="color: #10B981; font-weight: 800; font-size: 1.1rem; margin-bottom: 2px;" data-i18n="prof.title">Carte Scolaire &amp; Paramètres</h3>
+        <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;" data-i18n="prof.school">Lycée d'Excellence Sénégalo-Turc</p>
+
+        <div class="metric-card-dark" style="padding: 16px; margin-bottom: 16px; border: 1px solid var(--neon-cyan);">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+            <div class="avatar-neon-frame" style="width: 46px; height: 46px;">
+              <img id="prof-card-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Avatar">
+            </div>
+            <div>
+              <div style="font-weight: 900; font-size: 1rem; color: #FFFFFF;" id="prof-card-name">Amadou Diallo</div>
+              <div style="font-size: 0.7rem; color: #38BDF8;" id="prof-card-class">Matricule : STU-101 • 10-A</div>
+            </div>
+          </div>
+          <div style="font-size: 0.72rem; color: #94A3B8; line-height: 1.6;">
+            • Établissement : <strong style="color: #FFF;">Lycée Sénégalo-Turc</strong><br>
+            • Parent Référent : <strong style="color: #FFF;">Moussa Diallo (+221 77 123 4567)</strong>
+          </div>
+        </div>
+
+        <!-- Security & Password Change Button -->
+        <h4 style="font-size: 0.8rem; color: #F59E0B; margin-bottom: 8px; font-weight: 800;" data-i18n="sec.account_security">Sécurité du Compte</h4>
+        <button id="btn-open-change-password-modal" style="width: 100%; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 0.75rem; cursor: pointer; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 6px;" data-i18n="sec.change_pass_btn">
+          Changer mon Mot de Passe
+        </button>
+
+        <!-- Theme Switcher -->
+        <h4 style="font-size: 0.8rem; color: #38BDF8; margin-bottom: 8px; font-weight: 800;" data-i18n="prof.theme_title">Palette de Thème Kurumsal</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 16px;">
+          <button class="btn-theme-switcher active" data-set-theme="dark" style="padding: 8px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #0A1628; border: 1px solid #1E2D4D; color: #FFF; cursor: pointer;">
+            OLED Dark
+          </button>
+          <button class="btn-theme-switcher" data-set-theme="navy" style="padding: 8px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #0B192C; border: 1px solid #1E3E62; color: #38BDF8; cursor: pointer;">
+            Deep Navy
+          </button>
+          <button class="btn-theme-switcher" data-set-theme="emerald" style="padding: 8px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #064E3B; border: 1px solid #059669; color: #34D399; cursor: pointer;">
+            Emerald
+          </button>
+        </div>
+
+        <h4 style="font-size: 0.8rem; color: #10B981; margin-bottom: 8px; font-weight: 800;" data-i18n="prof.hardware_title">Contrôle des Matériels</h4>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <button id="btn-test-camera" class="btn-emerald-glow" style="padding: 10px; font-size: 0.75rem; text-align: left;" data-i18n="prof.btn_cam">
+            Ouvrir Scanner QR / Caméra
+          </button>
+          <button id="btn-test-notif" class="btn-emerald-glow" style="padding: 10px; font-size: 0.75rem; text-align: left; background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);" data-i18n="prof.btn_notif">
+            Tester Notification Push
+          </button>
+          <button id="btn-test-gps" class="btn-emerald-glow" style="padding: 10px; font-size: 0.75rem; text-align: left; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);" data-i18n="prof.btn_gps">
+            Vérifier Présence GPS Campus
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         12. TEACHER WORKSPACE ECOSYSTEM
+         ========================================================= -->
+    <div id="view-teacher-root" style="display: none; padding: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div>
+          <h2 style="font-size: 1.15rem; font-weight: 900; color: #10B981;" data-i18n="teacher.title">Espace Pédagogique Enseignant</h2>
+          <span style="font-size: 0.7rem; color: #94A3B8;">Prof. Jean-Marc Fall • Mathématiques</span>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button id="btn-teacher-change-pass" style="background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; padding: 4px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; cursor: pointer;" data-i18n="auth.pass_label">
+            Mot de passe
+          </button>
+          <button class="btn-user-logout-trigger" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; cursor: pointer;" data-i18n="auth.logout">
+            Déconnexion
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Search in Teacher Roster -->
+      <div class="metric-card-dark" style="margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong style="color: #38BDF8; font-size: 0.82rem;" data-i18n="teacher.tab_attendance">Prise des Présences (Appel)</strong>
+          <div style="display: flex; gap: 6px;">
+            <button id="btn-teacher-open-qr" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; padding: 4px 8px; border-radius: 4px; font-size: 0.66rem; font-weight: 800; cursor: pointer;" data-i18n="teacher.scan_qr">
+              Scanner QR
+            </button>
+            <button id="btn-mark-all-present" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #10B981; padding: 4px 8px; border-radius: 4px; font-size: 0.66rem; font-weight: 800; cursor: pointer;" data-i18n="teacher.mark_all_present">
+              Tout le monde Présent
+            </button>
+          </div>
+        </div>
+
+        <input type="text" id="teacher-search-student-input" class="form-input-dark" placeholder="Rechercher élève par nom ou matricule..." style="padding: 7px; margin-bottom: 8px; font-size: 0.72rem;" data-i18n-placeholder="teacher.search_ph">
+
+        <div id="teacher-attendance-roster"></div>
+        <button id="btn-save-attendance" class="btn-emerald-glow" style="margin-top: 8px; padding: 9px; font-size: 0.76rem;" data-i18n="teacher.save_attendance">
+          Valider l'Appel du Jour
+        </button>
+      </div>
+
+      <!-- Gradebook Roster -->
+      <div class="metric-card-dark">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong style="color: #10B981; font-size: 0.82rem;" data-i18n="teacher.tab_grades">Saisie des Notes de Classe</strong>
+          <button id="btn-save-teacher-grades" class="btn-emerald-glow" style="width: auto; padding: 6px 12px; font-size: 0.72rem;" data-i18n="teacher.sync_grades">
+            Sync Firestore
+          </button>
+        </div>
+        <div id="teacher-gradebook-roster"></div>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         13. PRINCIPAL / ADMINISTRATION OS (Enterprise Management Console)
+         ========================================================= -->
+    <div id="view-admin-root" style="display: none; padding: 18px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div>
+          <h2 style="font-size: 1.15rem; font-weight: 900; color: #A78BFA;" data-i18n="admin.title">Direction de l'Établissement</h2>
+          <span style="font-size: 0.7rem; color: #94A3B8;" data-i18n="admin.subtitle">Console Centrale d'Administration &amp; Audit</span>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button id="btn-admin-change-pass" style="background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; padding: 4px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; cursor: pointer;" data-i18n="auth.pass_label">
+            Mot de passe
+          </button>
+          <button class="btn-user-logout-trigger" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; cursor: pointer;" data-i18n="auth.logout">
+            Déconnexion
+          </button>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
+          <div class="metric-val-large" id="admin-stat-students-val" style="color: #38BDF8;">5</div>
+          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_students">Élèves Inscrits</div>
+        </div>
+        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
+          <div class="metric-val-large" id="admin-stat-teachers-val" style="color: #34D399;">2</div>
+          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_teachers">Corps Enseignant</div>
+        </div>
+        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
+          <div class="metric-val-large" id="admin-stat-gpa-val" style="color: #F59E0B;">89.3%</div>
+          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_gpa">Moyenne Globale</div>
+        </div>
+        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
+          <div class="metric-val-large" id="admin-stat-att-val" style="color: #10B981;">80.0%</div>
+          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_att">Taux d'Assiduité</div>
+        </div>
+      </div>
+
+      <!-- Pending Absence Excuses Review Section -->
+      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(245, 158, 11, 0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h4 style="color: #F59E0B; font-size: 0.85rem; font-weight: 800;" data-i18n="excuse.admin_title">Demandes de Justificatifs d'Absences</h4>
+          <span style="font-size: 0.65rem; color: #F59E0B; font-weight: 800;" data-i18n="excuse.admin_badge">FLUX PARENTS</span>
+        </div>
+        <div id="admin-excuses-list-container" style="font-size: 0.72rem;"></div>
+      </div>
+
+      <!-- User Directory & Live Search -->
+      <div class="metric-card-dark" style="margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h4 style="color: #38BDF8; font-size: 0.85rem; font-weight: 800;" data-i18n="admin.users_title">Annuaire des Utilisateurs &amp; Comptes</h4>
+          <span style="font-size: 0.65rem; color: #10B981; font-weight: 800;" data-i18n="admin.users_badge">BASE SQLITE ACTIVE</span>
+        </div>
+        <input type="text" id="admin-search-users-input" class="form-input-dark" placeholder="Filtrer utilisateurs..." style="padding: 6px; margin-bottom: 8px; font-size: 0.72rem;" data-i18n-placeholder="admin.users_search_ph">
+        <div id="admin-users-table-container" style="max-height: 180px; overflow-y: auto; font-size: 0.72rem; margin-bottom: 10px;"></div>
+      </div>
+
+      <div class="metric-card-dark" style="margin-bottom: 14px;">
+        <h4 style="color: #F59E0B; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="admin.tab_announcements">Diffuser une Annonce Officielle</h4>
+        <form id="form-broadcast-announcement" style="display: flex; flex-direction: column; gap: 6px;">
+          <input type="text" id="adm-ann-title" class="form-input-dark" placeholder="Titre de l'annonce" required data-i18n-placeholder="admin.ann_title_ph">
+          <textarea id="adm-ann-content" class="form-input-dark" placeholder="Message officiel diffusé aux élèves et parents..." rows="2" required data-i18n-placeholder="admin.ann_content_ph"></textarea>
+          <button type="submit" class="btn-emerald-glow" style="padding: 8px; font-size: 0.76rem;" data-i18n="admin.send_announcement">
+            Publier l'Annonce
+          </button>
+        </form>
+      </div>
+
+      <button id="btn-export-pdf-report" class="btn-emerald-glow" style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); padding: 10px; font-size: 0.78rem; margin-bottom: 14px;" data-i18n="admin.export_pdf">
+        Exporter le Rapport Trimestriel (PDF)
+      </button>
+
+      <!-- Institutional User Creation Form -->
+      <div class="metric-card-dark">
+        <h4 style="color: #10B981; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="admin.add_teacher">+ Inscrire un Utilisateur / Enseignant</h4>
+        <form id="form-admin-add-teacher" style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+            <input type="text" id="adm-new-user-id" class="form-input-dark" placeholder="Matricule (Ex: TCH-03, STU-106)" required style="margin: 0;">
+            <select id="adm-new-user-role" class="form-input-dark" style="margin: 0;">
+              <option value="teacher">Professeur (Teacher)</option>
+              <option value="student">Élève (Student)</option>
+              <option value="parent">Parent</option>
+              <option value="admin">Administrateur</option>
+            </select>
+          </div>
+          <input type="text" id="adm-new-teacher-name" class="form-input-dark" placeholder="Nom complet" required data-i18n-placeholder="admin.new_user_ph">
+          <input type="text" id="adm-new-teacher-subject" class="form-input-dark" placeholder="Matière / Rôle" required data-i18n-placeholder="admin.new_role_ph">
+          <button type="submit" class="btn-emerald-glow" style="padding: 8px; font-size: 0.76rem;" data-i18n="admin.save_user_btn">Enregistrer l'Utilisateur</button>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- =========================================================
+         14. FLOATING BOTTOM TAB BAR
+         ========================================================= -->
+    <div class="floating-bottom-bar" id="app-floating-nav" style="display: none;">
+      <button class="bottom-tab-item active" data-tab="home">
+        <span class="bottom-tab-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        </span>
+        <span class="bottom-tab-label" data-i18n="tab.home">Accueil</span>
+      </button>
+      <button class="bottom-tab-item" data-tab="notes">
+        <span class="bottom-tab-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        </span>
+        <span class="bottom-tab-label" data-i18n="tab.notes">Notes</span>
+      </button>
+      <button class="bottom-tab-item" data-tab="devoirs">
+        <span class="bottom-tab-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        </span>
+        <span class="bottom-tab-label" data-i18n="tab.devoirs">Devoirs</span>
+      </button>
+      <button class="bottom-tab-item" data-tab="emploi">
+        <span class="bottom-tab-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </span>
+        <span class="bottom-tab-label" data-i18n="tab.emploi">Emploi</span>
+      </button>
+      <button class="bottom-tab-item" data-tab="messages">
+        <span class="bottom-tab-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </span>
+        <span class="bottom-tab-label" data-i18n="tab.messages">Messages</span>
+      </button>
+      <button class="bottom-tab-item" data-tab="profil">
+        <span class="bottom-tab-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        </span>
+        <span class="bottom-tab-label" data-i18n="tab.profil">Profil</span>
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- =========================================================
+       15. HIDDEN PRINTABLE OFFICIAL SENEGALESE PDF TRANSCRIPT TEMPLATE
+       ========================================================= -->
+  <div id="official-pdf-transcript-template" style="display: none; width: 750px; padding: 30px; background: #FFFFFF; color: #0F172A; font-family: 'Inter', sans-serif;">
+    <div style="text-align: center; border-bottom: 2px solid #00853F; padding-bottom: 14px; margin-bottom: 18px;">
+      <div style="font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #00853F;" data-i18n="app.republic">RÉPUBLIQUE DU SÉNÉGAL</div>
+      <div style="font-size: 9px; color: #64748B;">Ministère de l'Éducation Nationale • Inspection d'Académie de Dakar</div>
+      <h2 style="font-size: 18px; font-weight: 900; color: #0F172A; margin: 6px 0 2px 0;">BULLETIN OFFICIEL TRIMESTRIEL</h2>
+      <div style="font-size: 10px; font-weight: 700; color: #059669;" data-i18n="prof.school">Lycée d'Excellence Sénégalo-Turc • Année Scolaire 2025-2026</div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; font-size: 11px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; margin-bottom: 18px;">
+      <div>
+        <strong>Élève :</strong> <span id="pdf-student-name">Amadou Diallo</span><br>
+        <strong>Matricule :</strong> <span id="pdf-student-id">STU-101</span><br>
+        <strong>Classe :</strong> 10th Grade – Seconde Sc. &amp; Tech (10-A)
+      </div>
+      <div style="text-align: right;">
+        <strong>Période :</strong> 2ème Semestre Officiel<br>
+        <strong>Prof. Principal :</strong> Prof. Jean-Marc Fall<br>
+        <strong>Moyenne Générale :</strong> <span style="font-size: 14px; font-weight: 900; color: #00853F;" id="pdf-gpa-val">91.32 / 100</span>
+      </div>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 20px;">
+      <thead>
+        <tr style="background: #00853F; color: #FFFFFF; text-align: left;">
+          <th style="padding: 8px; border: 1px solid #00853F;">Matières Fondamentales</th>
+          <th style="padding: 8px; border: 1px solid #00853F; text-align: center;">Devoir 1</th>
+          <th style="padding: 8px; border: 1px solid #00853F; text-align: center;">Devoir 2</th>
+          <th style="padding: 8px; border: 1px solid #00853F; text-align: center;">Oral</th>
+          <th style="padding: 8px; border: 1px solid #00853F; text-align: center;">Projet</th>
+          <th style="padding: 8px; border: 1px solid #00853F; text-align: center;">Moyenne</th>
+        </tr>
+      </thead>
+      <tbody id="pdf-grades-table-body">
+        <tr>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0;">Mathématiques</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">95</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">94</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">90</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">92</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center; font-weight: 800; color: #00853F;">92.8</td>
+        </tr>
+        <tr style="background: #F8FAFC;">
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0;">Physique-Chimie</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">89</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">92</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">88</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">90</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center; font-weight: 800; color: #00853F;">89.8</td>
+        </tr>
+        <tr>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0;">Français &amp; Littérature</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">88</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">90</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">92</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">89</td>
+          <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center; font-weight: 800; color: #00853F;">89.8</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 24px; font-size: 10px;">
+      <div style="width: 200px; text-align: center; border-top: 1px solid #94A3B8; padding-top: 6px;">
+        Le Professeur Principal<br>
+        <em>Prof. Jean-Marc Fall</em>
+      </div>
+      <div style="width: 200px; text-align: center; border-top: 1px solid #94A3B8; padding-top: 6px;">
+        Le Proviseur Général &amp; Sceau Officiel<br>
+        <strong>M. Ousmane Diop</strong>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="toast-notice-box" class="toast-dark"></div>
+
+  <!-- 4-Language Dictionaries & Engines -->
+  <script src="js/i18n/fr.js"></script>
+  <script src="js/i18n/wo.js"></script>
+  <script src="js/i18n/en.js"></script>
+  <script src="js/i18n/es.js"></script>
+  <script src="js/i18n-engine.js"></script>
+  <script src="js/hardware-manager.js"></script>
+  <script src="js/data.js"></script>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+  
+  <script src="js/firebase-config.js"></script>
+  <script src="js/firebase-service.js"></script>
+  <script src="js/api-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
