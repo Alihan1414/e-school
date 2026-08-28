@@ -1,0 +1,24 @@
+{
+  "name": "E-School Daara Digital School OS",
+  "short_name": "E-School Daara",
+  "description": "The intelligent school management operating system connecting the entire educational community.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#070D18",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

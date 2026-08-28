@@ -1253,9 +1253,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const saveAttBtn = document.getElementById("btn-save-attendance");
       if (saveAttBtn) {
-        saveAttBtn.onclick = () => {
+        saveAttBtn.onclick = async () => {
           window.HardwareManager.vibrate(40);
-          showToast("Daily roll call validated and synced to Institutional Ledger!");
+          const isOnline = navigator.onLine;
+
+          const rows = attContainer.querySelectorAll(".attendance-roster-row");
+          for (const row of rows) {
+            const stuId = row.dataset.attStudent;
+            const selectedBtn = row.querySelector(".att-status-btn.selected-present, .att-status-btn.selected-late, .att-status-btn.selected-absent");
+            const status = selectedBtn ? selectedBtn.dataset.status : "present";
+
+            if (!isOnline) {
+              await window.OfflineSyncManager.saveAttendanceOffline(stuId, status, 'TCH-01');
+            } else {
+              fetch('/api/attendance/scan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ studentId: stuId, recordedBy: 'TCH-01', method: 'ROLL_CALL' })
+              }).catch(async () => {
+                await window.OfflineSyncManager.saveAttendanceOffline(stuId, status, 'TCH-01');
+              });
+            }
+          }
+
+          if (!isOnline) {
+            showToast("Mode Hors-Ligne : Appel enregistré localement (IndexedDB). Synchronisation automatique dès le retour d'Internet !");
+          } else {
+            showToast("Appel du jour validé et synchronisé sur le Cloud !");
+          }
         };
       }
     }

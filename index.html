@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>E-School Daara - Digital School Management OS</title>
+  
+  <!-- PWA Web App Manifest & Mobile OS Standalone Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#10B981">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="E-School Daara">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
   <link rel="stylesheet" href="css/style.css">
   
   <!-- HTML5 QR Code Scanner Library -->
@@ -402,11 +411,17 @@
           LOCAL
         </span>
       </div>
-      <div class="lang-selector-pills">
-        <button class="lang-pill-btn active" data-lang="fr">FR</button>
-        <button class="lang-pill-btn" data-lang="wo">WO</button>
-        <button class="lang-pill-btn" data-lang="en">EN</button>
-        <button class="lang-pill-btn" data-lang="es">ES</button>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div id="offline-network-status-indicator" style="display: none; align-items: center; gap: 4px; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 2px 6px; border-radius: 12px; font-size: 0.58rem; font-weight: 900;">
+          <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #EF4444;"></span>
+          <span>OFFLINE</span>
+        </div>
+        <div class="lang-selector-pills">
+          <button class="lang-pill-btn active" data-lang="fr">FR</button>
+          <button class="lang-pill-btn" data-lang="wo">WO</button>
+          <button class="lang-pill-btn" data-lang="en">EN</button>
+          <button class="lang-pill-btn" data-lang="es">ES</button>
+        </div>
       </div>
     </div>
 
@@ -1179,15 +1194,22 @@
   <script src="js/hardware-manager.js"></script>
   <script src="js/data.js"></script>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
-  
+  <!-- Offline-First & Auto-Sync Module -->
+  <script src="js/offline-sync.js"></script>
   <script src="js/firebase-config.js"></script>
   <script src="js/firebase-service.js"></script>
   <script src="js/api-client.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('[PWA] Service Worker active with scope:', reg.scope))
+          .catch(err => console.warn('[PWA] Service Worker registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
