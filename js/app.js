@@ -1566,6 +1566,149 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  // ================= 16. GLOBAL SPOTLIGHT SEARCH (Ctrl + K) =================
+  const modalSpotlight = document.getElementById("modal-global-spotlight-search");
+  const inputSpotlight = document.getElementById("spotlight-search-input");
+  const containerSpotlight = document.getElementById("spotlight-results-container");
+  const btnCloseSpotlight = document.getElementById("btn-close-spotlight");
+  const btnTriggerSpotlight = document.getElementById("btn-global-quick-search-trigger");
+
+  function openSpotlight() {
+    window.HardwareManager.vibrate(20);
+    if (modalSpotlight) modalSpotlight.style.display = "flex";
+    if (inputSpotlight) {
+      inputSpotlight.focus();
+      inputSpotlight.value = "";
+    }
+  }
+
+  function closeSpotlight() {
+    if (modalSpotlight) modalSpotlight.style.display = "none";
+  }
+
+  if (btnTriggerSpotlight) btnTriggerSpotlight.onclick = openSpotlight;
+  if (btnCloseSpotlight) btnCloseSpotlight.onclick = closeSpotlight;
+
+  window.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K")) {
+      e.preventDefault();
+      openSpotlight();
+    }
+    if (e.key === "Escape") closeSpotlight();
+  });
+
+  if (inputSpotlight && containerSpotlight) {
+    inputSpotlight.addEventListener("input", () => {
+      const q = inputSpotlight.value.toLowerCase().trim();
+      if (!q) {
+        containerSpotlight.innerHTML = `<div style="color: #64748B; text-align: center; padding: 12px;">Tapez un nom d'élève (ex: Amadou), une matière ou une commande...</div>`;
+        return;
+      }
+
+      const items = [
+        { title: "Amadou Diallo (10-A)", sub: "Élève • GPA: 91.32 • Présent", role: "student", action: () => switchTab('notes') },
+        { title: "Mariama Ba (10-A)", sub: "Élève • GPA: 88.40 • Présente", role: "student", action: () => switchTab('notes') },
+        { title: "Ousmane Sonko (10-A)", sub: "Élève • GPA: 94.10 • Présent", role: "student", action: () => switchTab('notes') },
+        { title: "Mathématiques — Fonctions Dérivées", sub: "Devoir actif • Prof. Fall", role: "course", action: () => switchTab('devoirs') },
+        { title: "Physique-Chimie — Dosages", sub: "Support de cours PDF", role: "course", action: () => switchTab('devoirs') },
+        { title: "Générateur d'Épreuve IA", sub: "Créer un Quiz instantané", role: "action", action: () => { const m = document.getElementById("modal-ai-quiz-generator"); if(m) m.style.display = "flex"; } },
+        { title: "Scanner QR Présence", sub: "Prise d'appel caméra", role: "action", action: () => { const m = document.getElementById("modal-qr-attendance-scanner"); if(m) m.style.display = "flex"; } }
+      ];
+
+      const matches = items.filter(it => it.title.toLowerCase().includes(q) || it.sub.toLowerCase().includes(q));
+
+      if (matches.length === 0) {
+        containerSpotlight.innerHTML = `<div style="color: #EF4444; text-align: center; padding: 12px;">Aucun résultat trouvé pour "${q}".</div>`;
+        return;
+      }
+
+      let html = "";
+      matches.forEach((m, idx) => {
+        html += `
+          <div class="spotlight-result-row" data-idx="${idx}" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
+            <div style="font-weight: 800; color: #38BDF8;">${m.title}</div>
+            <div style="font-size: 0.65rem; color: #94A3B8;">${m.sub}</div>
+          </div>
+        `;
+      });
+      containerSpotlight.innerHTML = html;
+
+      containerSpotlight.querySelectorAll(".spotlight-result-row").forEach(row => {
+        row.onclick = () => {
+          const idx = parseInt(row.dataset.idx);
+          closeSpotlight();
+          matches[idx].action();
+        };
+      });
+    });
+  }
+
+  // ================= 17. FLOATING QUICK ACTION (+) MENU =================
+  const btnMainFloating = document.getElementById("btn-main-floating-trigger");
+  const sheetQuickMenu = document.getElementById("floating-quick-menu-sheet");
+
+  if (btnMainFloating && sheetQuickMenu) {
+    btnMainFloating.onclick = () => {
+      window.HardwareManager.vibrate(25);
+      const isVisible = sheetQuickMenu.style.display === "flex";
+      sheetQuickMenu.style.display = isVisible ? "none" : "flex";
+      btnMainFloating.style.transform = isVisible ? "rotate(0deg)" : "rotate(45deg)";
+    };
+
+    const qaQuiz = document.getElementById("qa-btn-quiz");
+    const qaAtt = document.getElementById("qa-btn-attendance");
+    const qaExcuse = document.getElementById("qa-btn-excuse");
+    const qaChat = document.getElementById("qa-btn-chat");
+
+    if (qaQuiz) {
+      qaQuiz.onclick = () => {
+        sheetQuickMenu.style.display = "none";
+        btnMainFloating.style.transform = "rotate(0deg)";
+        const modal = document.getElementById("modal-ai-quiz-generator");
+        if (modal) modal.style.display = "flex";
+      };
+    }
+
+    if (qaAtt) {
+      qaAtt.onclick = () => {
+        sheetQuickMenu.style.display = "none";
+        btnMainFloating.style.transform = "rotate(0deg)";
+        const modal = document.getElementById("modal-qr-attendance-scanner");
+        if (modal) modal.style.display = "flex";
+      };
+    }
+
+    if (qaExcuse) {
+      qaExcuse.onclick = () => {
+        sheetQuickMenu.style.display = "none";
+        btnMainFloating.style.transform = "rotate(0deg)";
+        const modal = document.getElementById("modal-absence-excuse");
+        if (modal) modal.style.display = "flex";
+      };
+    }
+
+    if (qaChat) {
+      qaChat.onclick = () => {
+        sheetQuickMenu.style.display = "none";
+        btnMainFloating.style.transform = "rotate(0deg)";
+        switchTab("messages");
+      };
+    }
+  }
+
+  // ================= 18. THEME QUICK TOGGLE (LIGHT / DARK) =================
+  const btnThemeToggle = document.getElementById("btn-theme-quick-toggle");
+  if (btnThemeToggle) {
+    btnThemeToggle.onclick = () => {
+      window.HardwareManager.vibrate(20);
+      const current = document.body.getAttribute("data-theme") || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      document.body.setAttribute("data-theme", next);
+      btnThemeToggle.innerText = next === "dark" ? "☀️" : "🌙";
+      showToast(`Thème : ${next.toUpperCase()} activé`);
+    };
+  }
+
   function showToast(msg) {
     let toast = document.getElementById("toast-notice-box");
     if (!toast) {
@@ -1581,4 +1724,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2800);
   }
 });
+
 
