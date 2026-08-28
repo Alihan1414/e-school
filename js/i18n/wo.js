@@ -76,6 +76,28 @@ window.i18n_wo = {
   "hw.btn_view": "Xool Liggéey bi",
   "hw.due": "Waxtu bi :",
 
+  // AI Exam Generator & Quiz Modal
+  "quiz.title": "Sosukaayu Natt & Quiz AI",
+  "quiz.subtitle": "Defar natt yu xarany ak laaj yi ci internet",
+  "quiz.btn_generate": "Defar Natt ak AI",
+  "quiz.modal_title": "DEFARUKAAYU NATT DAARA AI",
+  "quiz.subject_label": "Njàngat mi",
+  "quiz.grade_label": "Kalas bi",
+  "quiz.topic_label": "Matière mbaa Xibaar bi",
+  "quiz.topic_ph": "Misaal: Trigonométrie, Chimie, Mbindu Afrig...",
+  "quiz.difficulty_label": "Yomb-jafé gi",
+  "quiz.diff_easy": "Yomb (Cosaan)",
+  "quiz.diff_medium": "Digg-doomu (Natt)",
+  "quiz.diff_hard": "Jafé (Olympiades)",
+  "quiz.q_count_label": "Limo Laaj yi",
+  "quiz.btn_start_gen": "Defar Natt bi Léegi",
+  "quiz.interactive_modal_title": "NATT CI INTERNET",
+  "quiz.btn_submit_answers": "Dëggal Tontu yi & Xool Natt bi",
+  "quiz.score_title": "NJARIÑU NATT BI",
+  "quiz.btn_review_ai": "Xoolal ak Daara AI",
+  "quiz.badge_live": "NDONGO QUIZ EN LIGNE",
+  "quiz.btn_open_student_quiz": "Def Quiz bi ci Internet",
+
   // QR Scanner Modal
   "qr.modal_title": "SCANNER QR KOODU TEEWU",
   "qr.modal_sub": "Tegall kayitu daara ji ci kanamu nataalukaay bi ngir dëggal teewu gi.",
@@ -181,6 +203,7 @@ window.i18n_wo = {
   "teacher.search_ph": "Wut ndongo ci tur mbaa matricule...",
   "teacher.save_attendance": "Dëggal Woote bi",
   "teacher.sync_grades": "Sync Firestore",
+  "teacher.tab_ai_quiz": "Sosukaayu Natt AI",
 
   // Admin Workspace
   "admin.title": "Njiitu Daara gi",

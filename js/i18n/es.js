@@ -18,6 +18,8 @@ window.i18n_es = {
   "perm.cam_desc": "Para escanear códigos QR de asistencia y enviar tareas.",
   "perm.loc_title": "Geolocalización del Campus",
   "perm.loc_desc": "Verifica la presencia física dentro del recinto escolar.",
+  "perm.bio_title": "Biometría y Reconocimiento",
+  "perm.bio_desc": "Inicio de sesión seguro y rápido con huella o rostro.",
   "perm.grant_all_btn": "Activar Todos los Permisos",
   "perm.notif_active_msg": "E-School Daara: ¡Las notificaciones están activadas!",
 
@@ -75,6 +77,28 @@ window.i18n_es = {
   "hw.btn_upload": "Entregar Tarea (Upload)",
   "hw.btn_view": "Ver Entrega",
   "hw.due": "Fecha límite:",
+
+  // AI Exam Generator & Quiz Modal
+  "quiz.title": "Generador de Evaluaciones y Quiz IA",
+  "quiz.subtitle": "Diseño automático de exámenes y cuestionarios interactivos",
+  "quiz.btn_generate": "Generar Examen con IA",
+  "quiz.modal_title": "CREADOR DE EXÁMENES DAARA AI",
+  "quiz.subject_label": "Materia Académica",
+  "quiz.grade_label": "Nivel Escolar",
+  "quiz.topic_label": "Tema / Capítulo Específico",
+  "quiz.topic_ph": "Ej: Trigonometría, Reacciones Ácido-Base, Literatura...",
+  "quiz.difficulty_label": "Nivel de Dificultad",
+  "quiz.diff_easy": "Básico (Conceptos Fundamentales)",
+  "quiz.diff_medium": "Intermedio (Examen Estándar)",
+  "quiz.diff_hard": "Avanzado (Olimpiadas y Excelencia)",
+  "quiz.q_count_label": "Número de Preguntas",
+  "quiz.btn_start_gen": "Crear Examen al Instante",
+  "quiz.interactive_modal_title": "EVALUACIÓN ACADÉMICA EN LÍNEA",
+  "quiz.btn_submit_answers": "Enviar Respuestas y Calcular Nota",
+  "quiz.score_title": "RESULTADO DE LA EVALUACIÓN",
+  "quiz.btn_review_ai": "Análisis Pedagógico con IA",
+  "quiz.badge_live": "QUIZ EN VIVO ESTUDIANTE",
+  "quiz.btn_open_student_quiz": "Realizar Quiz Interactivo",
 
   // QR Scanner Modal
   "qr.modal_title": "ESCÁNER QR DE ASISTENCIA",
@@ -181,6 +205,7 @@ window.i18n_es = {
   "teacher.search_ph": "Buscar alumno por nombre o matrícula...",
   "teacher.save_attendance": "Validar Asistencia del Día",
   "teacher.sync_grades": "Sync Firestore",
+  "teacher.tab_ai_quiz": "Generador de Exámenes IA",
 
   // Admin Workspace
   "admin.title": "Dirección del Centro Educativo",

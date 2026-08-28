@@ -1480,6 +1480,241 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ================= AI ASSESSMENT & QUIZ GENERATOR ENGINE =================
+  let currentActiveQuiz = {
+    id: "quiz-101",
+    title: "Mathématiques — Fonctions Dérivées & Tangentes",
+    subject: "Mathématiques",
+    grade: "10-A (Seconde)",
+    difficulty: "Moyen",
+    questions: [
+      {
+        q: "Quelle est la dérivée de la fonction f(x) = 3x² + 5x - 7 ?",
+        options: ["f'(x) = 6x + 5", "f'(x) = 3x + 5", "f'(x) = 6x - 7", "f'(x) = x² + 5"],
+        correct: 0,
+        explanation: "La dérivée de x^n est n*x^(n-1). Donc (3x²)' = 6x et (5x)' = 5."
+      },
+      {
+        q: "Quel est le coefficient directeur de la tangente à la courbe de f en a ?",
+        options: ["f(a)", "f'(a)", "f'(x) - f(a)", "a / f(a)"],
+        correct: 1,
+        explanation: "Par définition, le nombre dérivé f'(a) représente la pente de la tangente au point d'abscisse a."
+      },
+      {
+        q: "Si f'(x) > 0 sur un intervalle I, alors la fonction f est :",
+        options: ["Strictement décroissante", "Constante", "Strictement croissante", "Nulle"],
+        correct: 2,
+        explanation: "Le signe positif de la dérivée implique une fonction strictement croissante sur cet intervalle."
+      },
+      {
+        q: "La dérivée de la fonction constante f(x) = 42 est égale à :",
+        options: ["42", "1", "0", "-42"],
+        correct: 2,
+        explanation: "La dérivée de toute constante numérique k est toujours égale à 0."
+      }
+    ]
+  };
+
+  // AI Quiz Generator Form Handler (Teacher)
+  const formAiQuizGen = document.getElementById("form-generate-ai-quiz");
+  if (formAiQuizGen) {
+    formAiQuizGen.onsubmit = (e) => {
+      e.preventDefault();
+      const subject = document.getElementById("ai-quiz-subject").value;
+      const grade = document.getElementById("ai-quiz-grade").value;
+      const topic = document.getElementById("ai-quiz-topic").value;
+      const diff = document.getElementById("ai-quiz-difficulty").value;
+      const count = parseInt(document.getElementById("ai-quiz-count").value) || 4;
+
+      window.HardwareManager.vibrate(40);
+      showToast("Daara AI: Conception de l'épreuve en cours...");
+
+      setTimeout(() => {
+        currentActiveQuiz = {
+          id: "quiz-" + Date.now(),
+          title: `${subject} — ${topic}`,
+          subject: subject,
+          grade: grade,
+          difficulty: diff,
+          questions: generateDynamicAiQuestions(subject, topic, count)
+        };
+
+        // Update Teacher Card Preview
+        const tTitle = document.getElementById("teacher-quiz-active-title");
+        const tMeta = document.getElementById("teacher-quiz-active-meta");
+        if (tTitle) tTitle.innerText = `Épreuve Active : ${subject} (${count} QCM)`;
+        if (tMeta) tMeta.innerText = `Matière: ${subject} • Chapitre: ${topic} • Niveau: ${grade} (${diff})`;
+
+        // Close modal
+        const modalGen = document.getElementById("modal-ai-quiz-generator");
+        if (modalGen) modalGen.style.display = "none";
+
+        showToast("Épreuve générée par l'IA et publiée aux élèves !");
+      }, 1200);
+    };
+  }
+
+  // Generate subject-specific questions dynamically
+  function generateDynamicAiQuestions(subject, topic, count) {
+    const qBank = {
+      "Mathématiques": [
+        { q: `Dans le cadre de (${topic}), que vaut la dérivée seconde de f(x) = x³ ?`, options: ["f''(x) = 6x", "f''(x) = 3x²", "f''(x) = 6", "f''(x) = x"], correct: 0, explanation: "f'(x)=3x², f''(x)=6x." },
+        { q: `Quelle condition assure l'existence d'un extremum local pour f dérivable ?`, options: ["f'(x) = 0 et change de signe", "f(x) = 0", "f''(x) = 0", "f'(x) > 0 partout"], correct: 0, explanation: "L'annulation et le changement de signe de f' caractérisent un extremum." },
+        { q: `L'équation de la tangente au point a s'écrit :`, options: ["y = f'(a)(x - a) + f(a)", "y = f(a)(x - a) + f'(a)", "y = f'(a)x + a", "y = f(x) - a"], correct: 0, explanation: "Formule standard de Taylor-Lagrange à l'ordre 1." },
+        { q: `Si f(x) = e^(2x), alors f'(x) est égal à :`, options: ["2e^(2x)", "e^(2x)", "2e^x", "e^x / 2"], correct: 0, explanation: "(e^(u))' = u' * e^u, ici (2x)' = 2." },
+        { q: `La primitive de f(x) = 2x s'annulant en 0 est :`, options: ["F(x) = x²", "F(x) = 2x²", "F(x) = x", "F(x) = x² + 1"], correct: 0, explanation: "F(x) = x² car (x²)' = 2x et F(0)=0." }
+      ],
+      "Physique-Chimie": [
+        { q: `Concernant (${topic}), quelle est la relation fondamentale de la dynamique (2e loi de Newton) ?`, options: ["Σ F = m * a", "E = m * c²", "P = U * I", "F = k * q / d²"], correct: 0, explanation: "La somme vectorielle des forces est égale à la masse multipliée par l'accélération." },
+        { q: `Lors d'un dosage pH-métrique, à l'équivalence :`, options: ["Les réactifs sont introduits en proportions stœchiométriques", "Le pH est obligatoirement égal à 7", "Le volume versé est nul", "La réaction s'arrête"], correct: 0, explanation: "Définition stricte du point d'équivalence stœchiométrique." },
+        { q: `Quelle est l'unité internationale de la force ?`, options: ["Newton (N)", "Joule (J)", "Watt (W)", "Pascal (Pa)"], correct: 0, explanation: "Le Newton est l'unité légale du SI." },
+        { q: `L'énergie cinétique d'un corps de masse m et de vitesse v vaut :`, options: ["Ec = 1/2 * m * v²", "Ec = m * g * h", "Ec = m * v", "Ec = 2 * m * v²"], correct: 0, explanation: "Formule cinématique classique : 1/2 m v²." }
+      ],
+      "Français & Littérature": [
+        { q: `Dans l'étude littéraire de (${topic}), qui est l'auteur de 'Une si longue lettre' ?`, options: ["Mariama Bâ", "Sembène Ousmane", "Léopold Sédar Senghor", "Cheikh Hamidou Kane"], correct: 0, explanation: "Mariama Bâ est l'illustre romancière sénégalaise auteure de ce chef-d'œuvre épistolaire." },
+        { q: `Quelle figure de style consiste à répéter un mot en début de vers ?`, options: ["Anaphore", "Oxymore", "Métonymie", "Chiasme"], correct: 0, explanation: "L'anaphore est la répétition voulue en tête de phrase ou de vers." },
+        { q: `Le mouvement de la Négritude a été cofondé par :`, options: ["Aimé Césaire & L.S. Senghor", "Victor Hugo", "Albert Camus", "Émile Zola"], correct: 0, explanation: "Césaire, Senghor et Damas sont les pères fondateurs de la Négritude." }
+      ]
+    };
+
+    const list = qBank[subject] || qBank["Mathématiques"];
+    return list.slice(0, count);
+  }
+
+  // Teacher Trigger to Open AI Quiz Modal
+  const btnTeacherAiQuiz = document.getElementById("btn-open-teacher-ai-quiz-modal");
+  if (btnTeacherAiQuiz) {
+    btnTeacherAiQuiz.onclick = () => {
+      window.HardwareManager.vibrate(20);
+      const modal = document.getElementById("modal-ai-quiz-generator");
+      if (modal) modal.style.display = "flex";
+    };
+  }
+
+  const btnCloseAiQuiz = document.getElementById("btn-close-ai-quiz-modal");
+  if (btnCloseAiQuiz) {
+    btnCloseAiQuiz.onclick = () => {
+      const modal = document.getElementById("modal-ai-quiz-generator");
+      if (modal) modal.style.display = "none";
+    };
+  }
+
+  // Student Trigger to Open Interactive Quiz Modal
+  const btnStudentOpenQuiz = document.getElementById("btn-open-student-active-quiz");
+  if (btnStudentOpenQuiz) {
+    btnStudentOpenQuiz.onclick = () => {
+      window.HardwareManager.vibrate(20);
+      renderStudentInteractiveQuiz();
+      const modal = document.getElementById("modal-interactive-student-quiz");
+      if (modal) modal.style.display = "flex";
+    };
+  }
+
+  const btnCloseStudentQuiz = document.getElementById("btn-close-student-quiz-modal");
+  if (btnCloseStudentQuiz) {
+    btnCloseStudentQuiz.onclick = () => {
+      const modal = document.getElementById("modal-interactive-student-quiz");
+      if (modal) modal.style.display = "none";
+    };
+  }
+
+  // Render questions inside Student Quiz Modal
+  function renderStudentInteractiveQuiz() {
+    const titleEl = document.getElementById("sq-quiz-title");
+    const metaEl = document.getElementById("sq-quiz-meta");
+    const qList = document.getElementById("student-quiz-questions-list");
+    const resBox = document.getElementById("student-quiz-result-box");
+    const submitBtn = document.getElementById("btn-submit-student-quiz");
+
+    if (resBox) resBox.style.display = "none";
+    if (submitBtn) submitBtn.style.display = "block";
+
+    if (titleEl) titleEl.innerText = currentActiveQuiz.title;
+    if (metaEl) metaEl.innerText = `Niveau: ${currentActiveQuiz.grade} • Difficulté: ${currentActiveQuiz.difficulty} • Conçu par Daara AI`;
+
+    if (!qList) return;
+    let html = "";
+
+    currentActiveQuiz.questions.forEach((item, qIdx) => {
+      html += `
+        <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
+          <div style="font-size: 0.76rem; font-weight: 800; color: #FFF; margin-bottom: 8px;">
+            <span style="color: #A855F7;">Q${qIdx + 1}.</span> ${item.q}
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+      `;
+
+      item.options.forEach((opt, oIdx) => {
+        html += `
+          <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.04); padding: 8px 10px; border-radius: 6px; font-size: 0.72rem; color: #CBD5E1; cursor: pointer; border: 1px solid transparent; transition: all 0.2s;">
+            <input type="radio" name="quiz_q_${qIdx}" value="${oIdx}" required style="accent-color: #10B981;">
+            <span>${opt}</span>
+          </label>
+        `;
+      });
+
+      html += `
+          </div>
+          <div id="sq-explanation-${qIdx}" style="display: none; margin-top: 8px; font-size: 0.68rem; color: #34D399; background: rgba(16, 185, 129, 0.1); padding: 6px 8px; border-radius: 6px;"></div>
+        </div>
+      `;
+    });
+
+    qList.innerHTML = html;
+  }
+
+  // Handle Interactive Quiz Submission
+  const formSubmitQuiz = document.getElementById("form-submit-interactive-quiz");
+  if (formSubmitQuiz) {
+    formSubmitQuiz.onsubmit = (e) => {
+      e.preventDefault();
+      window.HardwareManager.vibrate(50);
+
+      let correctCount = 0;
+      const total = currentActiveQuiz.questions.length;
+
+      currentActiveQuiz.questions.forEach((item, qIdx) => {
+        const selected = document.querySelector(`input[name="quiz_q_${qIdx}"]:checked`);
+        const expEl = document.getElementById(`sq-explanation-${qIdx}`);
+        
+        if (selected) {
+          const val = parseInt(selected.value);
+          const isRight = (val === item.correct);
+          if (isRight) correctCount++;
+
+          if (expEl) {
+            expEl.style.display = "block";
+            expEl.style.color = isRight ? "#34D399" : "#FCA5A5";
+            expEl.style.background = isRight ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)";
+            expEl.innerHTML = `<strong>${isRight ? "✓ Correct !" : "✕ Incorrect."}</strong> Explication: ${item.explanation}`;
+          }
+        }
+      });
+
+      const scorePercent = Math.round((correctCount / total) * 100);
+      const resBox = document.getElementById("student-quiz-result-box");
+      const scoreVal = document.getElementById("sq-final-score-val");
+      const fbText = document.getElementById("sq-ai-feedback-text");
+      const submitBtn = document.getElementById("btn-submit-student-quiz");
+
+      if (scoreVal) scoreVal.innerText = `${scorePercent} / 100 (${correctCount}/${total} exactes)`;
+      if (fbText) {
+        if (scorePercent >= 80) {
+          fbText.innerHTML = `<strong style="color: #34D399;">Félicitations Exceptionnelles !</strong> Vous maîtrisez parfaitement les notions fondamentales de (${currentActiveQuiz.title}). Note enregistrée sur votre bulletin.`;
+        } else if (scorePercent >= 50) {
+          fbText.innerHTML = `<strong style="color: #F59E0B;">Bon Travail !</strong> Notions acquises, mais nous vous recommandons de revoir les points détaillés ci-dessus avec le Daara AI Assistant.`;
+        } else {
+          fbText.innerHTML = `<strong style="color: #EF4444;">Révision Nécessaire.</strong> Concentrez votre travail sur les explications formulées ci-dessus.`;
+        }
+      }
+
+      if (resBox) resBox.style.display = "block";
+      if (submitBtn) submitBtn.style.display = "none";
+
+      showToast(`Évaluation terminée : Note de ${scorePercent}/100 !`);
+    };
+  }
+
   function showToast(msg) {
     let toast = document.getElementById("toast-notice-box");
     if (!toast) {
@@ -1495,3 +1730,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2800);
   }
 });
+

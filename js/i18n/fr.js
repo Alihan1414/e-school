@@ -76,6 +76,28 @@ window.i18n_fr = {
   "hw.btn_view": "Voir le Rendu",
   "hw.due": "Date limite :",
 
+  // AI Exam Generator & Quiz Modal
+  "quiz.title": "Générateur d'Épreuves & Quiz IA",
+  "quiz.subtitle": "Conception automatique de devoirs et évaluations interactives",
+  "quiz.btn_generate": "Générer Épreuve avec l'IA",
+  "quiz.modal_title": "GÉNÉRATEUR D'ÉPREUVE DAARA AI",
+  "quiz.subject_label": "Matière d'Évaluation",
+  "quiz.grade_label": "Niveau Scolaire",
+  "quiz.topic_label": "Thématique / Chapitre Spécifique",
+  "quiz.topic_ph": "Ex: Trigonométrie, Dosage acido-basique, La poésie négro-africaine...",
+  "quiz.difficulty_label": "Niveau de Difficulté",
+  "quiz.diff_easy": "Facile (Fondamentaux & Notions)",
+  "quiz.diff_medium": "Intermédiaire (Standard Examen)",
+  "quiz.diff_hard": "Avancé (Olympiades & Excellence)",
+  "quiz.q_count_label": "Nombre de Questions",
+  "quiz.btn_start_gen": "Créer l'Épreuve Instantanément",
+  "quiz.interactive_modal_title": "ÉVALUATION ACADÉMIQUE EN LIGNE",
+  "quiz.btn_submit_answers": "Valider mes Réponses & Calculer Note",
+  "quiz.score_title": "RÉSULTAT DE L'ÉVALUATION",
+  "quiz.btn_review_ai": "Analyse Détaillée de l'IA",
+  "quiz.badge_live": "STUDENT QUIZ LIVE",
+  "quiz.btn_open_student_quiz": "Passer le Quiz Interactif",
+
   // QR Scanner Modal
   "qr.modal_title": "SCANNER QR CODE DE PRÉSENCE",
   "qr.modal_sub": "Placez la carte scolaire ou le badge QR de l'élève devant l'objectif pour valider la présence.",
@@ -181,6 +203,7 @@ window.i18n_fr = {
   "teacher.search_ph": "Rechercher élève par nom ou matricule...",
   "teacher.save_attendance": "Valider l'Appel du Jour",
   "teacher.sync_grades": "Sync Firestore",
+  "teacher.tab_ai_quiz": "Générateur d'Épreuves IA",
 
   // Admin Workspace
   "admin.title": "Direction de l'Établissement",

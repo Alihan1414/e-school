@@ -76,6 +76,28 @@ window.i18n_en = {
   "hw.btn_view": "View Submission",
   "hw.due": "Due date:",
 
+  // AI Exam Generator & Quiz Modal
+  "quiz.title": "AI Assessment & Quiz Generator",
+  "quiz.subtitle": "Automatic curriculum evaluation & interactive quizzes",
+  "quiz.btn_generate": "Generate Exam with AI",
+  "quiz.modal_title": "DAARA AI ASSESSMENT CREATOR",
+  "quiz.subject_label": "Academic Subject",
+  "quiz.grade_label": "Grade Level",
+  "quiz.topic_label": "Specific Topic / Chapter",
+  "quiz.topic_ph": "E.g. Trigonometry, Acid-Base Reactions, African Literature...",
+  "quiz.difficulty_label": "Difficulty Level",
+  "quiz.diff_easy": "Foundational (Core Concepts)",
+  "quiz.diff_medium": "Intermediate (Standard Exam)",
+  "quiz.diff_hard": "Advanced (Olympiad & Excellence)",
+  "quiz.q_count_label": "Number of Questions",
+  "quiz.btn_start_gen": "Generate Assessment Instantaneously",
+  "quiz.interactive_modal_title": "ONLINE ACADEMIC ASSESSMENT",
+  "quiz.btn_submit_answers": "Submit Answers & Calculate Grade",
+  "quiz.score_title": "ASSESSMENT EVALUATION RESULT",
+  "quiz.btn_review_ai": "Detailed AI Pedagogical Review",
+  "quiz.badge_live": "STUDENT QUIZ LIVE",
+  "quiz.btn_open_student_quiz": "Take Interactive Quiz",
+
   // QR Scanner Modal
   "qr.modal_title": "ATTENDANCE QR CODE SCANNER",
   "qr.modal_sub": "Place student badge or smartcard in front of the lens to record attendance check-in.",
@@ -181,6 +203,7 @@ window.i18n_en = {
   "teacher.search_ph": "Search student by name or matricule...",
   "teacher.save_attendance": "Validate Today's Attendance",
   "teacher.sync_grades": "Sync Firestore",
+  "teacher.tab_ai_quiz": "AI Assessment Creator",
 
   // Admin Workspace
   "admin.title": "School Administration Directorate",

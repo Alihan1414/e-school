@@ -233,6 +233,101 @@
 
 
   <!-- =========================================================
+       6B. AI ASSESSMENT & QUIZ GENERATOR MODAL (Teacher Hub)
+       ========================================================= -->
+  <div id="modal-ai-quiz-generator" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 430px; text-align: left;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #A855F7;" data-i18n="quiz.modal_title">GÉNÉRATEUR D'ÉPREUVE DAARA AI</span>
+        <button id="btn-close-ai-quiz-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <form id="form-generate-ai-quiz">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+          <div>
+            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="quiz.subject_label">Matière d'Évaluation</label>
+            <select id="ai-quiz-subject" class="form-input-dark" style="margin: 2px 0 0 0; font-size: 0.75rem;">
+              <option value="Mathématiques">Mathématiques</option>
+              <option value="Physique-Chimie">Physique-Chimie</option>
+              <option value="SVT / Biologie">SVT / Biologie</option>
+              <option value="Français & Littérature">Français & Littérature</option>
+              <option value="Histoire-Géographie">Histoire-Géographie</option>
+              <option value="Anglais">Anglais</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="quiz.grade_label">Niveau Scolaire</label>
+            <select id="ai-quiz-grade" class="form-input-dark" style="margin: 2px 0 0 0; font-size: 0.75rem;">
+              <option value="10-A (Seconde)">10-A (Seconde)</option>
+              <option value="11-S (Première Sc.)">11-S (Première Sc.)</option>
+              <option value="12-T (Terminale)">12-T (Terminale)</option>
+            </select>
+          </div>
+        </div>
+
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="quiz.topic_label">Thématique / Chapitre Spécifique</label>
+        <input type="text" id="ai-quiz-topic" class="form-input-dark" placeholder="Ex: Trigonométrie, Dosage acido-basique..." value="Fonctions Dérivées & Tangentes" required style="margin: 2px 0 8px 0;" data-i18n-placeholder="quiz.topic_ph">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
+          <div>
+            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="quiz.difficulty_label">Niveau de Difficulté</label>
+            <select id="ai-quiz-difficulty" class="form-input-dark" style="margin: 2px 0 0 0; font-size: 0.75rem;">
+              <option value="Facile" data-i18n="quiz.diff_easy">Facile (Fondamentaux)</option>
+              <option value="Moyen" data-i18n="quiz.diff_medium" selected>Intermédiaire (Standard)</option>
+              <option value="Avancé" data-i18n="quiz.diff_hard">Avancé (Excellence)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="quiz.q_count_label">Nombre de Questions</label>
+            <select id="ai-quiz-count" class="form-input-dark" style="margin: 2px 0 0 0; font-size: 0.75rem;">
+              <option value="3">3 Questions QCM</option>
+              <option value="4" selected>4 Questions QCM</option>
+              <option value="5">5 Questions QCM</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-emerald-glow" style="background: linear-gradient(135deg, #A855F7 0%, #7C3AED 100%); padding: 10px; font-size: 0.76rem; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);" data-i18n="quiz.btn_start_gen">
+          Créer l'Épreuve Instantanément
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
+       6C. INTERACTIVE LIVE QUIZ & EXAM SOLVER MODAL (Student View)
+       ========================================================= -->
+  <div id="modal-interactive-student-quiz" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 440px; text-align: left; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #34D399;" data-i18n="quiz.interactive_modal_title">ÉVALUATION ACADÉMIQUE EN LIGNE</span>
+        <button id="btn-close-student-quiz-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <div id="student-quiz-header-banner" style="background: rgba(168, 85, 247, 0.15); border: 1px solid #A855F7; border-radius: 8px; padding: 10px; margin-bottom: 14px;">
+        <div style="font-size: 0.82rem; font-weight: 900; color: #FFF;" id="sq-quiz-title">Mathématiques — Fonctions Dérivées</div>
+        <div style="font-size: 0.68rem; color: #C084FC;" id="sq-quiz-meta">Niveau: Seconde (10-A) • Conçu par Daara AI</div>
+      </div>
+
+      <form id="form-submit-interactive-quiz">
+        <div id="student-quiz-questions-list" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px;"></div>
+
+        <div id="student-quiz-result-box" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 10px; padding: 12px; margin-bottom: 14px; text-align: center;">
+          <div style="font-size: 0.72rem; color: #34D399; font-weight: 800; text-transform: uppercase;" data-i18n="quiz.score_title">RÉSULTAT DE L'ÉVALUATION</div>
+          <div id="sq-final-score-val" style="font-size: 1.8rem; font-weight: 900; color: #FFF; font-family: var(--font-mono); margin: 4px 0;">100 / 100</div>
+          <div id="sq-ai-feedback-text" style="font-size: 0.72rem; color: #E2E8F0; line-height: 1.5; margin-top: 6px;"></div>
+        </div>
+
+        <button type="submit" id="btn-submit-student-quiz" class="btn-emerald-glow" style="padding: 10px; font-size: 0.76rem;" data-i18n="quiz.btn_submit_answers">
+          Valider mes Réponses &amp; Calculer Note
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- =========================================================
        7. OFFICIAL CONTRACT & INVOICE MODAL
        ========================================================= -->
   <div id="modal-official-contract" class="permissions-overlay-modal" style="display: none;">
@@ -675,7 +770,12 @@
 
       <!-- ================= TAB 3: DEVOIRS ================= -->
       <div id="tab-pane-devoirs" style="display: none; padding: 0 18px;">
-        <h3 style="color: #38BDF8; font-weight: 800; font-size: 1.1rem; margin-bottom: 2px;" data-i18n="hw.title">Cahier de Textes &amp; Devoirs</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+          <h3 style="color: #38BDF8; font-weight: 800; font-size: 1.1rem;" data-i18n="hw.title">Cahier de Textes &amp; Devoirs</h3>
+          <button id="btn-open-student-active-quiz" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; color: #FFF; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 0.72rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);" data-i18n="quiz.btn_open_student_quiz">
+            Passer le Quiz Interactif
+          </button>
+        </div>
         <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;" data-i18n="hw.subtitle">Gestion des rendus numériques et évaluations</p>
         
         <div id="homeworks-list-container"></div>
@@ -817,6 +917,28 @@
         <button id="btn-save-attendance" class="btn-emerald-glow" style="margin-top: 8px; padding: 9px; font-size: 0.76rem;" data-i18n="teacher.save_attendance">
           Valider l'Appel du Jour
         </button>
+      </div>
+
+      <!-- AI Exam & Quiz Generator Card for Teachers -->
+      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(168, 85, 247, 0.4); background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), rgba(15, 23, 42, 0.95));">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <div>
+            <span style="font-size: 0.62rem; color: #C084FC; font-weight: 800; text-transform: uppercase;">PEDAGOGICAL AI SUITE</span>
+            <h4 style="color: #FFF; font-size: 0.88rem; font-weight: 900;" data-i18n="quiz.title">Générateur d'Épreuves &amp; Quiz IA</h4>
+          </div>
+          <button id="btn-open-teacher-ai-quiz-modal" class="btn-emerald-glow" style="width: auto; background: linear-gradient(135deg, #A855F7 0%, #7C3AED 100%); padding: 6px 12px; font-size: 0.72rem; box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);" data-i18n="quiz.btn_generate">
+            Générer Épreuve avec l'IA
+          </button>
+        </div>
+        <p style="font-size: 0.7rem; color: #94A3B8;" data-i18n="quiz.subtitle">Conception automatique de devoirs et évaluations interactives</p>
+        
+        <div id="teacher-active-ai-quiz-preview" style="margin-top: 10px; background: rgba(0,0,0,0.35); border-radius: 8px; padding: 10px; font-size: 0.72rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <strong style="color: #38BDF8;" id="teacher-quiz-active-title">Épreuve Active : Mathématiques (4 QCM)</strong>
+            <span style="background: rgba(16, 185, 129, 0.2); color: #34D399; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; font-weight: 800;" data-i18n="quiz.badge_live">STUDENT QUIZ LIVE</span>
+          </div>
+          <div style="color: #94A3B8; font-size: 0.66rem; margin-top: 3px;" id="teacher-quiz-active-meta">Matière: Mathématiques • Chapitre: Fonctions Dérivées & Tangentes • Seconde 10-A</div>
+        </div>
       </div>
 
       <!-- Gradebook Roster -->
