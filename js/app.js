@@ -335,12 +335,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // 10. Floating Bottom Navigation Bar
-    document.querySelectorAll(".bottom-tab-item").forEach(btn => {
+    // 10. Floating Bottom Navigation Bar & Desktop Persistent Side Bar
+    document.querySelectorAll(".bottom-tab-item, .desktop-nav-item").forEach(btn => {
       btn.addEventListener("click", () => {
-        window.HardwareManager.vibrate(25);
-        const targetTab = btn.dataset.tab;
-        switchStudentParentTab(targetTab);
+        if (btn.dataset.tab) {
+          window.HardwareManager.vibrate(25);
+          const targetTab = btn.dataset.tab;
+          switchStudentParentTab(targetTab);
+        }
       });
     });
 
@@ -702,9 +704,21 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  function switchTab(tabId) {
+    switchStudentParentTab(tabId);
+  }
+
   function switchStudentParentTab(tabId) {
     activeTab = tabId;
+    
+    // Sync Mobile Bottom Tab Bar
     document.querySelectorAll(".bottom-tab-item").forEach(b => {
+      if (b.dataset.tab === tabId) b.classList.add("active");
+      else b.classList.remove("active");
+    });
+
+    // Sync Desktop Persistent Side Bar
+    document.querySelectorAll(".desktop-nav-item").forEach(b => {
       if (b.dataset.tab === tabId) b.classList.add("active");
       else b.classList.remove("active");
     });
@@ -712,11 +726,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const panes = ["tab-pane-home", "tab-pane-notes", "tab-pane-devoirs", "tab-pane-emploi", "tab-pane-messages", "tab-pane-profil"];
     panes.forEach(id => {
       const el = document.getElementById(id);
-      if (el) el.style.display = "none";
+      if (el) {
+        el.style.display = "none";
+        el.classList.remove("tab-pane-transition");
+      }
     });
 
     const activeEl = document.getElementById(`tab-pane-${tabId}`);
-    if (activeEl) activeEl.style.display = "block";
+    if (activeEl) {
+      activeEl.style.display = "block";
+      activeEl.classList.add("tab-pane-transition");
+    }
 
     if (tabId === "messages") {
       const chatBox = document.getElementById("chat-messages-stream-box");
@@ -756,9 +776,12 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("view-admin-root").style.display = "none";
     document.getElementById("app-floating-nav").style.display = "none";
 
+    const deskSidebar = document.getElementById("desktop-persistent-sidebar");
+
     if (user.role === "student" || user.role === "parent") {
       document.getElementById("view-student-parent-root").style.display = "block";
       document.getElementById("app-floating-nav").style.display = "flex";
+      if (deskSidebar) deskSidebar.style.display = "";
       switchStudentParentTab("home");
       renderStudentParentEcosystem();
     } else if (user.role === "teacher") {

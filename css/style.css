@@ -88,6 +88,110 @@ body {
   justify-content: center;
   align-items: flex-start;
   padding: 0;
+  overflow-x: hidden;
+}
+
+/* Master App Container supporting Desktop Persistent Sidebar + Center Frame */
+.app-master-container {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: stretch;
+  position: relative;
+}
+
+/* Desktop Persistent Sidebar Navigation */
+.desktop-side-nav {
+  display: none;
+  width: 280px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(20px);
+  border-right: 1px solid var(--border-glass);
+  padding: 24px 18px;
+  flex-direction: column;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5);
+}
+
+.desktop-side-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-glass);
+  margin-bottom: 20px;
+}
+
+.desktop-side-nav-brand .brand-logo-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #0F172A;
+  border: 1px solid var(--border-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--senegal-green);
+  box-shadow: 0 0 16px var(--senegal-green-glow);
+}
+
+.desktop-side-nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.desktop-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  color: var(--text-slate);
+  font-size: 0.82rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  width: 100%;
+}
+
+.desktop-nav-item:hover {
+  color: var(--text-white);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--border-glass);
+  transform: translateX(4px);
+}
+
+.desktop-nav-item.active {
+  color: #FFFFFF;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.22) 0%, rgba(5, 150, 105, 0.12) 100%);
+  border-color: var(--border-emerald);
+  box-shadow: 0 0 16px var(--senegal-green-glow);
+}
+
+.desktop-nav-item .nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+}
+
+.desktop-side-nav-footer {
+  padding-top: 16px;
+  border-top: 1px solid var(--border-glass);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .phone-viewport-wrapper {
@@ -101,6 +205,43 @@ body {
   display: flex;
   flex-direction: column;
   padding-bottom: 100px;
+  transition: max-width 0.3s ease;
+}
+
+/* Tablet & Desktop Enhancements: Persistent Sidebar on wide screens */
+@media (min-width: 900px) {
+  .desktop-side-nav {
+    display: flex;
+  }
+  
+  .phone-viewport-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    border-left: 1px solid var(--border-glass);
+    border-right: 1px solid var(--border-glass);
+  }
+}
+
+@media (min-width: 1280px) {
+  .phone-viewport-wrapper {
+    max-width: 680px;
+  }
+}
+
+/* Screen & Tab Transition Animation */
+.tab-pane-transition {
+  animation: tabFadeIn 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes tabFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Status Bar */
