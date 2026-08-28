@@ -272,6 +272,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("form-auth-login");
     if (loginForm) {
       loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        window.HardwareManager.vibrate(35);
+        const id = document.getElementById("input-login-id").value.trim();
+        const pass = document.getElementById("input-login-pass").value.trim();
+
         const defaultUsers = {
           "ADM-01": { id: "ADM-01", name: "Proviseur Ousmane Diop", role: "admin", pass: "admin123" },
           "TCH-01": { id: "TCH-01", name: "Prof. Jean-Marc Fall", role: "teacher", pass: "teach123" },
@@ -331,6 +336,25 @@ document.addEventListener("DOMContentLoaded", () => {
         window.HardwareManager.vibrate([100, 50, 100]);
       });
     }
+
+    // Demo Chips Click to Instant Autofill and Login
+    document.querySelectorAll(".demo-chip-dark").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const cred = chip.getAttribute("data-cred");
+        if (cred) {
+          const [chipId, chipPass] = cred.split(":");
+          const idInput = document.getElementById("input-login-id");
+          const passInput = document.getElementById("input-login-pass");
+          if (idInput) idInput.value = chipId;
+          if (passInput) passInput.value = chipPass;
+          window.HardwareManager.vibrate(30);
+          const form = document.getElementById("form-auth-login");
+          if (form) {
+            form.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+          }
+        }
+      });
+    });
 
     // 9. Logout
     document.querySelectorAll(".btn-user-logout-trigger").forEach(btn => {
