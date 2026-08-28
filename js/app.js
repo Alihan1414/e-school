@@ -50,11 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function checkInitialPermissions() {
-    const hasSeen = localStorage.getItem("eschool_perm_onboarding_shown");
+    // Keep onboarding permissions unobtrusive and non-blocking
     const modal = document.getElementById("modal-hardware-permissions");
-    if (!hasSeen && modal) {
-      modal.style.display = "flex";
-    }
+    if (modal) modal.style.display = "none";
   }
 
   function initEvents() {
