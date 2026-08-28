@@ -9,8 +9,12 @@ package-lock.json
 *.pem
 *.key
 
-# Local Databases (Keep schema, ignore runtime volatile DB binaries if private)
-# eschool.db
+# Ignore backend node files and SQLite from Vercel static deployments
+server_backend/
+*.sqlite
+*.sqlite3
+*.db
+*.log
 
 # OS Files & IDEs
 .DS_Store
