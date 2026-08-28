@@ -272,23 +272,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("form-auth-login");
     if (loginForm) {
       loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        window.HardwareManager.vibrate(35);
-        const id = document.getElementById("input-login-id").value.trim();
-        const pass = document.getElementById("input-login-pass").value.trim();
+        const defaultUsers = {
+          "ADM-01": { id: "ADM-01", name: "Proviseur Ousmane Diop", role: "admin", pass: "admin123" },
+          "TCH-01": { id: "TCH-01", name: "Prof. Jean-Marc Fall", role: "teacher", pass: "teach123" },
+          "STU-101": { id: "STU-101", name: "Amadou Diallo", role: "student", pass: "stud123" },
+          "PAR-101": { id: "PAR-101", name: "Moussa Diallo", role: "parent", pass: "parent123", family: window.ESchoolData.parentFamilies["PAR-101"] }
+        };
 
-        if (id.toUpperCase() === "PAR-101" && pass === "parent123") {
-          currentUser = {
-            id: "PAR-101",
-            role: "parent",
-            name: "Moussa Diallo",
-            family: window.ESchoolData.parentFamilies["PAR-101"]
-          };
-          document.getElementById("auth-error-notice").style.display = "none";
+        const upperId = id.toUpperCase();
+
+        // 1. Immediate Local Authentication Check
+        if (defaultUsers[upperId] && defaultUsers[upperId].pass === pass) {
+          currentUser = defaultUsers[upperId];
+          const errBox = document.getElementById("auth-error-notice");
+          if (errBox) errBox.style.display = "none";
           showPortalForUser(currentUser);
+          showToast(`Bienvenue, ${currentUser.name} !`);
           return;
         }
 
+        // 2. Fallback to Firebase or Remote API if available
         try {
           const authFetch = await fetch('/api/auth/login', {
             method: 'POST',
@@ -299,7 +302,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           if (authData && authData.success && authData.user) {
             currentUser = authData.user;
-            document.getElementById("auth-error-notice").style.display = "none";
+            const errBox = document.getElementById("auth-error-notice");
+            if (errBox) errBox.style.display = "none";
             showPortalForUser(currentUser);
             return;
           }
@@ -307,17 +311,24 @@ document.addEventListener("DOMContentLoaded", () => {
           console.warn("Backend auth fallback:", err);
         }
 
-        const res = await window.FirebaseESchoolService.authenticate(id, pass);
-        if (res && res.success && res.user) {
-          currentUser = res.user;
-          document.getElementById("auth-error-notice").style.display = "none";
-          showPortalForUser(currentUser);
-        } else {
-          const errBox = document.getElementById("auth-error-notice");
-          errBox.innerText = window.i18n.t("auth.error_invalid");
-          errBox.style.display = "block";
-          window.HardwareManager.vibrate([100, 50, 100]);
+        if (window.FirebaseESchoolService && window.FirebaseESchoolService.authenticate) {
+          const res = await window.FirebaseESchoolService.authenticate(id, pass);
+          if (res && res.success && res.user) {
+            currentUser = res.user;
+            const errBox = document.getElementById("auth-error-notice");
+            if (errBox) errBox.style.display = "none";
+            showPortalForUser(currentUser);
+            return;
+          }
         }
+
+        // Failed auth
+        const errBox = document.getElementById("auth-error-notice");
+        if (errBox) {
+          errBox.innerText = window.i18n ? window.i18n.t("auth.error_invalid") : "Identifiant ou mot de passe incorrect.";
+          errBox.style.display = "block";
+        }
+        window.HardwareManager.vibrate([100, 50, 100]);
       });
     }
 
