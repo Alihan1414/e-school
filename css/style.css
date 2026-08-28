@@ -108,7 +108,7 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   padding: 0;
   overflow-x: hidden;
 }
@@ -132,15 +132,15 @@ body {
 /* Tablet & Laptop / Desktop Expanded Layout */
 @media (min-width: 768px) {
   body {
-    padding: 24px;
-    align-items: center;
+    padding: 24px 16px;
+    align-items: flex-start;
     background: radial-gradient(circle at top center, #0F172A 0%, #030712 100%);
   }
 
   .phone-viewport-wrapper {
     max-width: 780px;
-    min-height: auto;
-    border-radius: 28px;
+    min-height: calc(100vh - 48px);
+    border-radius: 24px;
     border: 1px solid var(--border-glass);
     box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 40px rgba(16, 185, 129, 0.15);
     padding-bottom: 40px;
