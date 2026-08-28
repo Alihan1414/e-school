@@ -1,6 +1,6 @@
 // E-School Daara Master Application Engine (Search, Leave Excuses, Homework Review, Timetable, Themes & Security OTP)
-document.addEventListener("DOMContentLoaded", () => {
-  window.i18n.init();
+function bootESchoolApp() {
+  if (window.i18n && window.i18n.init) window.i18n.init();
 
   let currentUser = null;
   let currentChildIndex = 0;
@@ -1757,6 +1757,12 @@ document.addEventListener("DOMContentLoaded", () => {
       toast.classList.remove("show");
     }, 2800);
   }
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootESchoolApp);
+} else {
+  bootESchoolApp();
+}
 
 
