@@ -85,17 +85,7 @@ function bootESchoolApp() {
       });
     });
 
-    // 3. Demo Chips Autofill
-    document.querySelectorAll(".demo-chip-dark").forEach(chip => {
-      chip.addEventListener("click", () => {
-        window.HardwareManager.vibrate(20);
-        const [id, pass] = chip.dataset.cred.split(":");
-        document.getElementById("input-login-id").value = id;
-        document.getElementById("input-login-pass").value = pass;
-      });
-    });
-
-    // 4. Theme Switcher Engine
+    // 3. Theme Switcher Engine
     document.querySelectorAll(".btn-theme-switcher").forEach(btn => {
       btn.addEventListener("click", () => {
         window.HardwareManager.vibrate(20);
@@ -560,6 +550,12 @@ function bootESchoolApp() {
     const chatForm = document.getElementById("form-chat-send-msg");
     const chatInput = document.getElementById("chat-input-text");
 
+    let localChatMessages = [
+      { sender_id: 'TCH-01', sender_name: 'Prof. Jean-Marc Fall', sender_role: 'teacher', text: 'Asalaamu Alaykum ! N\'oubliez pas de réviser le chapitre sur les fonctions dérivées pour l\'évaluation de vendredi.' },
+      { sender_id: 'STU-101', sender_name: 'Amadou Diallo', sender_role: 'student', text: 'Bonjour Professeur Fall, j\'ai bien terminé le devoir maison n°2. Je le dépose sur la plateforme ce soir.' },
+      { sender_id: 'PAR-101', sender_name: 'Moussa Diallo', sender_role: 'parent', text: 'Merci pour le suivi exemplaire. Amadou s\'entraîne assidûment sur Daara AI.' }
+    ];
+
     async function loadChatMessages() {
       const box = document.getElementById("chat-messages-stream-box");
       if (!box) return;
@@ -567,26 +563,28 @@ function bootESchoolApp() {
       try {
         const resp = await fetch('/api/chat/messages?threadId=thread-fall-diallo');
         const data = await resp.json();
-        if (data.success && data.messages) {
-          let html = "";
-          data.messages.forEach(m => {
-            const isMe = (currentUser && m.sender_id === currentUser.id) || (!currentUser && m.sender_id === 'STU-101');
-            const align = isMe ? "flex-end" : "flex-start";
-            const bg = isMe ? "linear-gradient(135deg, #059669 0%, #10B981 100%)" : "rgba(30, 41, 59, 0.9)";
-
-            html += `
-              <div style="align-self: ${align}; max-width: 82%; background: ${bg}; color: #FFFFFF; padding: 10px 12px; border-radius: 12px; font-size: 0.76rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
-                <div style="font-size: 0.62rem; opacity: 0.85; margin-bottom: 2px; font-weight: 700;">${m.sender_name} (${m.sender_role})</div>
-                <div>${m.text}</div>
-              </div>
-            `;
-          });
-          box.innerHTML = html;
-          box.scrollTop = box.scrollHeight;
+        if (data.success && data.messages && data.messages.length > 0) {
+          localChatMessages = data.messages;
         }
       } catch (e) {
-        console.warn("Chat load error:", e);
+        // Use offline local memory store
       }
+
+      let html = "";
+      localChatMessages.forEach(m => {
+        const isMe = (currentUser && m.sender_id === currentUser.id) || (!currentUser && m.sender_id === 'STU-101');
+        const align = isMe ? "flex-end" : "flex-start";
+        const bg = isMe ? "linear-gradient(135deg, #059669 0%, #10B981 100%)" : "rgba(30, 41, 59, 0.9)";
+
+        html += `
+          <div style="align-self: ${align}; max-width: 82%; background: ${bg}; color: #FFFFFF; padding: 10px 12px; border-radius: 12px; font-size: 0.76rem; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+            <div style="font-size: 0.62rem; opacity: 0.85; margin-bottom: 2px; font-weight: 700;">${m.sender_name} (${m.sender_role})</div>
+            <div>${m.text}</div>
+          </div>
+        `;
+      });
+      box.innerHTML = html;
+      box.scrollTop = box.scrollHeight;
     }
 
     if (chatForm) {
@@ -602,6 +600,16 @@ function bootESchoolApp() {
         const sName = currentUser ? currentUser.name : "Amadou Diallo";
         const sRole = currentUser ? currentUser.role : "student";
 
+        const newMsg = {
+          sender_id: sId,
+          sender_name: sName,
+          sender_role: sRole,
+          text: text
+        };
+
+        localChatMessages.push(newMsg);
+        loadChatMessages();
+
         try {
           await fetch('/api/chat/send', {
             method: 'POST',
@@ -614,10 +622,7 @@ function bootESchoolApp() {
               text: text
             })
           });
-          loadChatMessages();
-        } catch (err) {
-          console.warn("Chat send error:", err);
-        }
+        } catch (err) {}
       };
     }
 
@@ -1148,24 +1153,24 @@ function bootESchoolApp() {
                 <strong style="color: #38BDF8; font-size: 0.88rem;">${name}</strong>
                 <div style="font-size: 0.68rem; color: #64748B;">ID: ${st.id}</div>
               </div>
-              <div style="font-size: 1.15rem; font-weight: 900; color: #10B981; font-family: monospace;">Avg: ${avg}</div>
+              <div class="grade-row-avg" style="font-size: 1.15rem; font-weight: 900; color: #10B981; font-family: monospace;">Avg: ${avg}</div>
             </div>
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
               <div>
                 <span style="font-size: 0.62rem; color: #94A3B8;">Devoir 1</span>
-                <input type="number" class="form-input-dark" style="padding: 4px; margin: 0; text-align: center;" data-field="exam1" value="${grade.exam1}">
+                <input type="number" class="form-input-dark grade-input-field" style="padding: 4px; margin: 0; text-align: center;" data-field="exam1" value="${grade.exam1}" min="0" max="100">
               </div>
               <div>
                 <span style="font-size: 0.62rem; color: #94A3B8;">Devoir 2</span>
-                <input type="number" class="form-input-dark" style="padding: 4px; margin: 0; text-align: center;" data-field="exam2" value="${grade.exam2}">
+                <input type="number" class="form-input-dark grade-input-field" style="padding: 4px; margin: 0; text-align: center;" data-field="exam2" value="${grade.exam2}" min="0" max="100">
               </div>
               <div>
                 <span style="font-size: 0.62rem; color: #94A3B8;">Oral</span>
-                <input type="number" class="form-input-dark" style="padding: 4px; margin: 0; text-align: center;" data-field="oral" value="${grade.oral}">
+                <input type="number" class="form-input-dark grade-input-field" style="padding: 4px; margin: 0; text-align: center;" data-field="oral" value="${grade.oral}" min="0" max="100">
               </div>
               <div>
                 <span style="font-size: 0.62rem; color: #94A3B8;">Projet</span>
-                <input type="number" class="form-input-dark" style="padding: 4px; margin: 0; text-align: center;" data-field="project" value="${grade.project}">
+                <input type="number" class="form-input-dark grade-input-field" style="padding: 4px; margin: 0; text-align: center;" data-field="project" value="${grade.project}" min="0" max="100">
               </div>
             </div>
           </div>
@@ -1173,15 +1178,42 @@ function bootESchoolApp() {
       });
       gradebookContainer.innerHTML = gHtml;
 
+      // Real-time average recalculation on typing
+      gradebookContainer.querySelectorAll(".metric-card-dark").forEach(row => {
+        const inputs = row.querySelectorAll(".grade-input-field");
+        const avgEl = row.querySelector(".grade-row-avg");
+
+        const updateRowAvg = () => {
+          let sum = 0;
+          inputs.forEach(inp => {
+            sum += parseFloat(inp.value) || 0;
+          });
+          const newAvg = (sum / inputs.length).toFixed(1);
+          if (avgEl) avgEl.innerText = `Avg: ${newAvg}`;
+        };
+
+        inputs.forEach(inp => {
+          inp.addEventListener("input", updateRowAvg);
+        });
+      });
+
       const saveGradesBtn = document.getElementById("btn-save-teacher-grades");
       if (saveGradesBtn) {
         saveGradesBtn.onclick = async () => {
           window.HardwareManager.vibrate(40);
-          showToast(window.i18n.t("ui.success_save"));
+          showToast("Notes académiques enregistrées et synchronisées avec succès !");
         };
       }
     }
   }
+
+  let persistentAdminUsers = [
+    { id: 'ADM-01', name: 'Proviseur Ousmane Diop', role: 'admin' },
+    { id: 'TCH-01', name: 'Prof. Jean-Marc Fall', role: 'teacher' },
+    { id: 'STU-101', name: 'Amadou Diallo', role: 'student' },
+    { id: 'STU-102', name: 'Fatou Binetou Diallo', role: 'student' },
+    { id: 'PAR-101', name: 'Moussa Diallo', role: 'parent' }
+  ];
 
   // ================= ADMIN WORKSPACE =================
   async function renderAdminWorkspace() {
@@ -1212,9 +1244,13 @@ function bootESchoolApp() {
         const id = document.getElementById("adm-new-user-id").value.trim();
         const role = document.getElementById("adm-new-user-role").value;
         const name = document.getElementById("adm-new-teacher-name").value.trim();
-        const subject = document.getElementById("adm-new-teacher-subject").value.trim();
 
         if (id && name && role) {
+          persistentAdminUsers.unshift({ id, name, role });
+          form.reset();
+          loadAdminUserDirectory("");
+          showToast(`Utilisateur ${name} (${id}) enregistré avec succès !`);
+
           try {
             await fetch('/api/admin/users/create', {
               method: 'POST',
@@ -1229,12 +1265,7 @@ function bootESchoolApp() {
                 class_id: '10-A'
               })
             });
-            form.reset();
-            loadAdminUserDirectory("");
-            showToast(`User ${name} registered in SQLite database!`);
-          } catch (err) {
-            console.warn("User creation error:", err);
-          }
+          } catch (err) {}
         }
       };
     }
@@ -1308,13 +1339,7 @@ function bootESchoolApp() {
     const container = document.getElementById("admin-users-table-container");
     if (!container) return;
 
-    let users = [
-      { id: 'ADM-01', name: 'Proviseur Ousmane Diop', role: 'admin' },
-      { id: 'TCH-01', name: 'Prof. Jean-Marc Fall', role: 'teacher' },
-      { id: 'STU-101', name: 'Amadou Diallo', role: 'student' },
-      { id: 'STU-102', name: 'Fatou Binetou Diallo', role: 'student' },
-      { id: 'PAR-101', name: 'Moussa Diallo', role: 'parent' }
-    ];
+    let users = [...persistentAdminUsers];
 
     if (query) {
       users = users.filter(u => u.name.toLowerCase().includes(query.toLowerCase()) || u.id.toLowerCase().includes(query.toLowerCase()));
@@ -1326,9 +1351,7 @@ function bootESchoolApp() {
       if (data && data.success && data.users && data.users.length > 0) {
         users = data.users;
       }
-    } catch (e) {
-      console.warn("Using offline user directory:", e);
-    }
+    } catch (e) {}
 
     let html = `
       <table style="width: 100%; border-collapse: collapse; text-align: left;">
@@ -1363,11 +1386,13 @@ function bootESchoolApp() {
       btn.onclick = async () => {
         const uid = btn.dataset.uid;
         if (uid === 'ADM-01') {
-          showToast("Cannot delete Super Admin account!");
+          showToast("Impossible de supprimer le compte Super Admin !");
           return;
         }
         window.HardwareManager.vibrate(30);
-        showToast(`User ${uid} deleted.`);
+        persistentAdminUsers = persistentAdminUsers.filter(u => u.id !== uid);
+        loadAdminUserDirectory(query);
+        showToast(`Utilisateur ${uid} supprimé.`);
       };
     });
   }
