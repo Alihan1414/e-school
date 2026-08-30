@@ -319,12 +319,13 @@ function bootESchoolApp() {
       btn.addEventListener("click", () => {
         window.HardwareManager.vibrate(30);
         currentUser = null;
-        document.getElementById("view-auth-portal").style.display = "block";
-        document.getElementById("view-b2b-purchase-portal").style.display = "none";
-        document.getElementById("view-student-parent-root").style.display = "none";
-        document.getElementById("view-teacher-root").style.display = "none";
-        document.getElementById("view-admin-root").style.display = "none";
-        document.getElementById("app-floating-nav").style.display = "none";
+        const safeHide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
+        const safeShow = (id, d) => { const el = document.getElementById(id); if (el) el.style.display = d || 'block'; };
+        safeShow('view-auth-portal', 'block');
+        safeHide('view-student-parent-root');
+        safeHide('view-teacher-root');
+        safeHide('view-admin-root');
+        safeHide('app-floating-nav');
       });
     });
 
@@ -762,26 +763,25 @@ function bootESchoolApp() {
   }
 
   function showPortalForUser(user) {
-    document.getElementById("view-auth-portal").style.display = "none";
-    document.getElementById("view-b2b-purchase-portal").style.display = "none";
-    document.getElementById("view-student-parent-root").style.display = "none";
-    document.getElementById("view-teacher-root").style.display = "none";
-    document.getElementById("view-admin-root").style.display = "none";
-    document.getElementById("app-floating-nav").style.display = "none";
+    const safeHide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
+    const safeShow = (id, d) => { const el = document.getElementById(id); if (el) el.style.display = d || 'block'; };
 
-    const deskSidebar = document.getElementById("desktop-persistent-sidebar");
+    safeHide('view-auth-portal');
+    safeHide('view-student-parent-root');
+    safeHide('view-teacher-root');
+    safeHide('view-admin-root');
+    safeHide('app-floating-nav');
 
-    if (user.role === "student" || user.role === "parent") {
-      document.getElementById("view-student-parent-root").style.display = "block";
-      document.getElementById("app-floating-nav").style.display = "flex";
-      if (deskSidebar) deskSidebar.style.display = "";
-      switchStudentParentTab("home");
+    if (user.role === 'student' || user.role === 'parent') {
+      safeShow('view-student-parent-root', 'block');
+      safeShow('app-floating-nav', 'flex');
+      switchStudentParentTab('home');
       renderStudentParentEcosystem();
-    } else if (user.role === "teacher") {
-      document.getElementById("view-teacher-root").style.display = "block";
+    } else if (user.role === 'teacher') {
+      safeShow('view-teacher-root', 'block');
       renderTeacherWorkspace();
-    } else if (user.role === "admin") {
-      document.getElementById("view-admin-root").style.display = "block";
+    } else if (user.role === 'admin') {
+      safeShow('view-admin-root', 'block');
       renderAdminWorkspace();
     }
   }
@@ -864,7 +864,14 @@ function bootESchoolApp() {
     const container = document.getElementById("sp-grades-live-container");
     if (!container) return;
 
-    const data = await window.FirebaseESchoolService.getStudentDashboard(studentId);
+    let data = null;
+    try {
+      if (window.FirebaseESchoolService && typeof window.FirebaseESchoolService.getStudentDashboard === 'function') {
+        data = await window.FirebaseESchoolService.getStudentDashboard(studentId);
+      }
+    } catch (e) {
+      console.warn("Grade fetch fallback:", e);
+    }
     const grades = (data && data.grades) ? data.grades : [
       { subjectId: "math", name_fr: "Mathématiques", name_en: "Mathematics", name_wo: "Xayma", name_es: "Matemáticas", code: "MAT-101", hours: 6, exam1: 95, exam2: 94, oral: 90, project: 92 },
       { subjectId: "phys", name_fr: "Physique-Chimie", name_en: "Physics", name_wo: "Fisik", name_es: "Física y Química", code: "PHY-102", hours: 4, exam1: 89, exam2: 92, oral: 88, project: 90 },
