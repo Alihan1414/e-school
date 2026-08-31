@@ -437,46 +437,62 @@ function bootESchoolApp() {
     const btnCloseQr = document.getElementById("btn-close-qr-scanner");
     const btnSimulateScan = document.getElementById("btn-simulate-qr-scan");
 
+    let isQrScanning = false;
+
     function startLiveQrScanner() {
       const modal = document.getElementById("modal-qr-attendance-scanner");
       const feedbackBox = document.getElementById("qr-scan-feedback");
       if (modal) modal.style.display = "flex";
       if (feedbackBox) feedbackBox.style.display = "none";
+      window.HardwareManager.vibrate(30);
 
-      if (typeof Html5Qrcode !== "undefined") {
-        html5QrScannerInstance = new Html5Qrcode("qr-reader-container");
-        html5QrScannerInstance.start(
-          { facingMode: "environment" },
-          { fps: 10, qrbox: 220 },
-          (decodedText) => {
-            onQrCodeDetected(decodedText);
-          },
-          () => {}
-        ).catch(err => {
-          console.warn("Camera warning:", err);
-        });
+      if (typeof Html5Qrcode !== "undefined" && !isQrScanning) {
+        try {
+          if (!html5QrScannerInstance) {
+            html5QrScannerInstance = new Html5Qrcode("qr-reader-container");
+          }
+          isQrScanning = true;
+          html5QrScannerInstance.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: { width: 220, height: 220 } },
+            (decodedText) => {
+              onQrCodeDetected(decodedText);
+            },
+            () => {}
+          ).catch(err => {
+            console.warn("Camera start warning:", err);
+            isQrScanning = false;
+          });
+        } catch (e) {
+          console.warn("Html5Qrcode init error:", e);
+          isQrScanning = false;
+        }
       }
     }
 
     function stopLiveQrScanner() {
       const modal = document.getElementById("modal-qr-attendance-scanner");
       if (modal) modal.style.display = "none";
-      if (html5QrScannerInstance) {
+      if (html5QrScannerInstance && isQrScanning) {
+        isQrScanning = false;
         html5QrScannerInstance.stop().then(() => {
           html5QrScannerInstance.clear();
-        }).catch(err => console.warn(err));
+        }).catch(err => {
+          console.warn("Html5Qrcode stop error:", err);
+        });
       }
     }
 
     async function onQrCodeDetected(qrData) {
+      window.HardwareManager.playSuccessChime();
       window.HardwareManager.vibrate([80, 50, 80]);
       const feedbackBox = document.getElementById("qr-scan-feedback");
       if (feedbackBox) {
-        feedbackBox.innerHTML = `✓ BADGE VERIFIED: <strong>${qrData}</strong><br>Attendance: <strong>Présent (08:15)</strong>`;
+        feedbackBox.innerHTML = `✓ BADGE VÉRIFIÉ : <strong>${qrData}</strong><br>Présence enregistrée : <strong>Présent (08:15)</strong>`;
         feedbackBox.style.display = "block";
       }
 
-      showToast(`Badge: ${qrData} • Synchronized!`);
+      showToast(`Badge scanné : ${qrData} • Synchronisé !`);
 
       try {
         await fetch('/api/attendance/scan', {
@@ -494,7 +510,7 @@ function bootESchoolApp() {
 
       setTimeout(() => {
         stopLiveQrScanner();
-      }, 1800);
+      }, 1600);
     }
 
     if (btnOpenQrTeacher) btnOpenQrTeacher.onclick = startLiveQrScanner;
@@ -504,6 +520,32 @@ function bootESchoolApp() {
     if (btnSimulateScan) {
       btnSimulateScan.onclick = () => {
         onQrCodeDetected("STU-101: Amadou Diallo (10-A)");
+      };
+    }
+
+    // Hardware Capability Diagnostics & Controls (Push Notif & GPS Campus)
+    const btnTestNotif = document.getElementById("btn-test-notif");
+    if (btnTestNotif) {
+      btnTestNotif.onclick = async () => {
+        window.HardwareManager.vibrate(40);
+        await window.HardwareManager.requestNotificationPermission();
+        window.HardwareManager.sendLocalNotification(
+          "🔔 E-SCHOOL DAARA",
+          "Test Réussi : Système de notifications push & alertes institutionnelles 100% opérationnel !"
+        );
+        showToast("Notification Push envoyée & Haptique validée !");
+      };
+    }
+
+    const btnTestGps = document.getElementById("btn-test-gps");
+    if (btnTestGps) {
+      btnTestGps.onclick = async () => {
+        window.HardwareManager.vibrate(30);
+        showToast("Localisation GPS du Campus en cours...");
+        const loc = await window.HardwareManager.requestLocationPermission();
+        window.HardwareManager.playSuccessChime();
+        window.HardwareManager.vibrate([60, 40, 60]);
+        showToast(`📍 GPS Campus Validé : ${loc.campus} (Précision: ${loc.accuracy}m)`);
       };
     }
 

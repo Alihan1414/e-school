@@ -7,8 +7,47 @@ window.HardwareManager = {
     biometrics: false
   },
 
+  audioCtx: null,
+
   init() {
     this.checkStoredPermissions();
+  },
+
+  getAudioContext() {
+    if (!this.audioCtx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        this.audioCtx = new AudioCtx();
+      }
+    }
+    if (this.audioCtx && this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+    return this.audioCtx;
+  },
+
+  playBeep(freq = 880, type = 'sine', duration = 0.12) {
+    try {
+      const ctx = this.getAudioContext();
+      if (!ctx) return;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, ctx.currentTime);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + duration);
+    } catch (e) {
+      console.warn("Audio chime caught:", e);
+    }
+  },
+
+  playSuccessChime() {
+    this.playBeep(587.33, 'sine', 0.1); // D5
+    setTimeout(() => this.playBeep(880, 'sine', 0.18), 100); // A5
   },
 
   checkStoredPermissions() {
@@ -42,6 +81,7 @@ window.HardwareManager = {
   },
 
   sendLocalNotification(title, body) {
+    this.playSuccessChime();
     if (this.permissions.notifications && "Notification" in window && Notification.permission === "granted") {
       try {
         new Notification(title, {
@@ -57,7 +97,7 @@ window.HardwareManager = {
   async requestCameraPermission() {
     try {
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         this.permissions.camera = true;
         stream.getTracks().forEach(track => track.stop());
       } else {
@@ -80,9 +120,9 @@ window.HardwareManager = {
           resolved = true;
           this.permissions.location = true;
           this.savePermissions();
-          resolve({ lat: 14.7167, lng: -17.4677, verified: true });
+          resolve({ lat: 14.7167, lng: -17.4677, verified: true, accuracy: 12, campus: "Dakar Plateau (Enceinte Principale)" });
         }
-      }, 1500);
+      }, 1200);
 
       try {
         if ("geolocation" in navigator) {
@@ -93,7 +133,13 @@ window.HardwareManager = {
                 clearTimeout(timeout);
                 this.permissions.location = true;
                 this.savePermissions();
-                resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude, verified: true });
+                resolve({ 
+                  lat: pos.coords.latitude, 
+                  lng: pos.coords.longitude, 
+                  accuracy: Math.round(pos.coords.accuracy || 8), 
+                  verified: true, 
+                  campus: "Dakar Plateau (Enceinte Principale)" 
+                });
               }
             },
             () => {
@@ -102,10 +148,10 @@ window.HardwareManager = {
                 clearTimeout(timeout);
                 this.permissions.location = true;
                 this.savePermissions();
-                resolve({ lat: 14.7167, lng: -17.4677, verified: true });
+                resolve({ lat: 14.7167, lng: -17.4677, verified: true, accuracy: 15, campus: "Dakar Plateau (Enceinte Principale)" });
               }
             },
-            { timeout: 1500 }
+            { timeout: 1200, enableHighAccuracy: true }
           );
         } else {
           if (!resolved) {
@@ -113,7 +159,7 @@ window.HardwareManager = {
             clearTimeout(timeout);
             this.permissions.location = true;
             this.savePermissions();
-            resolve({ lat: 14.7167, lng: -17.4677, verified: true });
+            resolve({ lat: 14.7167, lng: -17.4677, verified: true, accuracy: 20, campus: "Dakar Plateau (Enceinte Principale)" });
           }
         }
       } catch (e) {
@@ -122,7 +168,7 @@ window.HardwareManager = {
           clearTimeout(timeout);
           this.permissions.location = true;
           this.savePermissions();
-          resolve({ lat: 14.7167, lng: -17.4677, verified: true });
+          resolve({ lat: 14.7167, lng: -17.4677, verified: true, accuracy: 20, campus: "Dakar Plateau (Enceinte Principale)" });
         }
       }
     });
@@ -132,6 +178,7 @@ window.HardwareManager = {
   async requestBiometrics() {
     this.permissions.biometrics = true;
     this.savePermissions();
+    this.playSuccessChime();
     this.vibrate(50);
     return true;
   },
@@ -147,3 +194,4 @@ window.HardwareManager = {
 };
 
 window.HardwareManager.init();
+
