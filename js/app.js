@@ -738,6 +738,71 @@ function bootESchoolApp() {
       };
     }
 
+    // Tuition Payment & Mobile Money Checkout Modal
+    const btnOpenPayment = document.getElementById("btn-open-tuition-payment-modal");
+    const modalPayment = document.getElementById("modal-tuition-payment-checkout");
+    const btnClosePayment = document.getElementById("btn-close-payment-modal");
+    const btnExecPayment = document.getElementById("btn-execute-tuition-payment");
+    const paymentReceiptBox = document.getElementById("payment-receipt-success-box");
+
+    if (btnOpenPayment && modalPayment) {
+      btnOpenPayment.onclick = () => {
+        window.HardwareManager.vibrate(30);
+        modalPayment.style.display = "flex";
+        if (paymentReceiptBox) paymentReceiptBox.style.display = "none";
+      };
+    }
+
+    if (btnClosePayment && modalPayment) {
+      btnClosePayment.onclick = () => modalPayment.style.display = "none";
+    }
+
+    // Payment Method Selection
+    let selectedPayMethod = "Wave";
+    document.querySelectorAll(".pay-method-pill").forEach(pill => {
+      pill.onclick = () => {
+        window.HardwareManager.vibrate(20);
+        document.querySelectorAll(".pay-method-pill").forEach(p => {
+          p.classList.remove("active");
+          p.style.border = "1px solid var(--border-glass)";
+          p.style.background = "rgba(255,255,255,0.04)";
+        });
+        pill.classList.add("active");
+        pill.style.border = "1.5px solid #00F5D4";
+        pill.style.background = "rgba(0,245,212,0.1)";
+
+        const m = pill.dataset.method;
+        selectedPayMethod = m === "wave" ? "Wave" : (m === "om" ? "Orange Money" : "Free Money");
+        if (btnExecPayment) {
+          btnExecPayment.innerText = `Payer 45.000 FCFA avec ${selectedPayMethod}`;
+        }
+      };
+    });
+
+    if (btnExecPayment) {
+      btnExecPayment.onclick = () => {
+        window.HardwareManager.vibrate([80, 50, 80]);
+        btnExecPayment.innerText = "Traitement du paiement...";
+        btnExecPayment.disabled = true;
+
+        setTimeout(() => {
+          btnExecPayment.style.display = "none";
+          if (paymentReceiptBox) paymentReceiptBox.style.display = "block";
+          window.HardwareManager.sendLocalNotification("E-School Caisse", "Paiement 45.000 FCFA validé (Reçu #DAARA-8821)");
+          showToast(`Quittance validée avec succès via ${selectedPayMethod} !`);
+        }, 900);
+      };
+    }
+
+    // 3D Flashcard Revision Card Flip
+    const fcInner = document.getElementById("flashcard-sample-inner-1");
+    if (fcInner) {
+      fcInner.onclick = () => {
+        window.HardwareManager.vibrate(20);
+        fcInner.classList.toggle("flipped");
+      };
+    }
+
     // Admin Announcement Broadcast
     const formAnn = document.getElementById("form-broadcast-announcement");
     if (formAnn) {

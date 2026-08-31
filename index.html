@@ -386,6 +386,67 @@
   </div>
 
 
+  <!-- =========================================================
+       6E. DIGITAL TUITION PAYMENT & RECEIPT MODAL (Wave / Orange Money)
+       ========================================================= -->
+  <div id="modal-tuition-payment-checkout" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 440px; text-align: left; max-height: 90vh; overflow-y: auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
+        <span style="font-size: 0.85rem; font-weight: 900; color: #10B981;">PAIEMENT SÉCURISÉ DES FRAIS SCOLAIRES</span>
+        <button id="btn-close-payment-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; margin-bottom: 14px;">
+        <div style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 4px;">Élève Bénéficiaire :</div>
+        <div style="font-size: 0.95rem; font-weight: 900; color: #FFF;">Amadou Diallo (10-A • STU-101)</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px;">
+          <span style="font-size: 0.72rem; color: #E2E8F0;">Mensualité Scolaire (Mars 2026) :</span>
+          <strong style="font-size: 1.1rem; color: #10B981; font-family: monospace;">45.000 FCFA</strong>
+        </div>
+      </div>
+
+      <!-- Payment Gateway Selector (Wave / Orange Money / Free Money) -->
+      <div style="margin-bottom: 14px;">
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; display: block;">Moyen de Paiement Numérique</label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+          <div class="pay-method-pill active" data-method="wave" style="border: 1.5px solid #00F5D4; background: rgba(0,245,212,0.1); border-radius: 8px; padding: 8px; text-align: center; cursor: pointer;">
+            <div style="font-weight: 900; color: #00F5D4; font-size: 0.85rem;">Wave</div>
+            <div style="font-size: 0.58rem; color: #94A3B8;">Sans frais</div>
+          </div>
+          <div class="pay-method-pill" data-method="om" style="border: 1px solid var(--border-glass); background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px; text-align: center; cursor: pointer;">
+            <div style="font-weight: 900; color: #F97316; font-size: 0.85rem;">Orange</div>
+            <div style="font-size: 0.58rem; color: #94A3B8;">OM Direct</div>
+          </div>
+          <div class="pay-method-pill" data-method="free" style="border: 1px solid var(--border-glass); background: rgba(255,255,255,0.04); border-radius: 8px; padding: 8px; text-align: center; cursor: pointer;">
+            <div style="font-weight: 900; color: #EF4444; font-size: 0.85rem;">Free Money</div>
+            <div style="font-size: 0.58rem; color: #94A3B8;">Instantané</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px;">Numéro de Téléphone Mobile Money</label>
+        <input type="tel" id="input-payment-phone" class="form-input-dark" value="+221 77 123 4567" style="margin: 0; font-family: monospace;">
+      </div>
+
+      <div id="payment-receipt-success-box" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 10px; padding: 12px; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 6px; color: #34D399; font-weight: 900; font-size: 0.82rem; margin-bottom: 4px;">
+          <span>✓</span> REÇU DE PAIEMENT NUMÉRO #DAARA-8821
+        </div>
+        <div style="font-size: 0.7rem; color: #E2E8F0; line-height: 1.5;">
+          • Statut : <strong>Validé &amp; Encaissé</strong><br>
+          • Transaction : <strong>Wave-SN-998242</strong><br>
+          • Quittance transmise par SMS au parent.
+        </div>
+      </div>
+
+      <button id="btn-execute-tuition-payment" class="btn-emerald-glow" style="padding: 11px; font-size: 0.8rem; font-weight: 900;">
+        Payer 45.000 FCFA avec Wave
+      </button>
+    </div>
+  </div>
+
+
   <div class="phone-viewport-wrapper">
 
     <!-- Top Status Bar with 4 Languages, Global Search, Theme Toggle & Live Clock -->
@@ -542,11 +603,14 @@
         </div>
 
         <!-- Official Report Card Download & Absence Request Buttons -->
-        <div style="padding: 0 18px 10px 18px; display: flex; gap: 8px;">
-          <button id="btn-download-pdf-transcript" class="btn-emerald-glow" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%); display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.74rem; padding: 10px;" data-i18n="dash.btn_pdf">
+        <div style="padding: 0 18px 10px 18px; display: flex; gap: 6px;">
+          <button id="btn-download-pdf-transcript" class="btn-emerald-glow" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%); display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.72rem; padding: 10px;" data-i18n="dash.btn_pdf">
             Bulletin PDF
           </button>
-          <button id="btn-open-absence-excuse-modal" style="flex: 1; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; border-radius: 12px; font-weight: 800; font-size: 0.74rem; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; padding: 10px;" data-i18n="dash.btn_excuse">
+          <button id="btn-open-tuition-payment-modal" style="flex: 1; background: rgba(0, 245, 212, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 12px; font-weight: 800; font-size: 0.72rem; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; padding: 10px;">
+            Payer Frais (Wave)
+          </button>
+          <button id="btn-open-absence-excuse-modal" style="flex: 1; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; border-radius: 12px; font-weight: 800; font-size: 0.72rem; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; padding: 10px;" data-i18n="dash.btn_excuse">
             Justifier Absence
           </button>
         </div>
@@ -704,6 +768,63 @@
         </div>
 
         <div id="sp-grades-live-container"></div>
+
+        <!-- Visual Subject Performance Bar Chart -->
+        <div class="metric-card-dark" style="margin-top: 14px; border: 1px solid rgba(16, 185, 129, 0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <strong style="color: #10B981; font-size: 0.82rem;">Performance Relative aux Moyennes de Classe</strong>
+              <div style="font-size: 0.65rem; color: #94A3B8;">Repère orange : Moyenne Générale de la Classe 10-A</div>
+            </div>
+            <span style="font-size: 0.65rem; color: #34D399; font-weight: 800;">TOP 5%</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.72rem;">
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span style="color: #FFF; font-weight: 700;">Mathématiques (MAT-101)</span>
+                <span style="color: #10B981; font-weight: 900; font-family: monospace;">95.0 / 100</span>
+              </div>
+              <div class="grade-chart-bar-bg">
+                <div class="grade-chart-bar-fill" style="width: 95%;"></div>
+                <div class="grade-chart-bar-class" style="left: 78%;" title="Moyenne de classe : 78"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span style="color: #FFF; font-weight: 700;">Langue Anglaise (ENG-107)</span>
+                <span style="color: #10B981; font-weight: 900; font-family: monospace;">98.0 / 100</span>
+              </div>
+              <div class="grade-chart-bar-bg">
+                <div class="grade-chart-bar-fill" style="width: 98%;"></div>
+                <div class="grade-chart-bar-class" style="left: 82%;" title="Moyenne de classe : 82"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span style="color: #FFF; font-weight: 700;">Sciences de la Vie (BIO-104)</span>
+                <span style="color: #10B981; font-weight: 900; font-family: monospace;">96.0 / 100</span>
+              </div>
+              <div class="grade-chart-bar-bg">
+                <div class="grade-chart-bar-fill" style="width: 96%;"></div>
+                <div class="grade-chart-bar-class" style="left: 75%;" title="Moyenne de classe : 75"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                <span style="color: #FFF; font-weight: 700;">Physique-Chimie (PHY-102)</span>
+                <span style="color: #38BDF8; font-weight: 900; font-family: monospace;">89.0 / 100</span>
+              </div>
+              <div class="grade-chart-bar-bg">
+                <div class="grade-chart-bar-fill" style="width: 89%;"></div>
+                <div class="grade-chart-bar-class" style="left: 71%;" title="Moyenne de classe : 71"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
 
@@ -718,6 +839,44 @@
         <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;" data-i18n="hw.subtitle">Gestion des rendus numériques et évaluations</p>
         
         <div id="homeworks-list-container"></div>
+
+        <!-- Daara AI Interactive Revision Flashcards Deck -->
+        <div class="metric-card-dark" style="margin-top: 14px; border: 1px solid rgba(129, 140, 248, 0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 1rem;">🗂️</span>
+              <strong style="color: #818CF8; font-size: 0.82rem;">Cartes Mémo Interactives (Flashcards IA)</strong>
+            </div>
+            <span style="font-size: 0.65rem; color: #C084FC; font-weight: 800;">3 NOTIONS CLÉS</span>
+          </div>
+
+          <div class="flashcard-wrapper" id="flashcard-sample-1" title="Cliquez pour tourner la carte et voir la réponse">
+            <div class="flashcard-inner" id="flashcard-sample-inner-1">
+              <!-- FRONT -->
+              <div class="flashcard-face flashcard-front">
+                <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #818CF8; font-weight: 800;">
+                  <span>MATHÉMATIQUES</span>
+                  <span>QUESTION #1</span>
+                </div>
+                <div style="font-size: 0.82rem; font-weight: 800; color: #FFF; margin: 8px 0;">
+                  Quelle est la dérivée de f(x) = ln(x) pour x &gt; 0 ?
+                </div>
+                <div style="font-size: 0.62rem; color: #94A3B8;">🔄 Touchez pour révéler la formule</div>
+              </div>
+              <!-- BACK -->
+              <div class="flashcard-face flashcard-back">
+                <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #34D399; font-weight: 800;">
+                  <span>RÉPONSE VALIDÉE</span>
+                  <span>✓ FORMULE EXACTE</span>
+                </div>
+                <div style="font-size: 1.1rem; font-weight: 900; color: #FFF; font-family: monospace; margin: 6px 0;">
+                  f'(x) = 1 / x
+                </div>
+                <div style="font-size: 0.65rem; color: #CBD5E1;">Condition : Dérivable sur ]0 ; +∞[</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <h4 style="margin: 20px 0 10px 0; color: #A78BFA; font-size: 0.88rem; font-weight: 800;" data-i18n="mat.title">
           Supports Pédagogiques &amp; Fichiers de Cours

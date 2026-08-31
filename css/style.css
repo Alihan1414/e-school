@@ -674,6 +674,87 @@ body {
   border: 1px solid rgba(239, 68, 68, 0.5);
 }
 
+/* Flashcards Study Deck Styles */
+.flashcard-wrapper {
+  perspective: 1000px;
+  width: 100%;
+  min-height: 140px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 140px;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flashcard-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  min-height: 140px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.flashcard-front {
+  background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%);
+  border: 1px solid #818CF8;
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, #064E3B 0%, #0F172A 100%);
+  border: 1px solid #34D399;
+  transform: rotateY(180deg);
+}
+
+/* Visual Bar Comparison Chart */
+.grade-chart-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.grade-chart-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.grade-chart-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #10B981, #00F5D4);
+  transition: width 0.8s ease;
+}
+
+.grade-chart-bar-class {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #F59E0B;
+  box-shadow: 0 0 6px #F59E0B;
+}
+
 /* 2x2 Metrics Grid */
 .metrics-2x2-grid {
   display: grid;
