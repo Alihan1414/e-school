@@ -336,6 +336,56 @@
   </div>
 
 
+  <!-- =========================================================
+       6D. OFFICIAL HONOR CERTIFICATE MODAL (Tableau d'Honneur)
+       ========================================================= -->
+  <div id="modal-honor-certificate" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 480px; padding: 22px; text-align: center; border: 2px solid #F59E0B; background: radial-gradient(circle at center, #1E293B 0%, #0F172A 100%);">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 6px;">
+        <button id="btn-close-honor-modal" style="background: transparent; border: none; color: #94A3B8; cursor: pointer; font-size: 1.2rem;">✕</button>
+      </div>
+
+      <div style="width: 56px; height: 56px; margin: 0 auto 10px auto; border-radius: 50%; background: rgba(245, 158, 11, 0.2); border: 2px solid #F59E0B; display: flex; align-items: center; justify-content: center; color: #FBBF24; box-shadow: 0 0 25px rgba(245, 158, 11, 0.4); font-size: 1.5rem;">
+        🎖️
+      </div>
+
+      <div style="font-size: 0.68rem; letter-spacing: 2px; color: #F59E0B; font-weight: 900; text-transform: uppercase;">
+        RÉPUBLIQUE DU SÉNÉGAL
+      </div>
+      <h2 style="font-size: 1.25rem; font-weight: 900; color: #FFFFFF; margin: 4px 0;">
+        TABLEAU D'HONNEUR &amp; FÉLICITATIONS
+      </h2>
+      <div style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;">
+        Lycée d'Excellence Sénégalo-Turc • Année 2025-2026
+      </div>
+
+      <div style="background: rgba(0,0,0,0.3); border: 1px dashed rgba(245, 158, 11, 0.4); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
+        <p style="font-size: 0.72rem; color: #E2E8F0; line-height: 1.6;">
+          Le Conseil de Classe décerne le présent titre d'Excellence à l'élève :
+        </p>
+        <div style="font-size: 1.3rem; font-weight: 900; color: #34D399; margin: 6px 0;" id="cert-student-name">
+          Amadou Diallo
+        </div>
+        <div style="font-size: 0.72rem; color: #38BDF8; font-weight: 700;">
+          Classe 10-A • Matricule : STU-101
+        </div>
+        <div style="font-size: 1.1rem; font-weight: 900; color: #FBBF24; font-family: monospace; margin-top: 6px;" id="cert-gpa-val">
+          Moyenne Générale : 91.32 / 100
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px;">
+        <button id="btn-print-certificate" class="btn-emerald-glow" style="flex: 1; padding: 10px; font-size: 0.74rem; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
+          Télécharger l'Attestation
+        </button>
+        <button id="btn-dismiss-certificate" style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #FFF; padding: 10px; border-radius: 10px; font-size: 0.74rem; font-weight: 800; cursor: pointer;">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+
+
   <div class="phone-viewport-wrapper">
 
     <!-- Top Status Bar with 4 Languages, Global Search, Theme Toggle & Live Clock -->
@@ -582,6 +632,9 @@
             </div>
             <div class="ai-chat-input-row">
               <input type="text" id="input-ai-prompt" class="ai-chat-input" placeholder="Posez une question à Daara AI..." data-i18n-placeholder="ai.ask_placeholder">
+              <button id="btn-speak-ai" style="background: rgba(168, 85, 247, 0.2); border: 1px solid #A855F7; color: #C084FC; padding: 8px 10px; border-radius: 8px; font-size: 0.76rem; cursor: pointer;" title="Écouter l'analyse vocale (Audio TTS)">
+                🔊
+              </button>
               <button id="btn-submit-ai" class="btn-emerald-glow" style="width: auto; padding: 8px 14px; font-size: 0.76rem;" data-i18n="ai.send">
                 Analyser
               </button>
@@ -596,6 +649,30 @@
         <h3 style="color: #10B981; font-weight: 800; font-size: 1.1rem; margin-bottom: 2px;" data-i18n="tab.notes">Notes &amp; Évaluations</h3>
         <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;">Relevé officiel du 2ème Semestre (Cloud Firestore &amp; SQLite)</p>
         
+        <!-- Interactive GPA Target Simulator Card -->
+        <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(16, 185, 129, 0.4); background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(15, 23, 42, 0.95) 100%);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 1rem;">🎯</span>
+              <strong style="color: #34D399; font-size: 0.82rem;">Simulateur d'Objectif de Mention</strong>
+            </div>
+            <span id="gpa-sim-badge" style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.4);">
+              Félicitations du Conseil
+            </span>
+          </div>
+          <p style="font-size: 0.68rem; color: #94A3B8; margin-bottom: 10px;">
+            Ajustez votre note visée aux prochains examens pour projeter votre moyenne finale :
+          </p>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+            <input type="range" id="input-gpa-sim-slider" min="70" max="100" value="94" style="flex: 1; accent-color: #10B981; cursor: pointer;">
+            <span id="gpa-sim-target-display" style="font-family: monospace; font-size: 0.95rem; font-weight: 900; color: #38BDF8; min-width: 45px;">94 / 100</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px;">
+            <span style="color: #94A3B8;">Moyenne Finale Projetée :</span>
+            <strong id="gpa-sim-projected-result" style="color: #10B981; font-size: 1.05rem; font-family: monospace;">92.45 / 100</strong>
+          </div>
+        </div>
+
         <div id="sp-grades-live-container"></div>
       </div>
 
@@ -625,7 +702,17 @@
           <h3 style="color: #F59E0B; font-weight: 800; font-size: 1.1rem;" data-i18n="tt.title">Emploi du Temps Hebdomadaire</h3>
           <span style="font-size: 0.65rem; color: #38BDF8; background: rgba(56, 189, 248, 0.12); padding: 2px 6px; border-radius: 4px; font-weight: 800;" data-i18n="tt.class_badge">CLASSE 10-A</span>
         </div>
-        <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;" data-i18n="tt.subtitle">Planning interactif des cours</p>
+        <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 10px;" data-i18n="tt.subtitle">Planning interactif des cours</p>
+
+        <!-- Timetable Day Filter Pills -->
+        <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px;" id="timetable-day-filter-pills">
+          <button class="tt-filter-pill active" data-day="all" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--senegal-green); border: none; color: #FFF; cursor: pointer;">Tous</button>
+          <button class="tt-filter-pill" data-day="Lundi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Lundi</button>
+          <button class="tt-filter-pill" data-day="Mardi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Mardi</button>
+          <button class="tt-filter-pill" data-day="Mercredi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Mercredi</button>
+          <button class="tt-filter-pill" data-day="Jeudi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Jeudi</button>
+          <button class="tt-filter-pill" data-day="Vendredi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Vendredi</button>
+        </div>
         
         <div id="timetable-interactive-container"></div>
       </div>

@@ -641,8 +641,27 @@ function bootESchoolApp() {
       });
     }
 
-    // Daara AI
+    // Daara AI Speech & Prompt
     const submitAiBtn = document.getElementById("btn-submit-ai");
+    const speakAiBtn = document.getElementById("btn-speak-ai");
+
+    if (speakAiBtn) {
+      speakAiBtn.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        const text = document.getElementById("ai-response-box").innerText;
+        if ("speechSynthesis" in window) {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = "fr-FR";
+          utter.rate = 1.0;
+          window.speechSynthesis.speak(utter);
+          showToast("Lecture audio de l'analyse en cours...");
+        } else {
+          showToast("Synthèse vocale non supportée sur ce navigateur.");
+        }
+      };
+    }
+
     if (submitAiBtn) {
       submitAiBtn.addEventListener("click", () => {
         const input = document.getElementById("input-ai-prompt");
@@ -651,15 +670,72 @@ function bootESchoolApp() {
         window.HardwareManager.vibrate(40);
 
         const responseBox = document.getElementById("ai-response-box");
-        responseBox.innerHTML = `<em>Daara AI is analyzing institutional metrics...</em>`;
+        responseBox.innerHTML = `<em>Daara AI analyse les métriques pédagogiques...</em>`;
 
         setTimeout(() => {
           responseBox.innerHTML = `
-            <strong>Daara AI :</strong> Based on the last 3 evaluations in <strong>${val}</strong>, fundamental concepts are mastered at 88%. We recommend targeted exercises from Chapter 4.
+            <strong>Daara AI :</strong> Sur la base des 3 dernières évaluations en <strong>${val}</strong>, les compétences fondamentales sont maîtrisées à 91%. Nous recommandons des exercices d'approfondissement sur le chapitre 4 pour conforter la mention Très Bien.
           `;
           input.value = "";
-        }, 800);
+        }, 600);
       });
+    }
+
+    // GPA Target Simulator Handler
+    const gpaSlider = document.getElementById("input-gpa-sim-slider");
+    const gpaDisplay = document.getElementById("gpa-sim-target-display");
+    const gpaProjected = document.getElementById("gpa-sim-projected-result");
+    const gpaBadge = document.getElementById("gpa-sim-badge");
+
+    if (gpaSlider && gpaDisplay && gpaProjected) {
+      gpaSlider.oninput = (e) => {
+        const targetVal = parseFloat(e.target.value);
+        gpaDisplay.innerText = `${targetVal} / 100`;
+
+        // Weighted projected GPA calculation
+        const projected = ((91.32 * 0.7) + (targetVal * 0.3)).toFixed(2);
+        gpaProjected.innerText = `${projected} / 100`;
+
+        if (projected >= 90) {
+          gpaBadge.innerText = "Félicitations du Conseil";
+          gpaBadge.style.color = "#FBBF24";
+          gpaBadge.style.borderColor = "rgba(245, 158, 11, 0.4)";
+        } else if (projected >= 80) {
+          gpaBadge.innerText = "Tableau d'Honneur";
+          gpaBadge.style.color = "#34D399";
+          gpaBadge.style.borderColor = "rgba(16, 185, 129, 0.4)";
+        } else {
+          gpaBadge.innerText = "Encouragements";
+          gpaBadge.style.color = "#38BDF8";
+          gpaBadge.style.borderColor = "rgba(56, 189, 248, 0.4)";
+        }
+      };
+    }
+
+    // Honor Certificate Modal (Tableau d'Honneur)
+    const takdirBadge = document.querySelector(".hero-takdir-badge");
+    const modalHonor = document.getElementById("modal-honor-certificate");
+    const btnCloseHonor = document.getElementById("btn-close-honor-modal");
+    const btnDismissHonor = document.getElementById("btn-dismiss-certificate");
+    const btnPrintHonor = document.getElementById("btn-print-certificate");
+
+    if (takdirBadge && modalHonor) {
+      takdirBadge.style.cursor = "pointer";
+      takdirBadge.onclick = () => {
+        window.HardwareManager.vibrate(35);
+        modalHonor.style.display = "flex";
+      };
+    }
+
+    if (btnCloseHonor && modalHonor) btnCloseHonor.onclick = () => modalHonor.style.display = "none";
+    if (btnDismissHonor && modalHonor) btnDismissHonor.onclick = () => modalHonor.style.display = "none";
+
+    if (btnPrintHonor) {
+      btnPrintHonor.onclick = () => {
+        window.HardwareManager.vibrate(40);
+        showToast("Attestation d'Excellence téléchargée avec succès !");
+        setTimeout(() => { if (modalHonor) modalHonor.style.display = "none"; }, 800);
+      };
     }
 
     // Admin Announcement Broadcast
@@ -979,49 +1055,55 @@ function bootESchoolApp() {
     }
   }
 
-  // 3. Interactive Timetable Renderer
-  async function renderInteractiveTimetable() {
+  // 3. Interactive Timetable Renderer with Day Filter
+  let activeTimetableDayFilter = "all";
+
+  async function renderInteractiveTimetable(filterDay = "all") {
+    activeTimetableDayFilter = filterDay;
     const container = document.getElementById("timetable-interactive-container");
     if (!container) return;
 
-    let entries = [];
+    let entries = [
+      { day_name: 'Lundi', time_slot: '08:00 - 10:00', subject: 'Mathématiques', teacher: 'Prof. Jean-Marc Fall', room: 'Salle B-104', isCurrent: true },
+      { day_name: 'Lundi', time_slot: '10:15 - 12:15', subject: 'Physique-Chimie', teacher: 'Mme. Aïssatou Sow', room: 'Labo Sciences 2' },
+      { day_name: 'Mardi', time_slot: '08:00 - 10:00', subject: 'Français & Littérature', teacher: 'Mme. Mariama Ba', room: 'Salle A-201' },
+      { day_name: 'Mardi', time_slot: '10:15 - 12:15', subject: 'Histoire & Géographie', teacher: 'M. Sene', room: 'Salle C-302' },
+      { day_name: 'Mercredi', time_slot: '08:00 - 10:00', subject: 'Sciences de la Vie (SVT)', teacher: 'Prof. Ndiaye', room: 'Salle B-102' },
+      { day_name: 'Jeudi', time_slot: '10:00 - 12:00', subject: 'Langue Anglaise', teacher: 'Mr. Smith', room: 'Salle Langues 1' },
+      { day_name: 'Vendredi', time_slot: '08:00 - 10:00', subject: 'Éducation Civique & Islamique', teacher: 'Imam Cissé', room: 'Amphi Daara' }
+    ];
+
     try {
       const resp = await fetch('/api/timetable?classId=10-A');
       const data = await resp.json();
-      if (data && data.success && data.entries) {
+      if (data && data.success && data.entries && data.entries.length > 0) {
         entries = data.entries;
       }
-    } catch (e) {
-      console.warn(e);
-    }
+    } catch (e) {}
 
-    if (entries.length === 0) {
-      entries = [
-        { day_name: 'Lundi', time_slot: '08:00 - 10:00', subject: 'Mathématiques', teacher: 'Prof. Jean-Marc Fall', room: 'Salle B-104' },
-        { day_name: 'Lundi', time_slot: '10:15 - 12:15', subject: 'Physique-Chimie', teacher: 'Mme. Aïssatou Sow', room: 'Labo Sciences 2' },
-        { day_name: 'Mardi', time_slot: '08:00 - 10:00', subject: 'Français & Littérature', teacher: 'Mme. Ba', room: 'Salle A-201' },
-        { day_name: 'Mercredi', time_slot: '08:00 - 10:00', subject: 'Sciences de la Vie (SVT)', teacher: 'Prof. Ndiaye', room: 'Salle B-102' },
-        { day_name: 'Jeudi', time_slot: '10:00 - 12:00', subject: 'Langue Anglaise', teacher: 'Mr. Smith', room: 'Salle Langues 1' },
-        { day_name: 'Vendredi', time_slot: '08:00 - 10:00', subject: 'Histoire & Géographie', teacher: 'M. Sene', room: 'Salle C-302' }
-      ];
-    }
-
-    const days = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+    const days = filterDay === "all" ? ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'] : [filterDay];
     let html = "";
     days.forEach(day => {
       const dayLessons = entries.filter(e => e.day_name === day);
       if (dayLessons.length > 0) {
         html += `
           <div style="margin-bottom: 14px;">
-            <h4 style="color: #F59E0B; font-size: 0.85rem; margin-bottom: 6px;">${day}</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <h4 style="color: #F59E0B; font-size: 0.85rem;">${day}</h4>
+              <span style="font-size: 0.65rem; color: #94A3B8;">${dayLessons.length} cours prévus</span>
+            </div>
             <div style="display: flex; flex-direction: column; gap: 6px;">
         `;
         dayLessons.forEach(l => {
+          const currentBadge = l.isCurrent ? `<span style="background: rgba(16, 185, 129, 0.2); color: #34D399; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: 900; border: 1px solid rgba(16, 185, 129, 0.4);">EN COURS</span>` : ``;
           html += `
-            <div class="metric-card-dark" style="padding: 10px 12px;">
-              <div style="display: flex; justify-content: space-between;">
-                <strong style="color: #FFF; font-size: 0.82rem;">${l.subject}</strong>
-                <span style="font-size: 0.7rem; color: #38BDF8; font-family: monospace;">${l.time_slot}</span>
+            <div class="metric-card-dark" style="padding: 10px 12px; ${l.isCurrent ? 'border-color: #10B981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);' : ''}">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <strong style="color: #FFF; font-size: 0.82rem;">${l.subject}</strong>
+                  ${currentBadge}
+                </div>
+                <span style="font-size: 0.7rem; color: #38BDF8; font-family: monospace; font-weight: 700;">${l.time_slot}</span>
               </div>
               <div style="font-size: 0.68rem; color: #94A3B8; margin-top: 2px;">${l.teacher} • ${l.room}</div>
             </div>
@@ -1032,6 +1114,27 @@ function bootESchoolApp() {
     });
 
     container.innerHTML = html;
+
+    // Attach pill handlers
+    const pillBox = document.getElementById("timetable-day-filter-pills");
+    if (pillBox) {
+      pillBox.querySelectorAll(".tt-filter-pill").forEach(p => {
+        p.onclick = () => {
+          window.HardwareManager.vibrate(20);
+          pillBox.querySelectorAll(".tt-filter-pill").forEach(btn => {
+            btn.classList.remove("active");
+            btn.style.background = "var(--bg-card-subtle)";
+            btn.style.color = "var(--text-slate)";
+            btn.style.border = "1px solid var(--border-glass)";
+          });
+          p.classList.add("active");
+          p.style.background = "var(--senegal-green)";
+          p.style.color = "#FFF";
+          p.style.border = "none";
+          renderInteractiveTimetable(p.dataset.day);
+        };
+      });
+    }
   }
 
   // ================= TEACHER WORKSPACE =================
