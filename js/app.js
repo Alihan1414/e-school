@@ -588,6 +588,27 @@ function bootESchoolApp() {
     if (btnDownloadPdf) btnDownloadPdf.onclick = generateOfficialPdfTranscript;
     if (btnExportAdminPdf) btnExportAdminPdf.onclick = generateOfficialPdfTranscript;
 
+    // Theme Switcher (OLED Dark, Deep Navy, Emerald, Light)
+    document.querySelectorAll(".btn-theme-switcher").forEach(btn => {
+      btn.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        const theme = btn.dataset.setTheme;
+        document.body.setAttribute("data-theme", theme);
+        localStorage.setItem("eschool_theme", theme);
+
+        document.querySelectorAll(".btn-theme-switcher").forEach(b => {
+          b.classList.remove("active");
+          b.style.opacity = "0.7";
+        });
+        btn.classList.add("active");
+        btn.style.opacity = "1";
+        showToast(`Thème activé : ${theme.toUpperCase()}`);
+      };
+    });
+
+    const savedTheme = localStorage.getItem("eschool_theme") || "dark";
+    document.body.setAttribute("data-theme", savedTheme);
+
     // Real-Time Chat System
     const chatForm = document.getElementById("form-chat-send-msg");
     const chatInput = document.getElementById("chat-input-text");
