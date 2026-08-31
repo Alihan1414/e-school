@@ -615,6 +615,36 @@
           </div>
         </div>
 
+        <!-- Visual Attendance Analytics & 30-Day Heatmap Card -->
+        <div style="padding: 0 18px; margin-bottom: 14px;">
+          <div class="metric-card-dark" style="border: 1px solid rgba(56, 189, 248, 0.3);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="font-size: 1rem;">📊</span>
+                <div>
+                  <strong style="color: #38BDF8; font-size: 0.82rem;">Suivi de Présence &amp; Assiduité</strong>
+                  <div style="font-size: 0.65rem; color: #94A3B8;">30 Derniers Jours Scolaires</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-size: 1.15rem; font-weight: 900; color: #10B981; font-family: monospace;">94.2%</span>
+                <div style="font-size: 0.6rem; color: #10B981; font-weight: 800;">Taux Régulier</div>
+              </div>
+            </div>
+
+            <!-- Heatmap Day Status Grid (Last 28 Days) -->
+            <div class="attendance-heatmap-grid" id="student-attendance-heatmap-cells">
+              <!-- Rendered dynamically by JS -->
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.65rem; color: #94A3B8; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
+              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #10B981;"></span> Présent (22)</span>
+              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #F59E0B;"></span> Retard (1)</span>
+              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #38BDF8;"></span> Justifié (1)</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Daara AI Assistant Card -->
         <div style="padding: 0 18px;">
           <div class="ai-assistant-card">
@@ -744,21 +774,66 @@
         <h3 style="color: #10B981; font-weight: 800; font-size: 1.1rem; margin-bottom: 2px;" data-i18n="prof.title">Carte Scolaire &amp; Paramètres</h3>
         <p style="font-size: 0.7rem; color: #94A3B8; margin-bottom: 14px;" data-i18n="prof.school">Lycée d'Excellence Sénégalo-Turc</p>
 
-        <div class="metric-card-dark" style="padding: 16px; margin-bottom: 16px; border: 1px solid var(--neon-cyan);">
-          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-            <div class="avatar-neon-frame" style="width: 46px; height: 46px;">
-              <img id="prof-card-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Avatar">
+        <!-- 3D Interactive Flip Smart Student ID Card -->
+        <div class="id-card-3d-wrapper" id="student-smart-card-wrapper" title="Cliquer pour tourner la carte (Front / Back)">
+          <div class="id-card-3d-inner" id="student-smart-card-inner">
+            <!-- FRONT FACE -->
+            <div class="id-card-face id-card-front">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; border-bottom: 1px solid rgba(0, 245, 212, 0.3); padding-bottom: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 1.1rem;">🇸🇳</span>
+                  <div>
+                    <div style="font-size: 0.58rem; letter-spacing: 1px; color: var(--neon-cyan); font-weight: 900; text-transform: uppercase;">RÉPUBLIQUE DU SÉNÉGAL</div>
+                    <div style="font-size: 0.68rem; font-weight: 800; color: #FFF;">CARTE D'IDENTITÉ SCOLAIRE</div>
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 4px; background: rgba(0, 245, 212, 0.15); border: 1px solid var(--neon-cyan); padding: 2px 6px; border-radius: 4px;">
+                  <span style="font-size: 0.6rem; color: var(--neon-cyan); font-weight: 900;">NFC • QR</span>
+                </div>
+              </div>
+
+              <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 8px;">
+                <div class="avatar-neon-frame" style="width: 52px; height: 52px; border: 2px solid var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 245, 212, 0.4);">
+                  <img id="prof-card-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Avatar">
+                </div>
+                <div>
+                  <div style="font-weight: 900; font-size: 1.05rem; color: #FFFFFF;" id="prof-card-name">Amadou Diallo</div>
+                  <div style="font-size: 0.72rem; color: var(--neon-cyan); font-family: monospace; font-weight: 700;" id="prof-card-class">Matricule : STU-101 • 10-A</div>
+                  <div style="font-size: 0.65rem; color: #94A3B8; margin-top: 2px;">Lycée d'Excellence Sénégalo-Turc</div>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; font-size: 0.62rem; color: #94A3B8; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 6px;">
+                <div>Année : <strong style="color: #FFF;">2025-2026</strong></div>
+                <div style="color: var(--neon-cyan); font-weight: 700;">🔄 Touchez pour retourner</div>
+              </div>
             </div>
-            <div>
-              <div style="font-weight: 900; font-size: 1rem; color: #FFFFFF;" id="prof-card-name">Amadou Diallo</div>
-              <div style="font-size: 0.7rem; color: #38BDF8;" id="prof-card-class">Matricule : STU-101 • 10-A</div>
+
+            <!-- BACK FACE -->
+            <div class="id-card-face id-card-back">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                  <span style="font-size: 0.65rem; font-weight: 800; color: #F59E0B;">INFORMATIONS DE SÉCURITÉ</span>
+                  <span style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: 800;">GROUPE : O+</span>
+                </div>
+                <div style="font-size: 0.68rem; color: #CBD5E1; line-height: 1.5; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px; margin-bottom: 8px;">
+                  • <strong>Parent Référent :</strong> Moussa Diallo (+221 77 123 4567)<br>
+                  • <strong>Résidence :</strong> Almadies, Dakar, Sénégal<br>
+                  • <strong>Campus :</strong> Lycée d'Excellence (Dakar Plateau)
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px;">
+                <div style="font-family: monospace; font-size: 0.72rem; letter-spacing: 2px; color: #94A3B8;">||| | |||| | ||||| ||</div>
+                <div style="font-size: 0.62rem; color: #10B981; font-weight: 800;">✓ VISA PROVISEUR VALIDÉ</div>
+              </div>
             </div>
-          </div>
-          <div style="font-size: 0.72rem; color: #94A3B8; line-height: 1.6;">
-            • Établissement : <strong style="color: #FFF;">Lycée Sénégalo-Turc</strong><br>
-            • Parent Référent : <strong style="color: #FFF;">Moussa Diallo (+221 77 123 4567)</strong>
           </div>
         </div>
+
+        <button id="btn-download-smart-badge" class="btn-emerald-glow" style="margin-bottom: 16px; padding: 9px; font-size: 0.75rem; background: linear-gradient(135deg, #00F5D4 0%, #059669 100%); color: #030712; font-weight: 900;">
+          📲 Télécharger le Badge Numérique (Smart Card)
+        </button>
 
         <!-- Security & Password Change Button -->
         <h4 style="font-size: 0.8rem; color: #F59E0B; margin-bottom: 8px; font-weight: 800;" data-i18n="sec.account_security">Sécurité du Compte</h4>
@@ -856,7 +931,7 @@
             <strong style="color: #38BDF8;" id="teacher-quiz-active-title">Épreuve Active : Mathématiques (4 QCM)</strong>
             <span style="background: rgba(16, 185, 129, 0.2); color: #34D399; font-size: 0.62rem; padding: 2px 6px; border-radius: 4px; font-weight: 800;" data-i18n="quiz.badge_live">STUDENT QUIZ LIVE</span>
           </div>
-          <div style="color: #94A3B8; font-size: 0.66rem; margin-top: 3px;" id="teacher-quiz-active-meta">Matière: Mathématiques • Chapitre: Fonctions Dérivées & Tangentes • Seconde 10-A</div>
+          <div style="color: #94A3B8; font-size: 0.66rem; margin-top: 3px;" id="teacher-quiz-active-meta">Matière: Mathématiques • Chapitre: Fonctions Dérivées &amp; Tangentes • Seconde 10-A</div>
         </div>
       </div>
 
@@ -869,6 +944,39 @@
           </button>
         </div>
         <div id="teacher-gradebook-roster"></div>
+      </div>
+
+      <!-- Teacher Submitted Homeworks Review Desk -->
+      <div class="metric-card-dark" style="margin-top: 14px; border: 1px solid rgba(56, 189, 248, 0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div>
+            <strong style="color: #38BDF8; font-size: 0.82rem;">Devoirs Récents Déposés par les Élèves</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;">Évaluations et copies en attente de correction</div>
+          </div>
+          <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800;">2 NOUVEAUX</span>
+        </div>
+
+        <div id="teacher-submitted-hw-container" style="display: flex; flex-direction: column; gap: 8px;">
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="color: #FFF; font-size: 0.78rem;">Amadou Diallo (10-A)</strong>
+              <div style="font-size: 0.68rem; color: #94A3B8;">Mathématiques : Devoir Fonctions • Devoir_Amadou.pdf</div>
+            </div>
+            <button class="btn-grade-hw-quick" data-student="Amadou Diallo" data-hw="Mathématiques : Devoir Fonctions" style="background: #10B981; border: none; color: #FFF; padding: 5px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; cursor: pointer;">
+              Attribuer Note (95/100)
+            </button>
+          </div>
+
+          <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong style="color: #FFF; font-size: 0.78rem;">Fatou Binetou Diallo (10-A)</strong>
+              <div style="font-size: 0.68rem; color: #94A3B8;">Mathématiques : Devoir Fonctions • Devoir_Fatou.pdf</div>
+            </div>
+            <button class="btn-grade-hw-quick" data-student="Fatou Binetou Diallo" data-hw="Mathématiques : Devoir Fonctions" style="background: #10B981; border: none; color: #FFF; padding: 5px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; cursor: pointer;">
+              Attribuer Note (92/100)
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -893,33 +1001,6 @@
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
-        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
-          <div class="metric-val-large" id="admin-stat-students-val" style="color: #38BDF8;">5</div>
-          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_students">Élèves Inscrits</div>
-        </div>
-        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
-          <div class="metric-val-large" id="admin-stat-teachers-val" style="color: #34D399;">2</div>
-          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_teachers">Corps Enseignant</div>
-        </div>
-        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
-          <div class="metric-val-large" id="admin-stat-gpa-val" style="color: #F59E0B;">89.3%</div>
-          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_gpa">Moyenne Globale</div>
-        </div>
-        <div class="metric-card-dark" style="padding: 10px; text-align: center;">
-          <div class="metric-val-large" id="admin-stat-att-val" style="color: #10B981;">80.0%</div>
-          <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="admin.stat_att">Taux d'Assiduité</div>
-        </div>
-      </div>
-
-      <!-- Pending Absence Excuses Review Section -->
-      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(245, 158, 11, 0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h4 style="color: #F59E0B; font-size: 0.85rem; font-weight: 800;" data-i18n="excuse.admin_title">Demandes de Justificatifs d'Absences</h4>
-          <span style="font-size: 0.65rem; color: #F59E0B; font-weight: 800;" data-i18n="excuse.admin_badge">FLUX PARENTS</span>
-        </div>
-        <div id="admin-excuses-list-container" style="font-size: 0.72rem;"></div>
-      </div>
-
       <!-- User Directory & Live Search -->
       <div class="metric-card-dark" style="margin-bottom: 14px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">

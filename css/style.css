@@ -581,6 +581,99 @@ body {
   font-size: 1rem;
 }
 
+/* 3D Smart Student ID Card Styles */
+.id-card-3d-wrapper {
+  perspective: 1000px;
+  margin-bottom: 16px;
+}
+
+.id-card-3d-inner {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+  text-align: left;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.id-card-3d-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.id-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 245, 212, 0.2);
+}
+
+.id-card-front {
+  background: linear-gradient(135deg, #0A192F 0%, #0F172A 60%, #064E3B 100%);
+  border: 1.5px solid var(--neon-cyan);
+}
+
+.id-card-back {
+  background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  border: 1.5px solid #F59E0B;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Attendance Heatmap Grid */
+.attendance-heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.att-heat-cell {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.att-heat-cell:hover {
+  transform: scale(1.15);
+}
+
+.att-heat-present {
+  background: rgba(16, 185, 129, 0.25);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+}
+
+.att-heat-late {
+  background: rgba(245, 158, 11, 0.25);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.5);
+}
+
+.att-heat-excused {
+  background: rgba(56, 189, 248, 0.25);
+  color: #38BDF8;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+}
+
+.att-heat-absent {
+  background: rgba(239, 68, 68, 0.25);
+  color: #FCA5A5;
+  border: 1px solid rgba(239, 68, 68, 0.5);
+}
+
 /* 2x2 Metrics Grid */
 .metrics-2x2-grid {
   display: grid;

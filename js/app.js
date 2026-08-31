@@ -938,6 +938,51 @@ function bootESchoolApp() {
     renderLiveGrades(currentStudentObj.id, lang);
     renderHomeworksAndMaterials(currentStudentObj.id);
     renderInteractiveTimetable();
+    renderAttendanceHeatmap();
+
+    // 3D Smart Card Flip Event
+    const cardInner = document.getElementById("student-smart-card-inner");
+    if (cardInner) {
+      cardInner.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        cardInner.classList.toggle("flipped");
+      };
+    }
+
+    const btnDownloadBadge = document.getElementById("btn-download-smart-badge");
+    if (btnDownloadBadge) {
+      btnDownloadBadge.onclick = () => {
+        window.HardwareManager.vibrate(35);
+        showToast("Carte Scolaire Numérique (Smart ID) téléchargée !");
+      };
+    }
+  }
+
+  // Attendance 28-Day Heatmap Renderer
+  function renderAttendanceHeatmap() {
+    const container = document.getElementById("student-attendance-heatmap-cells");
+    if (!container) return;
+
+    let html = "";
+    const statuses = ['att-heat-present', 'att-heat-present', 'att-heat-present', 'att-heat-present', 'att-heat-present', 'att-heat-late', 'att-heat-present', 'att-heat-present', 'att-heat-excused'];
+    for (let day = 1; day <= 28; day++) {
+      let stClass = "att-heat-present";
+      let label = "Présent (08:15)";
+      if (day === 6) { stClass = "att-heat-late"; label = "Retard (08:28)"; }
+      else if (day === 17) { stClass = "att-heat-excused"; label = "Justifié (Médical)"; }
+      else if (day === 24) { stClass = "att-heat-present"; label = "Présent (08:10)"; }
+
+      html += `<div class="att-heat-cell ${stClass}" data-day="${day}" data-label="${label}">${day}</div>`;
+    }
+    container.innerHTML = html;
+
+    container.querySelectorAll(".att-heat-cell").forEach(cell => {
+      cell.onclick = (e) => {
+        e.stopPropagation();
+        window.HardwareManager.vibrate(20);
+        showToast(`Jour ${cell.dataset.day} : ${cell.dataset.label}`);
+      };
+    });
   }
 
   // 1. Live Grades Renderer
@@ -1308,6 +1353,18 @@ function bootESchoolApp() {
         };
       }
     }
+
+    // Teacher Quick Grade Submission Handler
+    document.querySelectorAll(".btn-grade-hw-quick").forEach(btn => {
+      btn.onclick = () => {
+        window.HardwareManager.vibrate(40);
+        const stu = btn.dataset.student;
+        btn.innerHTML = "✓ Noté (95/100)";
+        btn.style.background = "#059669";
+        btn.disabled = true;
+        showToast(`Copie de ${stu} évaluée (95/100) et synchronisée dans le relevé !`);
+      };
+    });
   }
 
   let persistentAdminUsers = [
@@ -1322,6 +1379,21 @@ function bootESchoolApp() {
   async function renderAdminWorkspace() {
     loadAdminUserDirectory("");
     loadAdminExcusesList();
+
+    // Emergency Push Broadcaster
+    const btnSendEmergency = document.getElementById("btn-send-emergency-broadcast");
+    const inputEmergency = document.getElementById("input-emergency-broadcast-msg");
+
+    if (btnSendEmergency && inputEmergency) {
+      btnSendEmergency.onclick = () => {
+        const msg = inputEmergency.value.trim();
+        if (!msg) return;
+        window.HardwareManager.vibrate([100, 50, 100]);
+        window.HardwareManager.sendLocalNotification("🚨 E-SCHOOL ALERTE", msg);
+        showToast(`Alerte d'urgence diffusée par SMS & Push : "${msg}"`);
+        inputEmergency.value = "";
+      };
+    }
 
     try {
       const statsRes = await fetch('/api/admin/stats').then(r => r.json());
