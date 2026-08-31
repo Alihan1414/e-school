@@ -705,23 +705,136 @@ function bootESchoolApp() {
     }
 
     if (submitAiBtn) {
-      submitAiBtn.addEventListener("click", () => {
-        const input = document.getElementById("input-ai-prompt");
-        const val = input.value.trim();
+      const executeAiQuery = (queryText) => {
+        const val = queryText || document.getElementById("input-ai-prompt").value.trim();
         if (!val) return;
-        window.HardwareManager.vibrate(40);
+        window.HardwareManager.vibrate(30);
+        window.HardwareManager.playSuccessChime();
 
         const responseBox = document.getElementById("ai-response-box");
-        responseBox.innerHTML = `<em>Daara AI analyse les métriques pédagogiques...</em>`;
+        responseBox.innerHTML = `<em>Daara AI analyse les métriques pédagogiques pour "${val}"...</em>`;
 
         setTimeout(() => {
-          responseBox.innerHTML = `
-            <strong>Daara AI :</strong> Sur la base des 3 dernières évaluations en <strong>${val}</strong>, les compétences fondamentales sont maîtrisées à 91%. Nous recommandons des exercices d'approfondissement sur le chapitre 4 pour conforter la mention Très Bien.
-          `;
-          input.value = "";
-        }, 600);
+          let advice = "Sur la base des dernières évaluations, les compétences fondamentales sont maîtrisées à 94.2%. Nous recommandons des exercices ciblés pour conforter la mention Félicitations.";
+          if (val.toLowerCase().includes("math")) {
+            advice = "En Mathématiques (95/100), vous maîtrisez le calcul différentiel. Astuce clé : vérifiez systématiquement l'ensemble de définition avant de dériver.";
+          } else if (val.toLowerCase().includes("faible") || val.toLowerCase().includes("point")) {
+            advice = "Votre point de consolidation prioritaire est l'Histoire-Géographie (84/100). 30 minutes de révision des repères chronologiques permettront d'atteindre 92/100.";
+          } else if (val.toLowerCase().includes("plan") || val.toLowerCase().includes("revis")) {
+            advice = "Planning conseillé : Lundi (Maths 45min), Mardi (Physique 40min), Jeudi (SVT 30min), Samedi (Synthèse générale & QCM blanc).";
+          }
+
+          responseBox.innerHTML = `<strong>Daara AI :</strong> ${advice}`;
+          document.getElementById("input-ai-prompt").value = "";
+        }, 500);
+      };
+
+      submitAiBtn.addEventListener("click", () => executeAiQuery());
+
+      // AI Suggestion Prompt Chips
+      document.querySelectorAll(".ai-chip-prompt").forEach(chip => {
+        chip.onclick = () => {
+          const prompt = chip.dataset.prompt;
+          executeAiQuery(prompt);
+        };
       });
     }
+
+    // Global Spotlight Search (Ctrl+K / ⌘K)
+    const btnOpenSpotlight = document.getElementById("btn-global-quick-search-trigger");
+    const modalSpotlight = document.getElementById("modal-global-spotlight-search");
+    const btnCloseSpotlight = document.getElementById("btn-close-spotlight-modal");
+    const spotlightInput = document.getElementById("spotlight-search-input");
+    const spotlightResults = document.getElementById("spotlight-search-results");
+
+    function openSpotlight() {
+      if (modalSpotlight) {
+        window.HardwareManager.vibrate(25);
+        modalSpotlight.style.display = "flex";
+        if (spotlightInput) {
+          spotlightInput.value = "";
+          setTimeout(() => spotlightInput.focus(), 50);
+        }
+      }
+    }
+
+    function closeSpotlight() {
+      if (modalSpotlight) modalSpotlight.style.display = "none";
+    }
+
+    if (btnOpenSpotlight) btnOpenSpotlight.onclick = openSpotlight;
+    if (btnCloseSpotlight) btnCloseSpotlight.onclick = closeSpotlight;
+
+    // Keyboard shortcut (Ctrl+K or Cmd+K)
+    window.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        openSpotlight();
+      } else if (e.key === "Escape" && modalSpotlight && modalSpotlight.style.display === "flex") {
+        closeSpotlight();
+      }
+    });
+
+    if (spotlightInput && spotlightResults) {
+      spotlightInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        spotlightResults.querySelectorAll(".spotlight-item").forEach(item => {
+          const text = item.innerText.toLowerCase();
+          item.style.display = text.includes(query) ? "flex" : "none";
+        });
+      });
+
+      spotlightResults.querySelectorAll(".spotlight-item").forEach(item => {
+        item.onclick = () => {
+          window.HardwareManager.vibrate(30);
+          closeSpotlight();
+          const action = item.dataset.action;
+          if (action === "tab-notes") switchStudentParentTab("notes");
+          else if (action === "tab-emploi") switchStudentParentTab("emploi");
+          else if (action === "open-payment") {
+            const m = document.getElementById("modal-tuition-payment-checkout");
+            if (m) m.style.display = "flex";
+          } else if (action === "open-quiz") {
+            const btn = document.getElementById("btn-open-student-active-quiz");
+            if (btn) btn.click();
+          } else if (action === "download-transcript") {
+            generateOfficialPdfTranscript();
+          }
+        };
+      });
+    }
+
+    // Trimester Switcher Handler
+    document.querySelectorAll(".trim-pill").forEach(pill => {
+      pill.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        document.querySelectorAll(".trim-pill").forEach(p => {
+          p.classList.remove("active");
+          p.style.background = "rgba(255,255,255,0.05)";
+          p.style.border = "1px solid var(--border-glass)";
+          p.style.color = "#94A3B8";
+        });
+        pill.classList.add("active");
+        pill.style.background = "var(--senegal-green)";
+        pill.style.border = "none";
+        pill.style.color = "#FFF";
+
+        const trim = pill.dataset.trim;
+        const gpaHero = document.getElementById("sp-hero-gpa-val");
+        const metricAvg = document.getElementById("metric-avg-val");
+        if (trim === "1") {
+          if (gpaHero) gpaHero.innerText = "89.40";
+          if (metricAvg) metricAvg.innerText = "89.40";
+          showToast("Affichage des notes du 1er Trimestre");
+        } else if (trim === "2") {
+          if (gpaHero) gpaHero.innerText = "91.32";
+          if (metricAvg) metricAvg.innerText = "91.32";
+          showToast("Affichage des notes du 2ème Trimestre");
+        } else {
+          showToast("3ème Trimestre : En cours d'évaluation");
+        }
+      };
+    });
 
     // GPA Target Simulator Handler
     const gpaSlider = document.getElementById("input-gpa-sim-slider");
