@@ -1,57 +1,76 @@
 /* Print Stylesheet for Official Report Card / Bulletin Scolaire */
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
   body {
     background: #ffffff !important;
     color: #000000 !important;
-    font-size: 11pt;
+    font-size: 10pt;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
+  /* Hide interactive shell elements */
   .sidebar,
   .top-bar,
+  .phone-top-bar,
   .header-actions,
   .role-switcher-group,
   .btn-primary,
   .theme-toggle-btn,
   .toast-message,
-  .nav-menu {
+  .toast-dark,
+  .nav-menu,
+  .bottom-navigation-bar,
+  .floating-quick-action-btn,
+  .floating-quick-menu-sheet,
+  .permissions-overlay-modal:not(#modal-official-pdf-transcript):not(#modal-honor-certificate),
+  button:not(.btn-print-keep) {
     display: none !important;
   }
 
-  .app-container {
+  /* Make Transcript Sheet full printable */
+  #modal-official-pdf-transcript,
+  #modal-honor-certificate {
     display: block !important;
-  }
-
-  .main-wrapper {
-    width: 100% !important;
-  }
-
-  .content-viewport {
+    position: static !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
     padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  .official-transcript-sheet,
+  .honor-certificate-sheet {
+    display: block !important;
+    box-shadow: none !important;
+    border: 1px solid #CBD5E1 !important;
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 15px !important;
+    margin: 0 !important;
+    page-break-inside: avoid;
+  }
+
+  .phone-viewport-wrapper {
+    background: #FFFFFF !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
     max-width: 100% !important;
   }
 
-  .tab-view {
-    display: none !important;
-  }
-
-  #tab-report_card {
-    display: block !important;
-  }
-
-  .report-card-container {
-    box-shadow: none !important;
-    border: none !important;
-    padding: 0 !important;
-    width: 100% !important;
-  }
-
-  .rc-table th, .rc-table td {
-    border: 1px solid #000000 !important;
-    color: #000000 !important;
-  }
-
-  .rc-cert-badge {
-    border: 1px solid #000000 !important;
-    color: #000000 !important;
+  .rc-table th, .rc-table td, table th, table td {
+    border: 1px solid #E2E8F0 !important;
+    color: #0F172A !important;
   }
 }
+
