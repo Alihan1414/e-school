@@ -786,16 +786,19 @@
           </div>
         </div>
 
-        <!-- Official Report Card Download & Absence Request Buttons -->
-        <div style="padding: 0 18px 10px 18px; display: flex; gap: 6px;">
-          <button id="btn-download-pdf-transcript" class="btn-emerald-glow" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%); display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 0.72rem; padding: 10px;" data-i18n="dash.btn_pdf">
-            Bulletin PDF
+        <!-- Adaptive Quick Action Command Grid -->
+        <div class="adaptive-quick-actions-bar">
+          <button id="btn-download-pdf-transcript" class="quick-action-pill-btn btn-pdf-glow" data-i18n="dash.btn_pdf">
+            <span class="action-icon">📄</span>
+            <span class="action-label">Bulletin PDF</span>
           </button>
-          <button id="btn-open-tuition-payment-modal" style="flex: 1; background: rgba(0, 245, 212, 0.15); border: 1px solid var(--neon-cyan); color: var(--neon-cyan); border-radius: 12px; font-weight: 800; font-size: 0.72rem; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; padding: 10px;">
-            Payer Frais (Wave)
+          <button id="btn-open-tuition-payment-modal" class="quick-action-pill-btn btn-wave-glow">
+            <span class="action-icon">💳</span>
+            <span class="action-label">Payer (Wave)</span>
           </button>
-          <button id="btn-open-absence-excuse-modal" style="flex: 1; background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; border-radius: 12px; font-weight: 800; font-size: 0.72rem; display: flex; align-items: center; justify-content: center; gap: 4px; cursor: pointer; padding: 10px;" data-i18n="dash.btn_excuse">
-            Justifier Absence
+          <button id="btn-open-absence-excuse-modal" class="quick-action-pill-btn btn-excuse-glow" data-i18n="dash.btn_excuse">
+            <span class="action-icon">✉️</span>
+            <span class="action-label">Justifier</span>
           </button>
         </div>
 
@@ -1556,6 +1559,9 @@
 
   <!-- PWA Installation Controller -->
   <script src="js/pwa-installer.js"></script>
+
+  <!-- Device & Viewport Adaptive Layout Engine -->
+  <script src="js/device-detector.js"></script>
 
   <!-- Offline-First & Auto-Sync Module -->
   <script src="js/offline-sync.js"></script>
