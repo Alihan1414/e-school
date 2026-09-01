@@ -229,6 +229,20 @@ window.i18n_en = {
   "ui.loading": "Loading...",
   "ui.success_save": "Saved successfully!",
 
+  // Attendance Heatmap Card
+  "att.title": "Attendance & Presence Tracking",
+  "att.sub": "Last 30 School Days",
+  "att.rate": "Regular Rate",
+  "att.present": "Present",
+  "att.late": "Late",
+  "att.justified": "Justified",
+
+  // AI Suggestions & Actions
+  "dash.btn_quiz": "AI Quiz",
+  "ai.chip_weakness": "🎯 Analyze my weak points",
+  "ai.chip_math": "📐 Math shortcuts & tips",
+  "ai.chip_plan": "💡 Weekly revision schedule",
+
   // PWA Keys
   "pwa.top_install_btn": "Install",
   "pwa.auth_install_btn": "📲 Install E-School App"

@@ -864,13 +864,13 @@
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span style="font-size: 1rem;">📊</span>
                 <div>
-                  <strong style="color: #38BDF8; font-size: 0.82rem;">Suivi de Présence &amp; Assiduité</strong>
-                  <div style="font-size: 0.65rem; color: #94A3B8;">30 Derniers Jours Scolaires</div>
+                  <strong style="color: #38BDF8; font-size: 0.82rem;" data-i18n="att.title">Suivi de Présence &amp; Assiduité</strong>
+                  <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="att.sub">30 Derniers Jours Scolaires</div>
                 </div>
               </div>
               <div style="text-align: right;">
                 <span style="font-size: 1.15rem; font-weight: 900; color: #10B981; font-family: monospace;">94.2%</span>
-                <div style="font-size: 0.6rem; color: #10B981; font-weight: 800;">Taux Régulier</div>
+                <div style="font-size: 0.6rem; color: #10B981; font-weight: 800;" data-i18n="att.rate">Taux Régulier</div>
               </div>
             </div>
 
@@ -880,9 +880,9 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 0.65rem; color: #94A3B8; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 6px;">
-              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #10B981;"></span> Présent (22)</span>
-              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #F59E0B;"></span> Retard (1)</span>
-              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #38BDF8;"></span> Justifié (1)</span>
+              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #10B981;"></span> <span data-i18n="att.present">Présent</span> (22)</span>
+              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #F59E0B;"></span> <span data-i18n="att.late">Retard</span> (1)</span>
+              <span style="display: flex; align-items: center; gap: 4px;"><span style="width: 8px; height: 8px; border-radius: 2px; background: #38BDF8;"></span> <span data-i18n="att.justified">Justifié</span> (1)</span>
             </div>
           </div>
         </div>
@@ -914,13 +914,13 @@
 
             <!-- Quick Suggestion Chips for AI -->
             <div style="display: flex; gap: 6px; overflow-x: auto; margin-top: 8px; padding-bottom: 2px;">
-              <button class="ai-chip-prompt" data-prompt="Analyse mes points forts et mes axes d'amélioration" style="white-space: nowrap; font-size: 0.65rem; background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.3); color: #C084FC; padding: 3px 8px; border-radius: 12px; cursor: pointer;">
+              <button class="ai-chip-prompt" data-prompt="Analyse mes points forts et mes axes d'amélioration" style="white-space: nowrap; font-size: 0.65rem; background: rgba(168, 85, 247, 0.12); border: 1px solid rgba(168, 85, 247, 0.3); color: #C084FC; padding: 3px 8px; border-radius: 12px; cursor: pointer;" data-i18n="ai.chip_weakness">
                 🎯 Analyse mes points faibles
               </button>
-              <button class="ai-chip-prompt" data-prompt="Explique-moi la méthode pour résoudre les fonctions dérivées" style="white-space: nowrap; font-size: 0.65rem; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38BDF8; padding: 3px 8px; border-radius: 12px; cursor: pointer;">
+              <button class="ai-chip-prompt" data-prompt="Explique-moi la méthode pour résoudre les fonctions dérivées" style="white-space: nowrap; font-size: 0.65rem; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38BDF8; padding: 3px 8px; border-radius: 12px; cursor: pointer;" data-i18n="ai.chip_math">
                 📐 Astuces Mathématiques
               </button>
-              <button class="ai-chip-prompt" data-prompt="Donne-moi un plan de révision hebdomadaire optimal" style="white-space: nowrap; font-size: 0.65rem; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34D399; padding: 3px 8px; border-radius: 12px; cursor: pointer;">
+              <button class="ai-chip-prompt" data-prompt="Donne-moi un plan de révision hebdomadaire optimal" style="white-space: nowrap; font-size: 0.65rem; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); color: #34D399; padding: 3px 8px; border-radius: 12px; cursor: pointer;" data-i18n="ai.chip_plan">
                 💡 Planning de révision
               </button>
             </div>
@@ -1407,50 +1407,50 @@
     </div>
 
 
-    <!-- =========================================================
-         14. FLOATING BOTTOM TAB BAR
-         ========================================================= -->
-    <!-- Bottom Navigation Bar -->
-    <div class="bottom-navigation-bar" id="app-floating-nav">
-      <button class="bottom-tab-item active" data-tab="home">
-        <span class="bottom-tab-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-        </span>
-        <span class="bottom-tab-label" data-i18n="tab.home">Accueil</span>
-      </button>
-      <button class="bottom-tab-item" data-tab="notes">
-        <span class="bottom-tab-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-        </span>
-        <span class="bottom-tab-label" data-i18n="tab.notes">Notes</span>
-      </button>
-      <button class="bottom-tab-item" data-tab="devoirs">
-        <span class="bottom-tab-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-        </span>
-        <span class="bottom-tab-label" data-i18n="tab.devoirs">Devoirs</span>
-      </button>
-      <button class="bottom-tab-item" data-tab="emploi">
-        <span class="bottom-tab-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-        </span>
-        <span class="bottom-tab-label" data-i18n="tab.emploi">Emploi</span>
-      </button>
-      <button class="bottom-tab-item" data-tab="messages">
-        <span class="bottom-tab-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-        </span>
-        <span class="bottom-tab-label" data-i18n="tab.messages">Messages</span>
-      </button>
-      <button class="bottom-tab-item" data-tab="profil">
-        <span class="bottom-tab-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-        </span>
-        <span class="bottom-tab-label" data-i18n="tab.profil">Profil</span>
-      </button>
-    </div>
-
   </div><!-- /.phone-viewport-wrapper -->
+
+
+  <!-- =========================================================
+       14. FLOATING BOTTOM TAB BAR (Global Viewport Fixed)
+       ========================================================= -->
+  <div class="bottom-navigation-bar" id="app-floating-nav">
+    <button class="bottom-tab-item active" data-tab="home">
+      <span class="bottom-tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </span>
+      <span class="bottom-tab-label" data-i18n="tab.home">Accueil</span>
+    </button>
+    <button class="bottom-tab-item" data-tab="notes">
+      <span class="bottom-tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+      </span>
+      <span class="bottom-tab-label" data-i18n="tab.notes">Notes</span>
+    </button>
+    <button class="bottom-tab-item" data-tab="devoirs">
+      <span class="bottom-tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+      </span>
+      <span class="bottom-tab-label" data-i18n="tab.devoirs">Devoirs</span>
+    </button>
+    <button class="bottom-tab-item" data-tab="emploi">
+      <span class="bottom-tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      </span>
+      <span class="bottom-tab-label" data-i18n="tab.emploi">Emploi</span>
+    </button>
+    <button class="bottom-tab-item" data-tab="messages">
+      <span class="bottom-tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+      </span>
+      <span class="bottom-tab-label" data-i18n="tab.messages">Messages</span>
+    </button>
+    <button class="bottom-tab-item" data-tab="profil">
+      <span class="bottom-tab-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      </span>
+      <span class="bottom-tab-label" data-i18n="tab.profil">Profil</span>
+    </button>
+  </div>
 
 
   <!-- =========================================================

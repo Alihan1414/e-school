@@ -229,6 +229,20 @@ window.i18n_wo = {
   "ui.loading": "Mu ngiy duggu...",
   "ui.success_save": "Denc nañu ko bu baax!",
 
+  // Attendance Heatmap Card
+  "att.title": "Saytu Teewaay ak Ndaje",
+  "att.sub": "30 Fan yu mujj ci ekool",
+  "att.rate": "Tolouwaay bu baax",
+  "att.present": "Tew na",
+  "att.late": "Yeexe na",
+  "att.justified": "Am na layal",
+
+  // AI Suggestions & Actions
+  "dash.btn_quiz": "Kwis IA",
+  "ai.chip_weakness": "🎯 Saytu samay lakk",
+  "ai.chip_math": "📐 Pexe ci Xayma",
+  "ai.chip_plan": "💡 Porogaraamu jàng",
+
   // PWA Keys
   "pwa.top_install_btn": "Yebal",
   "pwa.auth_install_btn": "📲 Yebal E-School App"

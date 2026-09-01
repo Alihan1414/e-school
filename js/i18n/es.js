@@ -231,6 +231,20 @@ window.i18n_es = {
   "ui.loading": "Cargando...",
   "ui.success_save": "¡Guardado con éxito!",
 
+  // Attendance Heatmap Card
+  "att.title": "Seguimiento de Asistencia",
+  "att.sub": "Últimos 30 Días Escolares",
+  "att.rate": "Tasa Regular",
+  "att.present": "Presente",
+  "att.late": "Retardo",
+  "att.justified": "Justificado",
+
+  // AI Suggestions & Actions
+  "dash.btn_quiz": "Quiz IA",
+  "ai.chip_weakness": "🎯 Analizar mis puntos débiles",
+  "ai.chip_math": "📐 Trucos de Matemáticas",
+  "ai.chip_plan": "💡 Plan de repaso semanal",
+
   // PWA Keys
   "pwa.top_install_btn": "Instalar",
   "pwa.auth_install_btn": "📲 Instalar Aplicación E-School"
