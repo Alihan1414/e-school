@@ -12,7 +12,11 @@ function bootESchoolApp() {
   const safeHide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
   const safeShow = (id, d) => { const el = document.getElementById(id); if (el) el.style.display = d || 'block'; };
 
-  safeHide('app-floating-nav');
+  const nav = document.getElementById('app-floating-nav');
+  if (nav) {
+    nav.classList.remove('is-visible');
+    nav.style.display = 'none';
+  }
   initDynamicDeviceClockAndRegion();
   checkInitialPermissions();
   initEvents();
@@ -313,13 +317,17 @@ function bootESchoolApp() {
       btn.addEventListener("click", () => {
         window.HardwareManager.vibrate(30);
         currentUser = null;
+        const nav = document.getElementById('app-floating-nav');
         const safeHide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
         const safeShow = (id, d) => { const el = document.getElementById(id); if (el) el.style.display = d || 'block'; };
         safeShow('view-auth-portal', 'block');
         safeHide('view-student-parent-root');
         safeHide('view-teacher-root');
         safeHide('view-admin-root');
-        safeHide('app-floating-nav');
+        if (nav) {
+          nav.classList.remove('is-visible');
+          nav.style.display = 'none';
+        }
       });
     });
 
@@ -1300,6 +1308,7 @@ function bootESchoolApp() {
   }
 
   function showPortalForUser(user) {
+    const nav = document.getElementById('app-floating-nav');
     const safeHide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
     const safeShow = (id, d) => { const el = document.getElementById(id); if (el) el.style.display = d || 'block'; };
 
@@ -1307,11 +1316,17 @@ function bootESchoolApp() {
     safeHide('view-student-parent-root');
     safeHide('view-teacher-root');
     safeHide('view-admin-root');
-    safeHide('app-floating-nav');
+    if (nav) {
+      nav.classList.remove('is-visible');
+      nav.style.display = 'none';
+    }
 
     if (user.role === 'student' || user.role === 'parent') {
       safeShow('view-student-parent-root', 'block');
-      safeShow('app-floating-nav', 'flex');
+      if (nav) {
+        nav.classList.add('is-visible');
+        nav.style.display = 'flex';
+      }
       switchStudentParentTab('home');
       renderStudentParentEcosystem();
     } else if (user.role === 'teacher') {
