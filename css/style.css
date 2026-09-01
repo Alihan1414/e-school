@@ -1262,3 +1262,58 @@ body.is-standalone-pwa {
   -webkit-user-select: none;
 }
 
+/* =========================================================
+   EXECUTIVE COSMETIC POLISH & MICRO-INTERACTIONS
+   ========================================================= */
+
+/* Custom Smooth Glass Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(8, 14, 30, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.3);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+/* Text Selection Glow */
+::selection {
+  background: rgba(16, 185, 129, 0.35);
+  color: #FFFFFF;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+}
+
+/* Metric Card & Glass Card Hover Elevation */
+.metric-card-dark {
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.22s ease;
+}
+
+.metric-card-dark:hover {
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.7), 0 0 16px rgba(16, 185, 129, 0.1);
+}
+
+/* Input Focus Glow */
+input:focus, select:focus, textarea:focus {
+  outline: none !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Button Tap Feedback */
+button:active {
+  transform: scale(0.97) !important;
+}
+
+
