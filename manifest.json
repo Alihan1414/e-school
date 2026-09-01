@@ -55,13 +55,6 @@
       "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
     },
     {
-      "name": "Paiement des Frais Scolaires",
-      "short_name": "Paiement",
-      "description": "Régler la scolarité par Wave / Orange Money",
-      "url": "./index.html#payment",
-      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }]
-    },
-    {
       "name": "Scanner QR Présence",
       "short_name": "Scanner QR",
       "description": "Validation instantanée de présence par badge",

@@ -339,54 +339,86 @@ function bootESchoolApp() {
     if (metricHwBtn) metricHwBtn.onclick = () => switchStudentParentTab("devoirs");
     if (metricExamsBtn) metricExamsBtn.onclick = () => switchStudentParentTab("emploi");
 
+    // Interactive AI Quiz Solver Modal Trigger from Quick Action Bar
+    const btnOpenQuizHome = document.getElementById("btn-open-interactive-quiz");
+    if (btnOpenQuizHome) {
+      btnOpenQuizHome.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        renderStudentInteractiveQuiz();
+        const modal = document.getElementById("modal-interactive-student-quiz");
+        if (modal) modal.style.display = "flex";
+      };
+    }
+
     // Absence Excuse Modals
     const btnOpenExcuse = document.getElementById("btn-open-absence-excuse-modal");
-    const btnCloseExcuse = document.getElementById("btn-close-excuse-modal");
-    const formExcuse = document.getElementById("form-parent-absence-excuse");
+    const btnCloseExcuse = document.getElementById("btn-close-absence-modal") || document.getElementById("btn-close-excuse-modal");
+    const btnCancelExcuse = document.getElementById("btn-cancel-absence-modal");
+    const formExcuse = document.getElementById("form-submit-absence-excuse") || document.getElementById("form-parent-absence-excuse");
 
     if (btnOpenExcuse) {
       btnOpenExcuse.onclick = () => {
         window.HardwareManager.vibrate(30);
-        document.getElementById("modal-submit-absence-excuse").style.display = "flex";
+        const modal = document.getElementById("modal-submit-absence-excuse");
+        if (modal) {
+          modal.style.display = "flex";
+          const dateInput = document.getElementById("excuse-date-start");
+          if (dateInput && !dateInput.value) {
+            dateInput.value = new Date().toISOString().split('T')[0];
+          }
+          const confirmAlert = document.getElementById("excuse-confirmation-alert");
+          if (confirmAlert) confirmAlert.style.display = "none";
+        }
       };
     }
-    if (btnCloseExcuse) {
-      btnCloseExcuse.onclick = () => {
-        document.getElementById("modal-submit-absence-excuse").style.display = "none";
-      };
-    }
+
+    const closeExcuseModal = () => {
+      const modal = document.getElementById("modal-submit-absence-excuse");
+      if (modal) modal.style.display = "none";
+    };
+
+    if (btnCloseExcuse) btnCloseExcuse.onclick = closeExcuseModal;
+    if (btnCancelExcuse) btnCancelExcuse.onclick = closeExcuseModal;
 
     if (formExcuse) {
       formExcuse.onsubmit = async (e) => {
         e.preventDefault();
         window.HardwareManager.vibrate(40);
 
-        const reasonType = document.getElementById("excuse-reason-type").value;
-        const dateStart = document.getElementById("excuse-date-start").value;
-        const dateEnd = document.getElementById("excuse-date-end").value;
-        const reasonDetails = document.getElementById("excuse-reason-details").value;
+        const reasonSelect = document.getElementById("excuse-reason-select");
+        const reasonType = reasonSelect ? reasonSelect.value : "medical";
+        const dateStart = (document.getElementById("excuse-date-start") || {}).value || new Date().toISOString().split('T')[0];
+        const duration = (document.getElementById("excuse-duration") || {}).value || "1";
+        const notes = (document.getElementById("excuse-notes") || {}).value || "";
 
-        try {
-          await fetch('/api/excuses/submit', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              parentId: currentUser ? currentUser.id : 'PAR-101',
-              parentName: currentUser ? currentUser.name : 'Moussa Diallo',
-              studentId: 'STU-101',
-              studentName: 'Amadou Diallo',
-              dateStart,
-              dateEnd,
-              reasonType,
-              reasonDetails
-            })
-          });
-          formExcuse.reset();
-          document.getElementById("modal-submit-absence-excuse").style.display = "none";
-          showToast("Demande de justificatif transmise à la direction avec succès !");
-        } catch (err) {
-          console.warn("Excuse submit error:", err);
+        const excusePayload = {
+          parentId: currentUser ? currentUser.id : 'PAR-101',
+          parentName: currentUser ? currentUser.name : 'Moussa Diallo',
+          studentId: 'STU-101',
+          studentName: 'Amadou Diallo',
+          dateStart,
+          durationDays: duration,
+          reasonType,
+          notes
+        };
+
+        if (window.FirebaseESchoolService && window.FirebaseESchoolService.submitAbsenceExcuse) {
+          await window.FirebaseESchoolService.submitAbsenceExcuse(excusePayload);
         }
+
+        const confirmAlert = document.getElementById("excuse-confirmation-alert");
+        const refCode = document.getElementById("excuse-ref-code");
+        const newRef = "EXC-" + Math.floor(1000 + Math.random() * 9000);
+        if (refCode) refCode.innerText = newRef;
+        if (confirmAlert) confirmAlert.style.display = "block";
+
+        window.HardwareManager.playSuccessChime();
+        showToast("Demande de justificatif transmise à la direction avec succès !");
+
+        setTimeout(() => {
+          closeExcuseModal();
+          formExcuse.reset();
+        }, 1800);
       };
     }
 
@@ -493,6 +525,18 @@ function bootESchoolApp() {
       }
 
       showToast(`Badge scanné : ${qrData} • Synchronisé !`);
+
+      if (window.FirebaseESchoolService && window.FirebaseESchoolService.saveClassAttendance) {
+        await window.FirebaseESchoolService.saveClassAttendance({
+          studentId: 'STU-101',
+          studentName: 'Amadou Diallo',
+          classId: '10-A',
+          status: 'present',
+          method: 'QR_CAMERA',
+          badgeData: qrData,
+          recordedBy: currentUser ? currentUser.id : 'TCH-01'
+        });
+      }
 
       try {
         await fetch('/api/attendance/scan', {
@@ -2044,6 +2088,15 @@ function bootESchoolApp() {
       if (resBox) resBox.style.display = "block";
       if (submitBtn) submitBtn.style.display = "none";
 
+      if (window.FirebaseESchoolService && window.FirebaseESchoolService.saveQuizResult) {
+        window.FirebaseESchoolService.saveQuizResult(
+          currentUser ? currentUser.id : 'STU-101',
+          currentActiveQuiz.title,
+          scorePercent
+        );
+      }
+
+      window.HardwareManager.playSuccessChime();
       showToast(`Évaluation terminée : Note de ${scorePercent}/100 !`);
     };
   }

@@ -86,7 +86,8 @@ window.HardwareManager = {
       try {
         new Notification(title, {
           body: body,
-          icon: "https://cdn-icons-png.flaticon.com/512/2997/2997295.png"
+          icon: "./icons/icon-192.png",
+          badge: "./icons/icon-192.png"
         });
       } catch (e) {}
     }
