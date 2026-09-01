@@ -1,4 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+const fs = require('fs');
+const path = require('path');
+const sharp = require('sharp');
+
+// Pure Mathematical High-Definition Vector SVG for E-School Daara
+const svgMaster = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <!-- Gradients -->
     <linearGradient id="gradNavy" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -73,4 +78,81 @@
     <!-- Spine Divider Accent -->
     <polygon points="253,428 259,428 257,486 255,486" fill="#10B981"/>
   </g>
-</svg>
+</svg>`;
+
+async function buildVectorLogos() {
+  const outDir = path.resolve(__dirname, '../icons');
+  console.log('Generating crisp mathematical vector assets...');
+
+  fs.writeFileSync(path.join(outDir, 'logo.svg'), svgMaster);
+  fs.writeFileSync(path.join(outDir, 'favicon.svg'), svgMaster);
+  fs.writeFileSync(path.join(outDir, 'logo-transparent.svg'), svgMaster);
+  fs.writeFileSync(path.join(outDir, 'logo-horizontal.svg'), svgMaster);
+  fs.writeFileSync(path.join(outDir, 'logo-horizontal-dark.svg'), svgMaster);
+
+  // High-Quality Super-Sampled PNG Renders
+  const svgBuf = Buffer.from(svgMaster);
+
+  // 512x512 PNG
+  await sharp(svgBuf)
+    .resize(512, 512)
+    .png({ quality: 100 })
+    .toFile(path.join(outDir, 'icon-512.png'));
+  console.log('✓ Rendered 512x512 icon-512.png');
+
+  // 192x192 PNG
+  await sharp(svgBuf)
+    .resize(192, 192)
+    .png({ quality: 100 })
+    .toFile(path.join(outDir, 'icon-192.png'));
+  console.log('✓ Rendered 192x192 icon-192.png');
+
+  // Maskable Icon 512x512 with safe-zone margin and OLED dark background
+  const iconInner360 = await sharp(svgBuf)
+    .resize(380, 380)
+    .png()
+    .toBuffer();
+
+  await sharp({
+    create: { width: 512, height: 512, channels: 4, background: { r: 8, g: 14, b: 30, alpha: 1 } }
+  })
+  .composite([{ input: iconInner360, gravity: 'center' }])
+  .png({ quality: 100 })
+  .toFile(path.join(outDir, 'icon-maskable.png'));
+  console.log('✓ Rendered 512x512 icon-maskable.png');
+
+  // Apple Touch Icon 180x180 with OLED dark background
+  const iconInner130 = await sharp(svgBuf)
+    .resize(140, 140)
+    .png()
+    .toBuffer();
+
+  await sharp({
+    create: { width: 180, height: 180, channels: 4, background: { r: 8, g: 14, b: 30, alpha: 1 } }
+  })
+  .composite([{ input: iconInner130, gravity: 'center' }])
+  .png({ quality: 100 })
+  .toFile(path.join(outDir, 'apple-touch-icon.png'));
+  console.log('✓ Rendered 180x180 apple-touch-icon.png');
+
+  // Favicons 32 & 16
+  await sharp(svgBuf)
+    .resize(32, 32)
+    .png()
+    .toFile(path.join(outDir, 'favicon-32x32.png'));
+
+  await sharp(svgBuf)
+    .resize(16, 16)
+    .png()
+    .toFile(path.join(outDir, 'favicon-16x16.png'));
+
+  // Master logo.png
+  await sharp(svgBuf)
+    .resize(512, 512)
+    .png({ quality: 100 })
+    .toFile(path.join(outDir, 'logo.png'));
+
+  console.log('ALL VECTOR & ULTRA-HD LOGO ASSETS COMPILED SUCCESSFULLY!');
+}
+
+buildVectorLogos().catch(console.error);
