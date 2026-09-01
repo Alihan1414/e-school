@@ -1174,6 +1174,17 @@ function bootESchoolApp() {
       };
     });
 
+    // Quick Action Bar Quiz Button
+    const btnOpenQuickQuiz = document.getElementById("btn-open-interactive-quiz");
+    if (btnOpenQuickQuiz) {
+      btnOpenQuickQuiz.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        renderStudentInteractiveQuiz();
+        const modal = document.getElementById("modal-interactive-student-quiz");
+        if (modal) modal.style.display = "flex";
+      };
+    }
+
     // 3D Flashcard Revision Card Flip
     const fcInner = document.getElementById("flashcard-sample-inner-1");
     if (fcInner) {

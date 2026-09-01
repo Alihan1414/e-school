@@ -390,67 +390,6 @@
     </div>
   </div>
 
-
-  <!-- =========================================================
-       6E. SUBMIT ABSENCE EXCUSE & JUSTIFICATION MODAL
-       ========================================================= -->
-  <div id="modal-submit-absence-excuse" class="permissions-overlay-modal" style="display: none;">
-    <div class="permissions-modal-card" style="max-width: 440px; text-align: left; max-height: 90vh; overflow-y: auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 12px;">
-        <span style="font-size: 0.85rem; font-weight: 900; color: #F59E0B;">JUSTIFICATION OFFICIELLE D'ABSENCE</span>
-        <button id="btn-close-absence-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
-      </div>
-
-      <form id="form-submit-absence-excuse" style="display: flex; flex-direction: column; gap: 12px;">
-        <div>
-          <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px;">Élève Concerné</label>
-          <input type="text" id="excuse-student-display" class="form-input-dark" value="Amadou Diallo (10-A • STU-101)" readonly style="background: rgba(0,0,0,0.4); color: #94A3B8;">
-        </div>
-
-        <div>
-          <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px;">Motif de l'Absence</label>
-          <select id="excuse-reason-select" class="form-input-dark" style="cursor: pointer;">
-            <option value="medical">Raison Médicale / Maladie (Certificat)</option>
-            <option value="family">Événement Familial Majeur</option>
-            <option value="transport">Cas de Force Majeure / Transport</option>
-            <option value="official">Convocation Officielle / Examen</option>
-            <option value="other">Autre motif exceptionnel</option>
-          </select>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-          <div>
-            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px;">Date de Début</label>
-            <input type="date" id="excuse-date-start" class="form-input-dark" required>
-          </div>
-          <div>
-            <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px;">Durée (Jours)</label>
-            <input type="number" id="excuse-duration" class="form-input-dark" value="1" min="0.5" step="0.5" required>
-          </div>
-        </div>
-
-        <div>
-          <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; display: block; margin-bottom: 4px;">Précisions &amp; Commentaires pour l'Administration</label>
-          <textarea id="excuse-notes" class="form-input-dark" rows="3" placeholder="Indiquez les détails ou les coordonnées du médecin..." style="resize: vertical; font-family: inherit;"></textarea>
-        </div>
-
-        <div id="excuse-confirmation-alert" style="display: none; background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 8px; padding: 10px; font-size: 0.72rem; color: #34D399;">
-          ✓ Demande de justification transmise avec succès au Proviseur (Réf: <span id="excuse-ref-code">EXC-9921</span>).
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-top: 4px;">
-          <button type="submit" class="btn-emerald-glow" style="flex: 2; padding: 11px; font-size: 0.78rem; font-weight: 900; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
-            ✉️ Soumettre la Justification
-          </button>
-          <button type="button" id="btn-cancel-absence-modal" style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; border-radius: 10px; font-weight: 700; font-size: 0.72rem; cursor: pointer;">
-            Annuler
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-
   <!-- =========================================================
        6F. GLOBAL SPOTLIGHT COMMAND PALETTE MODAL (Ctrl+K / ⌘K)
        ========================================================= -->
@@ -613,21 +552,6 @@
         </div>
       </div>
     </div>
-
-    <!-- GLOBAL SPOTLIGHT SEARCH MODAL (Ctrl + K) -->
-    <div id="modal-global-spotlight-search" class="permissions-overlay-modal" style="display: none;">
-      <div class="permissions-modal-card" style="max-width: 420px; text-align: left; padding: 14px;">
-        <div style="display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 10px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="spotlight-search-input" class="form-input-dark" placeholder="Rechercher élève, note, devoir, cours..." style="margin: 0; border: none; background: transparent; font-size: 0.85rem; padding: 4px; flex: 1;">
-          <button id="btn-close-spotlight" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
-        </div>
-        <div id="spotlight-results-container" style="max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; font-size: 0.72rem;">
-          <div style="color: #64748B; text-align: center; padding: 12px;">Tapez un nom d'élève (ex: Amadou), une matière ou une commande...</div>
-        </div>
-      </div>
-    </div>
-
 
     <!-- =========================================================
          9. AUTH / UNIFIED SECURE LOGIN (With Forgot Password Link)
