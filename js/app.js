@@ -12,6 +12,18 @@ function bootESchoolApp() {
   const safeHide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
   const safeShow = (id, d) => { const el = document.getElementById(id); if (el) el.style.display = d || 'block'; };
 
+  // Smooth Luxury Splash Screen Dismissal
+  const splashEl = document.getElementById("app-launch-splash-screen");
+  if (splashEl) {
+    setTimeout(() => {
+      splashEl.style.opacity = "0";
+      splashEl.style.visibility = "hidden";
+      setTimeout(() => {
+        splashEl.style.display = "none";
+      }, 500);
+    }, 850);
+  }
+
   const nav = document.getElementById('app-floating-nav');
   if (nav) {
     nav.classList.remove('is-visible');

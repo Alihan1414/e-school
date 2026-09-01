@@ -1320,4 +1320,17 @@ button:active {
   transform: scale(0.97) !important;
 }
 
+/* Splash Screen Keyframes */
+@keyframes spinRing {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes splashProgress {
+  0% { transform: scaleX(0); transform-origin: left; }
+  60% { transform: scaleX(0.7); transform-origin: left; }
+  100% { transform: scaleX(1); transform-origin: left; }
+}
+
+
 
