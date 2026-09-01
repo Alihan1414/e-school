@@ -414,7 +414,7 @@ body.light-mode .calendar-day-box {
 }
 
 /* =========================================================
-   GPA SIMULATOR ("Kaç Alırsam Takdir Gelir?")
+   GPA SIMULATOR (Honor Roll Academic Projection)
    ========================================================= */
 .sim-header-card {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(6, 182, 212, 0.1));
@@ -428,40 +428,6 @@ body.light-mode .calendar-day-box {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-}
-
-.sim-box {
-  text-align: center;
-}
-
-.sim-box .sim-lbl {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  font-weight: 700;
-  display: block;
-}
-
-.sim-box .sim-val {
-  font-size: 2rem;
-  font-weight: 800;
-}
-
-.sim-arrow {
-  font-size: 1.5rem;
-  color: var(--text-muted);
-}
-
-.sim-honor-preview {
-  margin-top: 12px;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-}
-
-.sim-sliders-list {
-  display: flex;
   flex-direction: column;
   gap: 12px;
 }
@@ -489,7 +455,7 @@ body.light-mode .calendar-day-box {
 }
 
 /* =========================================================
-   MORE (Yeneen / Daha Fazla) MOBILE GRID
+   MORE (Yeneen / Additional Modules) MOBILE GRID
    ========================================================= */
 .more-modules-grid {
   display: grid;
@@ -527,7 +493,7 @@ body.light-mode .calendar-day-box {
 }
 
 /* =========================================================
-   CERTIFICATE MODAL (Takdir / Teşekkür Belgesi)
+   OFFICIAL HONOR CERTIFICATE MODAL (Tableau d'Honneur)
    ========================================================= */
 .cert-modal-overlay {
   display: none;

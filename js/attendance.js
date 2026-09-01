@@ -1,4 +1,4 @@
-// Attendance Engine (Mobile-First e-Okul Devamsızlık Takip)
+// Attendance Engine (Mobile-First Campus Attendance Tracker)
 window.AttendanceEngine = {
   renderAttendanceData() {
     const data = window.ESchoolData.attendance;

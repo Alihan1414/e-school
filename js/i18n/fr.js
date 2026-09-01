@@ -227,5 +227,9 @@ window.i18n_fr = {
 
   // Generic UI
   "ui.loading": "Chargement...",
-  "ui.success_save": "Enregistré avec succès !"
+  "ui.success_save": "Enregistré avec succès !",
+
+  // PWA Keys
+  "pwa.top_install_btn": "Installer",
+  "pwa.auth_install_btn": "📲 Installer l'Application E-School"
 };

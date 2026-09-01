@@ -227,5 +227,9 @@ window.i18n_wo = {
 
   // Generic UI
   "ui.loading": "Mu ngiy duggu...",
-  "ui.success_save": "Denc nañu ko bu baax!"
+  "ui.success_save": "Denc nañu ko bu baax!",
+
+  // PWA Keys
+  "pwa.top_install_btn": "Yebal",
+  "pwa.auth_install_btn": "📲 Yebal E-School App"
 };
