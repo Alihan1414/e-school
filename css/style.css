@@ -1320,7 +1320,26 @@ button:active {
   transform: scale(0.97) !important;
 }
 
-/* Splash Screen Keyframes */
+/* Splash Screen Keyframes & Auto-Dismiss */
+#app-launch-splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999999;
+  background: radial-gradient(circle at center, #0F172A 0%, #060B14 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  animation: splashFadeOut 0.4s ease 0.5s forwards;
+}
+
+@keyframes splashFadeOut {
+  0% { opacity: 1; visibility: visible; }
+  99% { opacity: 0; visibility: visible; }
+  100% { opacity: 0; visibility: hidden; display: none; }
+}
+
 @keyframes spinRing {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -1331,6 +1350,7 @@ button:active {
   60% { transform: scaleX(0.7); transform-origin: left; }
   100% { transform: scaleX(1); transform-origin: left; }
 }
+
 
 
 
