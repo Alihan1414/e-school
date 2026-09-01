@@ -1,5 +1,5 @@
 // Service Worker for E-School Daara (PWA & Offline-First Enterprise Caching)
-const CACHE_NAME = 'eschool-daara-v9';
+const CACHE_NAME = 'eschool-daara-v10';
 
 const ASSETS_TO_CACHE = [
   './',
@@ -18,7 +18,7 @@ const ASSETS_TO_CACHE = [
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable.png',
-   './icons/apple-touch-icon.png',
+  './icons/apple-touch-icon.png',
   './icons/logo-transparent.svg',
   './icons/logo-horizontal-dark.svg',
   './js/data.js',
@@ -38,6 +38,13 @@ const ASSETS_TO_CACHE = [
   './js/api-client.js',
   './js/app.js'
 ];
+
+// Skip waiting on demand
+self.addEventListener('message', (event) => {
+  if (event.data && (event.data.type === 'SKIP_WAITING' || event.data === 'skipWaiting')) {
+    self.skipWaiting();
+  }
+});
 
 // Install Event - Precache Core Shell
 self.addEventListener('install', (event) => {

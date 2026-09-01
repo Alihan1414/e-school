@@ -1628,21 +1628,37 @@
   <script src="js/api-client.js"></script>
   <script src="js/app.js"></script>
 
-  <!-- PWA Service Worker Registration -->
+  <!-- PWA Service Worker Registration & Instant Auto-Refresh -->
   <script>
     if ('serviceWorker' in navigator) {
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
+
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
           .then(reg => {
             console.log('[PWA] Service Worker active with scope:', reg.scope);
-            // Check for updates
+            reg.update().catch(() => {});
+
+            if (reg.waiting) {
+              reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+
             reg.onupdatefound = () => {
               const installingWorker = reg.installing;
-              installingWorker.onstatechange = () => {
-                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  console.log('[PWA] New version available.');
-                }
-              };
+              if (installingWorker) {
+                installingWorker.onstatechange = () => {
+                  if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('[PWA] New version ready - auto refreshing...');
+                    installingWorker.postMessage({ type: 'SKIP_WAITING' });
+                  }
+                };
+              }
             };
           })
           .catch(err => console.warn('[PWA] Service Worker registration failed:', err));
