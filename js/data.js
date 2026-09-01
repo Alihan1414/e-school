@@ -150,5 +150,45 @@ window.ESchoolData = {
       date: "Aujourd'hui",
       urgent: true
     }
-  ]
+  ],
+
+  // Official Attendance Dataset
+  attendance: {
+    summary: { unexcused: 1.0, excused: 3.5 },
+    maxUnexcused: 10.0,
+    records: [
+      {
+        date: "2026-05-22",
+        dayName: { fr: "Vendredi", en: "Friday", es: "Viernes", wo: "Àjjuma" },
+        type: "excused",
+        hours: "2h",
+        reason: { fr: "Consultation médicale (Justifié)", en: "Medical checkup", es: "Consulta médica", wo: "Faju" }
+      },
+      {
+        date: "2026-05-14",
+        dayName: { fr: "Jeudi", en: "Thursday", es: "Jueves", wo: "Alxamis" },
+        type: "unexcused",
+        hours: "1h",
+        reason: { fr: "Retard transport scolaire", en: "School bus delay", es: "Retraso transporte", wo: "Gàddaay" }
+      }
+    ],
+    calendarDays: [
+      { day: 1, status: "present" },
+      { day: 2, status: "present" },
+      { day: 3, status: "present" },
+      { day: 4, status: "present" },
+      { day: 5, status: "excused", note: "Justifié" },
+      { day: 6, status: "weekend" },
+      { day: 7, status: "weekend" },
+      { day: 8, status: "present" },
+      { day: 9, status: "present" },
+      { day: 10, status: "late", note: "Retard 10min" },
+      { day: 11, status: "present" },
+      { day: 12, status: "present" },
+      { day: 13, status: "weekend" },
+      { day: 14, status: "weekend" },
+      { day: 15, status: "present" }
+    ]
+  }
 };
+

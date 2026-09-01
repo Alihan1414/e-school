@@ -115,16 +115,16 @@ window.OfflineSyncManager = (function() {
   window.addEventListener('online', async () => {
     console.log('[OfflineSync] Connection restored. Auto-syncing...');
     const syncedCount = await syncOfflineDataToServer();
-    if (syncedCount > 0 && typeof showToast === 'function') {
-      showToast(`Connexion rétablie : ${syncedCount} présences hors-ligne synchronisées avec succès !`);
+    if (syncedCount > 0 && window.showToastNotice) {
+      window.showToastNotice(`Connexion rétablie : ${syncedCount} présences hors-ligne synchronisées avec succès !`);
     }
     updateOnlineBadge(true);
   });
 
   window.addEventListener('offline', () => {
     console.warn('[OfflineSync] Device is offline. Offline-First mode active.');
-    if (typeof showToast === 'function') {
-      showToast('Mode Hors-Ligne activé. Les données sont sauvegardées localement.');
+    if (window.showToastNotice) {
+      window.showToastNotice('Mode Hors-Ligne activé. Les données sont sauvegardées localement.');
     }
     updateOnlineBadge(false);
   });
