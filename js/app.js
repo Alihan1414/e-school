@@ -293,6 +293,28 @@ function bootESchoolApp() {
       });
     }
 
+    // Interactive Role Tab Switcher Pills
+    document.querySelectorAll(".auth-role-tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        window.HardwareManager.vibrate(25);
+        document.querySelectorAll(".auth-role-tab-btn").forEach(b => {
+          b.classList.remove("active");
+          b.style.background = "transparent";
+          b.style.color = "#94A3B8";
+        });
+        btn.classList.add("active");
+        btn.style.background = "#10B981";
+        btn.style.color = "#FFF";
+
+        const rId = btn.getAttribute("data-role-id");
+        const rPass = btn.getAttribute("data-role-pass");
+        const idInput = document.getElementById("input-login-id");
+        const passInput = document.getElementById("input-login-pass");
+        if (idInput && rId) idInput.value = rId;
+        if (passInput && rPass) passInput.value = rPass;
+      });
+    });
+
     // Demo Chips Click to Instant Autofill and Login
     document.querySelectorAll(".demo-chip-dark").forEach(chip => {
       chip.addEventListener("click", () => {

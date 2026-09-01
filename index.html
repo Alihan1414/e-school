@@ -557,62 +557,130 @@
     <!-- =========================================================
          9. AUTH / UNIFIED SECURE LOGIN (With Forgot Password Link)
          ========================================================= -->
-    <div id="view-auth-portal" style="padding: 24px 18px; text-align: center;">
-      <!-- Corporate Brand Header with Image Logo -->
-      <div class="corporate-brand-header" style="margin-bottom: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-        <div style="width: 64px; height: 64px; border-radius: 16px; background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(16, 185, 129, 0.4); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3); display: flex; align-items: center; justify-content: center; padding: 6px; margin: 0 auto 8px auto;">
-          <img src="icons/icon-192.png" alt="E-School Daara" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+    <div id="view-auth-portal" style="padding: 20px 16px 30px 16px; text-align: center; max-width: 480px; margin: 0 auto;">
+      
+      <!-- Brand Hero Header -->
+      <div class="corporate-brand-header" style="margin-bottom: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div style="width: 76px; height: 76px; border-radius: 20px; background: radial-gradient(circle at 30% 30%, #1E293B 0%, #070D18 100%); border: 1.5px solid rgba(16, 185, 129, 0.45); box-shadow: 0 0 30px rgba(16, 185, 129, 0.35), 0 8px 24px rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; padding: 8px; margin: 0 auto 10px auto; transition: transform 0.3s ease;">
+          <img src="icons/icon-192.png" alt="E-School" style="width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));">
         </div>
-        <h1 style="font-size: 1.15rem; font-weight: 900; color: #FFFFFF; letter-spacing: 0.5px; margin: 0;">E-SCHOOL DAARA</h1>
-        <div style="font-size: 0.65rem; color: #10B981; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px;" data-i18n="app.republic">
+        <h1 style="font-size: 1.45rem; font-weight: 900; color: #FFFFFF; letter-spacing: 0.5px; margin: 0; background: linear-gradient(135deg, #FFFFFF 0%, #A7F3D0 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">E·SCHOOL DAARA</h1>
+        <div style="font-size: 0.64rem; color: #10B981; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 3px;" data-i18n="app.republic">
           RÉPUBLIQUE DU SÉNÉGAL
         </div>
-      </div>
-
-      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 20px; padding: 5px 12px; margin: 6px auto 14px auto; width: fit-content; font-size: 0.65rem; color: #10B981; font-weight: 800;" data-i18n="auth.sec_badge">
-        Enterprise Identity &amp; RBAC Access
-      </div>
-
-      <!-- Login Form -->
-      <form id="form-auth-login">
-        <div id="auth-error-notice" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; margin-bottom: 8px;"></div>
-
-        <div style="text-align: left; margin-bottom: 3px; font-size: 0.7rem; color: #94A3B8; font-weight: 700;" data-i18n="auth.id_label">
-          Identifiant / Matricule (ID)
+        <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 20px; padding: 4px 12px; margin-top: 8px; font-size: 0.62rem; color: #34D399; font-weight: 800;">
+          <span style="width: 6px; height: 6px; border-radius: 50%; background: #10B981; box-shadow: 0 0 8px #10B981;"></span>
+          <span data-i18n="auth.sec_badge">Smart School OS &amp; RBAC Portal</span>
         </div>
-        <input type="text" id="input-login-id" class="form-input-dark" placeholder="Ex: ADM-01, TCH-01, STU-101, PAR-101" value="ADM-01" required>
+      </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
-          <span style="font-size: 0.7rem; color: #94A3B8; font-weight: 700;" data-i18n="auth.pass_label">Mot de passe</span>
-          <button type="button" id="btn-trigger-forgot-pass" style="background: none; border: none; color: #38BDF8; font-size: 0.68rem; font-weight: 700; cursor: pointer; text-decoration: underline;" data-i18n="auth.forgot_pass_link">
-            Mot de passe oublié ?
+      <!-- Modern Glassmorphic Login Card -->
+      <div style="background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; padding: 18px 16px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5); margin-bottom: 16px;">
+        
+        <!-- Interactive Role Switcher Pills -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: rgba(0, 0, 0, 0.35); padding: 4px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 14px;">
+          <button type="button" class="auth-role-tab-btn active" data-role-id="ADM-01" data-role-pass="admin123" style="background: #10B981; color: #FFF; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
+            🏛️ Admin
+          </button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="TCH-01" data-role-pass="teach123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
+            👨‍🏫 Prof
+          </button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="STU-101" data-role-pass="stud123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
+            🎓 Élève
+          </button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="PAR-101" data-role-pass="parent123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
+            👨‍👩‍👧 Parent
           </button>
         </div>
-        <input type="password" id="input-login-pass" class="form-input-dark" placeholder="••••••••" value="admin123" required>
 
-        <button type="submit" class="btn-emerald-glow" data-i18n="auth.login_btn">
-          Se Connecter à E-School
-        </button>
-      </form>
+        <!-- Login Form -->
+        <form id="form-auth-login">
+          <div id="auth-error-notice" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; margin-bottom: 10px;"></div>
 
-      <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-glass); border-radius: 12px; padding: 10px; margin-top: 14px; font-size: 0.65rem; text-align: left; line-height: 1.8;">
-        <strong style="color: #10B981;" data-i18n="auth.quick_demo">Comptes de Démonstration :</strong><br>
-        • <span class="demo-chip-dark" data-cred="ADM-01:admin123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #A78BFA; cursor: pointer;">Admin : ADM-01</span><br>
-        • <span class="demo-chip-dark" data-cred="TCH-01:teach123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #34D399; cursor: pointer;">Professeur : TCH-01</span><br>
-        • <span class="demo-chip-dark" data-cred="STU-101:stud123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #38BDF8; cursor: pointer;">Élève : STU-101</span><br>
-        • <span class="demo-chip-dark" data-cred="PAR-101:parent123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #F59E0B; cursor: pointer;">Parent : PAR-101</span>
+          <div style="text-align: left; margin-bottom: 4px; font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;" data-i18n="auth.id_label">
+            <span>👤</span> Identifiant / Matricule (ID)
+          </div>
+          <input type="text" id="input-login-id" class="form-input-dark" placeholder="Ex: ADM-01, TCH-01, STU-101, PAR-101" value="ADM-01" required style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 12px; font-size: 0.82rem;">
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <span style="font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;" data-i18n="auth.pass_label">
+              <span>🔒</span> Mot de passe
+            </span>
+            <button type="button" id="btn-trigger-forgot-pass" style="background: none; border: none; color: #38BDF8; font-size: 0.68rem; font-weight: 700; cursor: pointer; text-decoration: underline;" data-i18n="auth.forgot_pass_link">
+              Mot de passe oublié ?
+            </button>
+          </div>
+          <input type="password" id="input-login-pass" class="form-input-dark" placeholder="••••••••" value="admin123" required style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 16px; font-size: 0.82rem;">
+
+          <button type="submit" class="btn-emerald-glow" style="padding: 12px; font-size: 0.88rem; font-weight: 900; letter-spacing: 0.5px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;" data-i18n="auth.login_btn">
+            <span>🚀</span>
+            <span>Se Connecter à E-School</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Quick 1-Click Access Role Cards Grid -->
+      <div style="margin-bottom: 16px; text-align: left;">
+        <div style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+          <span data-i18n="auth.quick_demo">Accès Rapide Démo (1-Click)</span>
+          <span style="font-size: 0.58rem; color: #10B981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 1px 6px; border-radius: 4px;">TOUCH TO LOGIN</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          
+          <div class="demo-chip-dark" data-cred="ADM-01:admin123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(167, 139, 250, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(167, 139, 250, 0.2); border: 1px solid #A78BFA; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
+              🏛️
+            </div>
+            <div style="overflow: hidden;">
+              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">M. Ousmane Diop</div>
+              <div style="font-size: 0.6rem; color: #A78BFA; font-weight: 700;">Direction (ADM)</div>
+            </div>
+          </div>
+
+          <div class="demo-chip-dark" data-cred="TCH-01:teach123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(52, 211, 153, 0.2); border: 1px solid #34D399; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
+              👨‍🏫
+            </div>
+            <div style="overflow: hidden;">
+              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Prof. Jean-Marc</div>
+              <div style="font-size: 0.6rem; color: #34D399; font-weight: 700;">Enseignant (TCH)</div>
+            </div>
+          </div>
+
+          <div class="demo-chip-dark" data-cred="STU-101:stud123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(56, 189, 248, 0.2); border: 1px solid #38BDF8; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
+              🎓
+            </div>
+            <div style="overflow: hidden;">
+              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Amadou Diallo</div>
+              <div style="font-size: 0.6rem; color: #38BDF8; font-weight: 700;">Élève (10-A)</div>
+            </div>
+          </div>
+
+          <div class="demo-chip-dark" data-cred="PAR-101:parent123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(245, 158, 11, 0.2); border: 1px solid #F59E0B; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
+              👨‍👩‍👧
+            </div>
+            <div style="overflow: hidden;">
+              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Moussa Diallo</div>
+              <div style="font-size: 0.6rem; color: #F59E0B; font-weight: 700;">Parent d'Élève</div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <!-- PWA One-Click Installation Banner Card -->
-      <div id="banner-pwa-install-auth" class="pwa-install-banner-card" style="display: block;">
+      <div id="banner-pwa-install-auth" class="pwa-install-banner-card" style="display: block; margin-top: 14px;">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 28px; height: 28px; border-radius: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">
+            <div style="width: 30px; height: 30px; border-radius: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; display: flex; align-items: center; justify-content: center; font-size: 0.95rem;">
               📲
             </div>
-            <div>
+            <div style="text-align: left;">
               <div style="font-size: 0.78rem; font-weight: 900; color: #FFFFFF;">Installer l'Application PWA</div>
-              <div style="font-size: 0.62rem; color: #94A3B8;">Accès bureau &amp; mobile 100% hors-ligne</div>
+              <div style="font-size: 0.62rem; color: #94A3B8;">Accès instantané &amp; mode 100% hors-ligne</div>
             </div>
           </div>
           <span style="font-size: 0.58rem; background: rgba(16, 185, 129, 0.2); color: #34D399; font-weight: 800; padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.4);">

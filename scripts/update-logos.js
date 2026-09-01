@@ -3,7 +3,7 @@ const path = require('path');
 
 async function processLogos() {
   const sharp = require('sharp');
-  const sourcePath = 'C:\\Users\\ACER\\.gemini\\antigravity-ide\\brain\\b358f680-273a-4f9f-ade2-5b217de0a334\\.user_uploaded\\media_1788298573401.png';
+  const sourcePath = 'C:\\Users\\ACER\\.gemini\\antigravity-ide\\brain\\b358f680-273a-4f9f-ade2-5b217de0a334\\.user_uploaded\\media_1788303017276.png';
   const outDir = path.resolve(__dirname, '../icons');
 
   if (!fs.existsSync(sourcePath)) {
