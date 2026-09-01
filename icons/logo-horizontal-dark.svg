@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 180" width="100%" height="100%">
+  <defs>
+    <linearGradient id="dhRoof" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F5A0" />
+      <stop offset="50%" stop-color="#00D084" />
+      <stop offset="100%" stop-color="#00A86B" />
+    </linearGradient>
+
+    <linearGradient id="dhCap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00F5A0" />
+      <stop offset="100%" stop-color="#00A86B" />
+    </linearGradient>
+
+    <linearGradient id="dhLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E699" />
+      <stop offset="100%" stop-color="#008050" />
+    </linearGradient>
+
+    <linearGradient id="dhRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D084" />
+      <stop offset="100%" stop-color="#006A40" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left Emblem -->
+  <g transform="translate(16, 12) scale(0.31)">
+    <!-- School House Frame -->
+    <path d="M 256,52 L 426,160 L 384,188 L 384,360 L 256,460 L 128,360 L 128,188 L 86,160 Z"
+          fill="none" stroke="url(#dhRoof)" stroke-width="28" stroke-linejoin="round" stroke-linecap="round" />
+
+    <!-- Cap Diamond -->
+    <polygon points="256,128 340,168 256,208 172,168" fill="url(#dhCap)" stroke="#0B1E36" stroke-width="5" stroke-linejoin="round" />
+    
+    <!-- Cap Neck -->
+    <path d="M 212,192 C 212,228 300,228 300,192 L 290,182 C 280,212 232,212 222,182 Z" fill="#008050" stroke="#0B1E36" stroke-width="3" />
+
+    <!-- Left Book Page -->
+    <path d="M 242,246 L 164,258 C 152,272 152,352 164,372 L 242,424 Z" fill="url(#dhLeft)" stroke="#0B1E36" stroke-width="5" stroke-linejoin="round" />
+
+    <!-- Right Book Page -->
+    <path d="M 270,246 L 348,258 C 360,272 360,352 348,372 L 270,424 Z" fill="url(#dhRight)" stroke="#0B1E36" stroke-width="5" stroke-linejoin="round" />
+  </g>
+
+  <!-- Right Typography for Dark Theme -->
+  <g transform="translate(185, 0)">
+    <!-- E-SCHOOL -->
+    <text x="0" y="68" 
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="44" 
+          font-weight="900" 
+          fill="#FFFFFF" 
+          letter-spacing="0.5px">E-SCHOOL</text>
+
+    <!-- DAARA -->
+    <text x="0" y="118" 
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="44" 
+          font-weight="900" 
+          fill="#FFFFFF" 
+          letter-spacing="0.5px">DAARA</text>
+
+    <!-- SMART SCHOOL OS -->
+    <text x="2" y="152" 
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="21" 
+          font-weight="800" 
+          fill="#00F5A0" 
+          letter-spacing="3.2px">SMART SCHOOL OS</text>
+  </g>
+</svg>

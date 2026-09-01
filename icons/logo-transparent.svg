@@ -1,41 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
   <defs>
-    <!-- Gradients matching the user logo image -->
-    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="tRoofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#00D084" />
       <stop offset="50%" stop-color="#00A86B" />
       <stop offset="100%" stop-color="#008050" />
     </linearGradient>
 
-    <linearGradient id="capGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <linearGradient id="tCapGrad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#00D084" />
       <stop offset="100%" stop-color="#008552" />
     </linearGradient>
 
-    <linearGradient id="leftPageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="tLeftPageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#00C48C" />
       <stop offset="60%" stop-color="#009A60" />
       <stop offset="100%" stop-color="#006A40" />
     </linearGradient>
 
-    <linearGradient id="rightPageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="tRightPageGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#00B87A" />
       <stop offset="60%" stop-color="#008A54" />
       <stop offset="100%" stop-color="#005834" />
     </linearGradient>
-
-    <filter id="subtleShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.15" />
-    </filter>
   </defs>
 
-  <!-- Background container for app icons (rounded container or transparent) -->
-  <rect width="512" height="512" rx="105" fill="#0A1120" />
-
-  <!-- The Exact Geometric School & Graduation Emblem -->
-  <g transform="translate(0, 0)" filter="url(#subtleShadow)">
-    
-    <!-- Outer School Building Outline (Thick Green Stroke) -->
+  <g transform="translate(0, 0)">
+    <!-- Outer School Building Outline -->
     <path d="M 256,52 
              L 426,160 
              L 384,188 
@@ -45,20 +35,19 @@
              L 128,188 
              L 86,160 Z"
           fill="none" 
-          stroke="url(#roofGrad)" 
+          stroke="url(#tRoofGrad)" 
           stroke-width="26" 
           stroke-linejoin="round" 
           stroke-linecap="round" />
 
     <!-- Top: Graduation Cap / Mortarboard -->
-    <!-- Cap Diamond Top -->
     <polygon points="256,128 340,168 256,208 172,168" 
-             fill="url(#capGrad)" 
+             fill="url(#tCapGrad)" 
              stroke="#FFFFFF" 
              stroke-width="4" 
              stroke-linejoin="round" />
 
-    <!-- Cap Lower Band / Neck -->
+    <!-- Cap Lower Band -->
     <path d="M 212,192 
              C 212,228 300,228 300,192 
              L 290,182 
@@ -67,23 +56,22 @@
           stroke="#FFFFFF" 
           stroke-width="2" />
 
-    <!-- Bottom: Open Book / Growth Leaves -->
-    <!-- Left Leaf / Page -->
+    <!-- Bottom: Left Leaf / Page -->
     <path d="M 242,246 
              L 164,258 
              C 152,272 152,352 164,372 
              L 242,424 Z" 
-          fill="url(#leftPageGrad)" 
+          fill="url(#tLeftPageGrad)" 
           stroke="#FFFFFF" 
           stroke-width="4" 
           stroke-linejoin="round" />
 
-    <!-- Right Leaf / Page -->
+    <!-- Bottom: Right Leaf / Page -->
     <path d="M 270,246 
              L 348,258 
              C 360,272 360,352 348,372 
              L 270,424 Z" 
-          fill="url(#rightPageGrad)" 
+          fill="url(#tRightPageGrad)" 
           stroke="#FFFFFF" 
           stroke-width="4" 
           stroke-linejoin="round" />

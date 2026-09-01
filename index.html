@@ -529,10 +529,9 @@
       </div>
 
       <div style="text-align: center; margin-bottom: 16px;">
-        <div class="corporate-crest-frame" style="margin: 0 auto 10px auto; width: 68px; height: 68px;">
-          <img src="icons/logo.svg" alt="E-School Crest">
+        <div style="max-width: 250px; margin: 0 auto 8px auto;">
+          <img src="icons/logo-horizontal-dark.svg" alt="E-School Daara - Smart School OS" style="width: 100%; height: auto; display: block;">
         </div>
-        <div style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF;">E-School Daara OS</div>
         <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 2px;">
           Installez l'application officielle sur votre téléphone, tablette ou ordinateur pour un accès instantané et sécurisé.
         </div>
@@ -595,6 +594,7 @@
     <!-- Top Status Bar with 4 Languages, Global Search, PWA Install, Theme Toggle & Live Clock -->
     <div class="phone-top-bar" style="display: flex; justify-content: space-between; align-items: center;">
       <div style="display: flex; align-items: center; gap: 6px;">
+        <img src="icons/logo-transparent.svg" alt="E-School Daara" style="width: 18px; height: 18px; object-fit: contain;">
         <span id="live-phone-clock" style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">00:00:00</span>
         <button id="btn-global-quick-search-trigger" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; padding: 2px 7px; border-radius: 6px; font-size: 0.65rem; display: flex; align-items: center; gap: 4px; cursor: pointer;" title="Recherche Globale (Ctrl+K)">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -642,24 +642,17 @@
          9. AUTH / UNIFIED SECURE LOGIN (With Forgot Password Link)
          ========================================================= -->
     <div id="view-auth-portal" style="padding: 24px 18px; text-align: center;">
-      <!-- Corporate Brand Crest Emblem -->
-      <div class="corporate-logo-container">
-        <div class="corporate-crest-frame">
-          <img src="icons/logo.svg" alt="E-School Daara Official Crest">
+      <!-- Corporate Brand Header with Image Logo -->
+      <div class="corporate-brand-header" style="margin-bottom: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <div style="max-width: 270px; width: 100%; margin: 0 auto 6px auto;">
+          <img src="icons/logo-horizontal-dark.svg" alt="E-School Daara - Smart School OS" style="width: 100%; height: auto; display: block; filter: drop-shadow(0 6px 16px rgba(0, 208, 132, 0.25));">
+        </div>
+        <div style="font-size: 0.65rem; color: #10B981; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;" data-i18n="app.republic">
+          RÉPUBLIQUE DU SÉNÉGAL
         </div>
       </div>
-      
-      <div style="font-size: 0.65rem; color: #10B981; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;" data-i18n="app.republic">
-        RÉPUBLIQUE DU SÉNÉGAL
-      </div>
-      <h1 style="font-size: 1.35rem; font-weight: 900; letter-spacing: -0.5px; color: #FFFFFF; margin-top: 2px;" data-i18n="app.title">
-        E-School Daara
-      </h1>
-      <p style="font-size: 0.72rem; color: #94A3B8; margin-top: 2px;" data-i18n="app.tagline">
-        L'application scolaire intelligente qui connecte toute la communauté éducative.
-      </p>
 
-      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 20px; padding: 5px 12px; margin: 12px auto 14px auto; width: fit-content; font-size: 0.65rem; color: #10B981; font-weight: 800;" data-i18n="auth.sec_badge">
+      <div style="display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 20px; padding: 5px 12px; margin: 6px auto 14px auto; width: fit-content; font-size: 0.65rem; color: #10B981; font-weight: 800;" data-i18n="auth.sec_badge">
         Enterprise Identity &amp; RBAC Access
       </div>
 

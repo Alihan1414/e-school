@@ -1,66 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 180" width="100%" height="100%">
   <defs>
-    <linearGradient id="hBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10B981" />
-      <stop offset="50%" stop-color="#00F5D4" />
-      <stop offset="100%" stop-color="#38BDF8" />
+    <linearGradient id="hRoof" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D084" />
+      <stop offset="50%" stop-color="#00A86B" />
+      <stop offset="100%" stop-color="#008050" />
     </linearGradient>
-    <linearGradient id="hEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#34D399" />
-      <stop offset="100%" stop-color="#059669" />
+
+    <linearGradient id="hCap" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00D084" />
+      <stop offset="100%" stop-color="#008552" />
     </linearGradient>
-    <linearGradient id="hGold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FDE047" />
-      <stop offset="100%" stop-color="#D97706" />
+
+    <linearGradient id="hLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00C48C" />
+      <stop offset="100%" stop-color="#006A40" />
     </linearGradient>
-    <filter id="hGlow">
-      <feGaussianBlur stdDeviation="4" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
+
+    <linearGradient id="hRight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00B87A" />
+      <stop offset="100%" stop-color="#005834" />
+    </linearGradient>
   </defs>
 
-  <!-- Left Icon Emblem (Compact 110x110) -->
-  <g transform="translate(15, 15)">
-    <!-- Base -->
-    <rect width="110" height="110" rx="26" fill="#0A1120" stroke="url(#hBorderGrad)" stroke-width="2.5" />
+  <!-- Left Emblem (Scaled & Fitted) -->
+  <g transform="translate(16, 12) scale(0.31)">
+    <!-- School House Frame -->
+    <path d="M 256,52 L 426,160 L 384,188 L 384,360 L 256,460 L 128,360 L 128,188 L 86,160 Z"
+          fill="none" stroke="url(#hRoof)" stroke-width="28" stroke-linejoin="round" stroke-linecap="round" />
+
+    <!-- Cap Diamond -->
+    <polygon points="256,128 340,168 256,208 172,168" fill="url(#hCap)" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round" />
     
-    <!-- Shield -->
-    <path d="M55 18 C78 18 90 23 90 38 C90 70 75 88 55 98 C35 88 20 70 20 38 C20 23 32 18 55 18 Z"
-          fill="#1E293B" stroke="url(#hBorderGrad)" stroke-width="2" />
-    
-    <!-- Mortarboard -->
-    <polygon points="55,24 76,32 55,40 34,32" fill="url(#hEmerald)" />
-    <circle cx="55" cy="32" r="2" fill="#FDE047" />
-    
-    <!-- Stylized E & Spark -->
-    <path d="M38,48 C45,43 53,43 55,48 L55,75 C53,72 45,72 38,76 Z" fill="#0284C7" />
-    <path d="M72,48 C65,43 57,43 55,48 L55,75 C57,72 65,72 72,76 Z" fill="url(#hEmerald)" />
-    
-    <rect x="42" y="52" width="26" height="3" rx="1.5" fill="#FFFFFF" />
-    <rect x="45" y="60" width="20" height="3" rx="1.5" fill="#00F5D4" />
-    <rect x="42" y="68" width="26" height="3" rx="1.5" fill="#10B981" />
-    
-    <polygon points="55,57 56,60 59,61 56,62 55,65 54,62 51,61 54,60" fill="#FDE047" />
+    <!-- Cap Neck -->
+    <path d="M 212,192 C 212,228 300,228 300,192 L 290,182 C 280,212 232,212 222,182 Z" fill="#007044" stroke="#FFFFFF" stroke-width="3" />
+
+    <!-- Left Book Page -->
+    <path d="M 242,246 L 164,258 C 152,272 152,352 164,372 L 242,424 Z" fill="url(#hLeft)" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round" />
+
+    <!-- Right Book Page -->
+    <path d="M 270,246 L 348,258 C 360,272 360,352 348,372 L 270,424 Z" fill="url(#hRight)" stroke="#FFFFFF" stroke-width="5" stroke-linejoin="round" />
   </g>
 
-  <!-- Typography Right -->
-  <g transform="translate(145, 0)">
-    <!-- Sub-badge -->
-    <rect x="0" y="24" width="140" height="18" rx="9" fill="rgba(16, 185, 129, 0.15)" stroke="#10B981" stroke-width="1" />
-    <text x="70" y="36.5" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="900" fill="#34D399" text-anchor="middle" letter-spacing="1.5">REPUBLIQUE DU SENEGAL</text>
+  <!-- Right Typography (Exact Font & Style from image) -->
+  <g transform="translate(185, 0)">
+    <!-- E-SCHOOL -->
+    <text x="0" y="68" 
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="44" 
+          font-weight="900" 
+          fill="#0B1E36" 
+          letter-spacing="0.5px">E-SCHOOL</text>
 
-    <!-- Main Title -->
-    <text x="0" y="72" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="900" fill="#FFFFFF" letter-spacing="-0.5">
-      E-SCHOOL <tspan fill="#10B981">DAARA</tspan>
-    </text>
+    <!-- DAARA -->
+    <text x="0" y="118" 
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="44" 
+          font-weight="900" 
+          fill="#0B1E36" 
+          letter-spacing="0.5px">DAARA</text>
 
-    <!-- Tagline -->
-    <text x="0" y="96" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
-      DIGITAL SCHOOL MANAGEMENT OPERATING SYSTEM
-    </text>
-
-    <text x="0" y="116" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="10.5" font-weight="800" fill="#38BDF8" letter-spacing="1.2">
-      ENTERPRISE ACADEMIC OS • PWA READY
-    </text>
+    <!-- SMART SCHOOL OS -->
+    <text x="2" y="152" 
+          font-family="system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" 
+          font-size="21" 
+          font-weight="800" 
+          fill="#00A86B" 
+          letter-spacing="3.2px">SMART SCHOOL OS</text>
   </g>
 </svg>
