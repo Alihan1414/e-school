@@ -180,13 +180,22 @@ window.FirebaseESchoolService = {
     return { success: true, excuseId: 'EXC-' + Math.floor(1000 + Math.random() * 9000) };
   },
 
-  async saveQuizResult(studentId, quizTitle, score) {
+  async saveQuizResult(param1, param2, param3) {
+    let payload = {};
+    if (typeof param1 === 'object' && param1 !== null) {
+      payload = param1;
+    } else {
+      payload = { studentId: param1, quizTitle: param2, score: param3 };
+    }
     if (window.db) {
       try {
         await window.db.collection('quiz_results').add({
-          studentId: studentId || 'STU-101',
-          quizTitle,
-          score,
+          studentId: payload.studentId || 'STU-101',
+          studentName: payload.studentName || 'Amadou Diallo',
+          quizTitle: payload.quizTitle || 'Quiz Daara AI',
+          score: payload.score !== undefined ? payload.score : 100,
+          totalQuestions: payload.totalQuestions || 4,
+          correctCount: payload.correctCount || 4,
           timestamp: new Date().toISOString()
         });
         console.log("🔥 Quiz assessment score saved to Cloud Firestore!");

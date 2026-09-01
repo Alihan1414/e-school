@@ -191,8 +191,24 @@ window.HardwareManager = {
         navigator.vibrate(pattern);
       } catch (e) {}
     }
+  },
+
+  showToast(msg) {
+    let toast = document.getElementById("toast-notice-box");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "toast-notice-box";
+      toast.className = "toast-dark";
+      document.body.appendChild(toast);
+    }
+    toast.innerText = msg;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2800);
   }
 };
 
+window.showToastNotice = (msg) => window.HardwareManager.showToast(msg);
 window.HardwareManager.init();
 

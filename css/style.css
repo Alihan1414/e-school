@@ -273,9 +273,9 @@ body {
     border-left: none !important;
     border-right: none !important;
     border-bottom: none !important;
-    padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 0px)) 4px !important;
+    padding: 8px 4px calc(10px + env(safe-area-inset-bottom, 0px)) 4px !important;
     box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.8) !important;
-    z-index: 9999 !important;
+    z-index: 99999 !important;
   }
 
   .bottom-tab-item {
