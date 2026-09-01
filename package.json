@@ -1,0 +1,16 @@
+{
+  "name": "e-school-daara",
+  "version": "2.0.0",
+  "description": "E-School Daara - Enterprise Digital School Management OS & PWA",
+  "main": "server_backend/server.js",
+  "scripts": {
+    "start": "node server_backend/server.js",
+    "build-icons": "node scripts/build-assets.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "cors": "^2.8.6",
+    "express": "^4.22.2",
+    "sqlite3": "^6.0.1"
+  }
+}

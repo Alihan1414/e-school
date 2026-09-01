@@ -1,44 +1,63 @@
-// Service Worker for E-School Daara (PWA & Offline-First Caching)
-const CACHE_NAME = 'eschool-daara-v2';
+// Service Worker for E-School Daara (PWA & Offline-First Enterprise Caching)
+const CACHE_NAME = 'eschool-daara-v3';
+
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/presentation.html',
-  '/manifest.json',
-  '/css/style.css',
-  '/css/dashboard.css',
-  '/css/print.css',
-  '/js/data.js',
-  '/js/hardware-manager.js',
-  '/js/i18n-engine.js',
-  '/js/i18n/fr.js',
-  '/js/i18n/wo.js',
-  '/js/i18n/en.js',
-  '/js/i18n/es.js',
-  '/js/firebase-config.js',
-  '/js/firebase-service.js',
-  '/js/api-client.js',
-  '/js/app.js'
+  './',
+  './index.html',
+  './presentation.html',
+  './manifest.json',
+  './css/style.css',
+  './css/dashboard.css',
+  './css/print.css',
+  './icons/logo.svg',
+  './icons/logo-horizontal.svg',
+  './icons/favicon.svg',
+  './icons/favicon-32x32.png',
+  './icons/favicon-16x16.png',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable.png',
+  './icons/apple-touch-icon.png',
+  './js/data.js',
+  './js/hardware-manager.js',
+  './js/i18n-engine.js',
+  './js/i18n/fr.js',
+  './js/i18n/wo.js',
+  './js/i18n/en.js',
+  './js/i18n/es.js',
+  './js/offline-sync.js',
+  './js/attendance.js',
+  './js/grades.js',
+  './js/firebase-config.js',
+  './js/firebase-service.js',
+  './js/api-client.js',
+  './js/app.js'
 ];
 
-// Install Event
+// Install Event - Precache Core Shell
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('[Service Worker] Caching app shell and offline assets');
-      return cache.addAll(ASSETS_TO_CACHE);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      console.log('[Service Worker] Precaching app shell and corporate assets');
+      for (const url of ASSETS_TO_CACHE) {
+        try {
+          await cache.add(url);
+        } catch (err) {
+          console.warn('[Service Worker] Pre-cache skip for:', url, err.message);
+        }
+      }
     }).then(() => self.skipWaiting())
   );
 });
 
-// Activate Event
+// Activate Event - Clean old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
           if (key !== CACHE_NAME) {
-            console.log('[Service Worker] Removing old cache', key);
+            console.log('[Service Worker] Purging old cache version:', key);
             return caches.delete(key);
           }
         })
@@ -47,35 +66,48 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch Event (Network-First with Cache Fallback for dynamic data, Cache-First for static assets)
+// Fetch Event - Stale While Revalidate / Network First with Cache Fallback
 self.addEventListener('fetch', (event) => {
-  // Ignore non-GET requests or external chrome-extension schemes
   if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
     return;
   }
 
-  event.respondWith(
-    fetch(event.request)
-      .then((networkResponse) => {
-        // Cache valid responses dynamically
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
+  // Handle HTML navigation requests
+  if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const copy = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          return caches.match(event.request).then((cached) => {
+            return cached || caches.match('./index.html') || caches.match('/index.html');
           });
-        }
-        return networkResponse;
-      })
-      .catch(() => {
-        // Fallback to cache when offline
-        return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
+        })
+    );
+    return;
+  }
+
+  // Handle static assets & APIs
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      const fetchPromise = fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
           }
-          if (event.request.headers.get('accept').includes('text/html')) {
-            return caches.match('/index.html');
-          }
-        });
-      })
+          return networkResponse;
+        })
+        .catch(() => cachedResponse);
+
+      return cachedResponse || fetchPromise;
+    })
   );
 });

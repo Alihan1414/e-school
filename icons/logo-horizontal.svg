@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" width="100%" height="100%">
+  <defs>
+    <linearGradient id="hBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="50%" stop-color="#00F5D4" />
+      <stop offset="100%" stop-color="#38BDF8" />
+    </linearGradient>
+    <linearGradient id="hEmerald" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="hGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+    <filter id="hGlow">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Left Icon Emblem (Compact 110x110) -->
+  <g transform="translate(15, 15)">
+    <!-- Base -->
+    <rect width="110" height="110" rx="26" fill="#0A1120" stroke="url(#hBorderGrad)" stroke-width="2.5" />
+    
+    <!-- Shield -->
+    <path d="M55 18 C78 18 90 23 90 38 C90 70 75 88 55 98 C35 88 20 70 20 38 C20 23 32 18 55 18 Z"
+          fill="#1E293B" stroke="url(#hBorderGrad)" stroke-width="2" />
+    
+    <!-- Mortarboard -->
+    <polygon points="55,24 76,32 55,40 34,32" fill="url(#hEmerald)" />
+    <circle cx="55" cy="32" r="2" fill="#FDE047" />
+    
+    <!-- Stylized E & Spark -->
+    <path d="M38,48 C45,43 53,43 55,48 L55,75 C53,72 45,72 38,76 Z" fill="#0284C7" />
+    <path d="M72,48 C65,43 57,43 55,48 L55,75 C57,72 65,72 72,76 Z" fill="url(#hEmerald)" />
+    
+    <rect x="42" y="52" width="26" height="3" rx="1.5" fill="#FFFFFF" />
+    <rect x="45" y="60" width="20" height="3" rx="1.5" fill="#00F5D4" />
+    <rect x="42" y="68" width="26" height="3" rx="1.5" fill="#10B981" />
+    
+    <polygon points="55,57 56,60 59,61 56,62 55,65 54,62 51,61 54,60" fill="#FDE047" />
+  </g>
+
+  <!-- Typography Right -->
+  <g transform="translate(145, 0)">
+    <!-- Sub-badge -->
+    <rect x="0" y="24" width="140" height="18" rx="9" fill="rgba(16, 185, 129, 0.15)" stroke="#10B981" stroke-width="1" />
+    <text x="70" y="36.5" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="900" fill="#34D399" text-anchor="middle" letter-spacing="1.5">REPUBLIQUE DU SENEGAL</text>
+
+    <!-- Main Title -->
+    <text x="0" y="72" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="32" font-weight="900" fill="#FFFFFF" letter-spacing="-0.5">
+      E-SCHOOL <tspan fill="#10B981">DAARA</tspan>
+    </text>
+
+    <!-- Tagline -->
+    <text x="0" y="96" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#94A3B8" letter-spacing="0.5">
+      DIGITAL SCHOOL MANAGEMENT OPERATING SYSTEM
+    </text>
+
+    <text x="0" y="116" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-size="10.5" font-weight="800" fill="#38BDF8" letter-spacing="1.2">
+      ENTERPRISE ACADEMIC OS • PWA READY
+    </text>
+  </g>
+</svg>

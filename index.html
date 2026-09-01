@@ -6,12 +6,17 @@
   <title>E-School Daara - Digital School Management OS</title>
   
   <!-- PWA Web App Manifest & Mobile OS Standalone Meta Tags -->
+  <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#10B981">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="E-School Daara">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <meta name="description" content="Système d'Exploitation Numérique Scolaire & Gestion d'Établissement - E-School Daara">
 
   <link rel="stylesheet" href="css/style.css">
   
@@ -505,15 +510,99 @@
   </div>
 
 
+  <!-- =========================================================
+       6G. CORPORATE PWA INSTALLATION & ONBOARDING MODAL
+       ========================================================= -->
+  <div id="modal-pwa-install-details" class="permissions-overlay-modal" style="display: none;">
+    <div class="permissions-modal-card" style="max-width: 440px; text-align: left; padding: 22px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 10px; margin-bottom: 14px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; display: flex; align-items: center; justify-content: center;">
+            <img src="icons/favicon.svg" alt="Logo" style="width: 22px; height: 22px;">
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; font-weight: 900; color: #FFFFFF;">INSTALLER E-SCHOOL DAARA</div>
+            <div style="font-size: 0.62rem; color: #10B981; font-weight: 800;">Application Scolaire Progressive (PWA)</div>
+          </div>
+        </div>
+        <button id="btn-pwa-modal-close" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div class="corporate-crest-frame" style="margin: 0 auto 10px auto; width: 68px; height: 68px;">
+          <img src="icons/logo.svg" alt="E-School Crest">
+        </div>
+        <div style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF;">E-School Daara OS</div>
+        <div style="font-size: 0.72rem; color: #94A3B8; margin-top: 2px;">
+          Installez l'application officielle sur votre téléphone, tablette ou ordinateur pour un accès instantané et sécurisé.
+        </div>
+      </div>
+
+      <!-- Feature Grid -->
+      <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 1.1rem;">⚡</span>
+          <div>
+            <strong style="font-size: 0.76rem; color: #FFF;">Lancement Instantané &amp; Plein Écran</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;">Fonctionne comme une application native sans barre de navigateur.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 1.1rem;">📴</span>
+          <div>
+            <strong style="font-size: 0.76rem; color: #34D399;">Disponibilité 100% Hors-Ligne</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;">Consultez vos notes, devoirs et emplois du temps même sans connexion Internet.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: flex-start; gap: 10px;">
+          <span style="font-size: 1.1rem;">🔔</span>
+          <div>
+            <strong style="font-size: 0.76rem; color: #38BDF8;">Notifications Push &amp; Alertes</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;">Recevez instantanément les alertes de notes, présences et reçus de paiement.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Standard Prompt Action Box -->
+      <div id="pwa-standard-action-box">
+        <div style="display: flex; gap: 8px;">
+          <button id="btn-pwa-modal-confirm" class="btn-emerald-glow" style="flex: 2; padding: 12px; font-size: 0.8rem; font-weight: 900;">
+            📲 Installer l'Application
+          </button>
+          <button id="btn-pwa-modal-dismiss" style="flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; border-radius: 12px; font-weight: 700; font-size: 0.74rem; cursor: pointer;">
+            Plus tard
+          </button>
+        </div>
+      </div>
+
+      <!-- iOS Safari Helper Box -->
+      <div id="pwa-ios-guide-box" style="display: none; background: rgba(56, 189, 248, 0.1); border: 1px solid #38BDF8; border-radius: 10px; padding: 12px;">
+        <div style="font-size: 0.75rem; font-weight: 800; color: #38BDF8; margin-bottom: 6px;">
+          Guide d'Installation iPhone / iPad (Safari) :
+        </div>
+        <ol style="font-size: 0.7rem; color: #E2E8F0; padding-left: 18px; line-height: 1.6;">
+          <li>Appuyez sur l'icône <strong>Partager</strong> <span style="font-size: 0.85rem;">⎋</span> en bas de l'écran.</li>
+          <li>Faites défiler le menu et appuyez sur <strong>Sur l'écran d'accueil ➕</strong>.</li>
+          <li>Validez en appuyant sur <strong>Ajouter</strong> en haut à droite.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+
   <div class="phone-viewport-wrapper">
 
-    <!-- Top Status Bar with 4 Languages, Global Search, Theme Toggle & Live Clock -->
+    <!-- Top Status Bar with 4 Languages, Global Search, PWA Install, Theme Toggle & Live Clock -->
     <div class="phone-top-bar" style="display: flex; justify-content: space-between; align-items: center;">
       <div style="display: flex; align-items: center; gap: 6px;">
         <span id="live-phone-clock" style="font-family: var(--font-mono); font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">00:00:00</span>
         <button id="btn-global-quick-search-trigger" style="background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; padding: 2px 7px; border-radius: 6px; font-size: 0.65rem; display: flex; align-items: center; gap: 4px; cursor: pointer;" title="Recherche Globale (Ctrl+K)">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <span style="font-family: monospace; font-size: 0.58rem; background: rgba(0,0,0,0.3); padding: 1px 3px; border-radius: 3px;">⌘K</span>
+        </button>
+        <button id="btn-pwa-install-top" class="btn-pwa-top-install" style="display: none;" title="Installer l'application E-School sur votre appareil">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Yükle</span>
         </button>
       </div>
 
@@ -553,8 +642,11 @@
          9. AUTH / UNIFIED SECURE LOGIN (With Forgot Password Link)
          ========================================================= -->
     <div id="view-auth-portal" style="padding: 24px 18px; text-align: center;">
-      <div style="width: 52px; height: 52px; margin: 0 auto 12px auto; border-radius: 14px; background: #0F172A; border: 1px solid var(--border-emerald); display: flex; align-items: center; justify-content: center; color: var(--senegal-green); box-shadow: 0 0 20px var(--senegal-green-glow);">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+      <!-- Corporate Brand Crest Emblem -->
+      <div class="corporate-logo-container">
+        <div class="corporate-crest-frame">
+          <img src="icons/logo.svg" alt="E-School Daara Official Crest">
+        </div>
       </div>
       
       <div style="font-size: 0.65rem; color: #10B981; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;" data-i18n="app.republic">
@@ -599,6 +691,47 @@
         • <span class="demo-chip-dark" data-cred="TCH-01:teach123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #34D399; cursor: pointer;">Professeur : TCH-01</span><br>
         • <span class="demo-chip-dark" data-cred="STU-101:stud123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #38BDF8; cursor: pointer;">Élève : STU-101</span><br>
         • <span class="demo-chip-dark" data-cred="PAR-101:parent123" style="background: #1E293B; padding: 2px 6px; border-radius: 4px; color: #F59E0B; cursor: pointer;">Parent : PAR-101</span>
+      </div>
+
+      <!-- PWA One-Click Installation Banner Card -->
+      <div id="banner-pwa-install-auth" class="pwa-install-banner-card" style="display: block;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 28px; height: 28px; border-radius: 8px; background: rgba(16, 185, 129, 0.2); border: 1px solid #10B981; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">
+              📲
+            </div>
+            <div>
+              <div style="font-size: 0.78rem; font-weight: 900; color: #FFFFFF;">Installer l'Application PWA</div>
+              <div style="font-size: 0.62rem; color: #94A3B8;">Accès bureau &amp; mobile 100% hors-ligne</div>
+            </div>
+          </div>
+          <span style="font-size: 0.58rem; background: rgba(16, 185, 129, 0.2); color: #34D399; font-weight: 800; padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.4);">
+            OFFICIEL
+          </span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px;">
+          <div class="pwa-feature-pill">
+            <span class="icon">⚡</span>
+            <span>Accès Direct</span>
+          </div>
+          <div class="pwa-feature-pill">
+            <span class="icon">📴</span>
+            <span>100% Hors-Ligne</span>
+          </div>
+          <div class="pwa-feature-pill">
+            <span class="icon">🔔</span>
+            <span>Notifications Push</span>
+          </div>
+          <div class="pwa-feature-pill">
+            <span class="icon">🛡️</span>
+            <span>Chiffrement Local</span>
+          </div>
+        </div>
+
+        <button type="button" id="btn-pwa-install-auth" class="btn-emerald-glow" style="padding: 9px; font-size: 0.76rem; background: linear-gradient(135deg, #10B981 0%, #0D9488 100%);">
+          📲 E-School'u Cihaza Yükle / Installer
+        </button>
       </div>
     </div>
 
@@ -1337,11 +1470,19 @@
        15. HIDDEN PRINTABLE OFFICIAL SENEGALESE PDF TRANSCRIPT TEMPLATE
        ========================================================= -->
   <div id="official-pdf-transcript-template" style="display: none; width: 750px; padding: 30px; background: #FFFFFF; color: #0F172A; font-family: 'Inter', sans-serif;">
-    <div style="text-align: center; border-bottom: 2px solid #00853F; padding-bottom: 14px; margin-bottom: 18px;">
-      <div style="font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #00853F;" data-i18n="app.republic">RÉPUBLIQUE DU SÉNÉGAL</div>
-      <div style="font-size: 9px; color: #64748B;">Ministère de l'Éducation Nationale • Inspection d'Académie de Dakar</div>
-      <h2 style="font-size: 18px; font-weight: 900; color: #0F172A; margin: 6px 0 2px 0;">BULLETIN OFFICIEL TRIMESTRIEL</h2>
-      <div style="font-size: 10px; font-weight: 700; color: #059669;" data-i18n="prof.school">Lycée d'Excellence Sénégalo-Turc • Année Scolaire 2025-2026</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #00853F; padding-bottom: 14px; margin-bottom: 18px;">
+      <div style="width: 54px; height: 54px;">
+        <img src="icons/logo.svg" alt="E-School Daara Crest" style="width: 100%; height: 100%; object-fit: contain;">
+      </div>
+      <div style="text-align: center; flex: 1;">
+        <div style="font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #00853F;" data-i18n="app.republic">RÉPUBLIQUE DU SÉNÉGAL</div>
+        <div style="font-size: 9px; color: #64748B;">Ministère de l'Éducation Nationale • Inspection d'Académie de Dakar</div>
+        <h2 style="font-size: 17px; font-weight: 900; color: #0F172A; margin: 4px 0 2px 0;">BULLETIN OFFICIEL TRIMESTRIEL</h2>
+        <div style="font-size: 10px; font-weight: 700; color: #059669;" data-i18n="prof.school">Lycée d'Excellence Sénégalo-Turc • Année Scolaire 2025-2026</div>
+      </div>
+      <div style="width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; border: 1.5px dashed #00853F; border-radius: 8px; font-size: 8px; font-weight: 800; color: #00853F; text-align: center; line-height: 1.2;">
+        SCEAU<br>OFFICIEL
+      </div>
     </div>
 
     <div style="display: flex; justify-content: space-between; font-size: 11px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px; margin-bottom: 18px;">
@@ -1420,6 +1561,9 @@
   <script src="js/hardware-manager.js"></script>
   <script src="js/data.js"></script>
 
+  <!-- PWA Installation Controller -->
+  <script src="js/pwa-installer.js"></script>
+
   <!-- Offline-First & Auto-Sync Module -->
   <script src="js/offline-sync.js"></script>
   <script src="js/firebase-config.js"></script>
@@ -1431,8 +1575,19 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('[PWA] Service Worker active with scope:', reg.scope))
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => {
+            console.log('[PWA] Service Worker active with scope:', reg.scope);
+            // Check for updates
+            reg.onupdatefound = () => {
+              const installingWorker = reg.installing;
+              installingWorker.onstatechange = () => {
+                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log('[PWA] New version available.');
+                }
+              };
+            };
+          })
           .catch(err => console.warn('[PWA] Service Worker registration failed:', err));
       });
     }
