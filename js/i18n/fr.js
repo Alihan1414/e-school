@@ -18,6 +18,8 @@ window.i18n_fr = {
   "perm.cam_desc": "Pour scanner les QR codes de présence et envoyer les devoirs.",
   "perm.loc_title": "Géolocalisation & Présence Campus",
   "perm.loc_desc": "Vérifie la présence physique dans l'enceinte de l'école.",
+  "perm.bio_title": "Biométrie & Reconnaissance Sécurisée",
+  "perm.bio_desc": "Connexion ultra-rapide par empreinte ou Face ID.",
   "perm.grant_all_btn": "Activer Toutes les Autorisations",
   "perm.notif_active_msg": "E-School Daara : Les notifications sont désormais actives !",
 

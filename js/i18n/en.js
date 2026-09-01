@@ -18,6 +18,8 @@ window.i18n_en = {
   "perm.cam_desc": "Scan attendance cards, badges and submit assignment photos.",
   "perm.loc_title": "Campus Geofencing",
   "perm.loc_desc": "Verify physical presence within institutional grounds.",
+  "perm.bio_title": "Biometrics & Face ID Authentication",
+  "perm.bio_desc": "Ultra-fast secure sign-in with fingerprint or Face ID.",
   "perm.grant_all_btn": "Enable All Hardware Permissions",
   "perm.notif_active_msg": "E-School Daara: Push notifications are now active!",
 

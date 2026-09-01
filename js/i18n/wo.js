@@ -18,6 +18,8 @@ window.i18n_wo = {
   "perm.cam_desc": "Ngir natt teewu ak yónnee liggéey yi.",
   "perm.loc_title": "Wone Fiy Daara Ja",
   "perm.loc_desc": "Xool ndax yaa ngi ci biir daara ji ci dëgg-dëgg.",
+  "perm.bio_title": "Biométrie ak Tànk/Kanam",
+  "perm.bio_desc": "Duggu bu gaaw ak baaraam walla kanam.",
   "perm.grant_all_btn": "Toxalal Sañ-sañ Yépp",
   "perm.notif_active_msg": "E-School Daara: Yégle yi léegi ñuy dox!",
 
