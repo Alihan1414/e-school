@@ -9,6 +9,10 @@ function bootESchoolApp() {
   let html5QrScannerInstance = null;
   let pendingResetUserId = null;
 
+  const safeHide = id => { const el = document.getElementById(id); if (el) el.style.display = 'none'; };
+  const safeShow = (id, d) => { const el = document.getElementById(id); if (el) el.style.display = d || 'block'; };
+
+  safeHide('app-floating-nav');
   initDynamicDeviceClockAndRegion();
   checkInitialPermissions();
   initEvents();
