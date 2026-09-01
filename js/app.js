@@ -751,272 +751,428 @@ function bootESchoolApp() {
         loadAdminUserDirectory(e.target.value);
       });
     }
-
-    // Daara AI Speech & Prompt
-    const submitAiBtn = document.getElementById("btn-submit-ai");
-    const speakAiBtn = document.getElementById("btn-speak-ai");
-
-    if (speakAiBtn) {
-      speakAiBtn.onclick = () => {
-        window.HardwareManager.vibrate(25);
-        const text = document.getElementById("ai-response-box").innerText;
-        if ("speechSynthesis" in window) {
-          window.speechSynthesis.cancel();
-          const utter = new SpeechSynthesisUtterance(text);
-          utter.lang = "fr-FR";
-          utter.rate = 1.0;
-          window.speechSynthesis.speak(utter);
-          showToast("Lecture audio de l'analyse en cours...");
-        } else {
-          showToast("Synthèse vocale non supportée sur ce navigateur.");
+    // =========================================================
+    // 14. INTERACTIVE STUDENT QUIZ SOLVER & GENERATOR ENGINE
+    // =========================================================
+    let currentActiveQuiz = {
+      title: "Mathématiques — Fonctions Dérivées & Tangentes",
+      meta: "Niveau: Seconde (10-A) • Conçu par Daara AI",
+      questions: [
+        {
+          q: "Quelle est la dérivée de f(x) = 3x² + 5x - 7 ?",
+          options: ["f'(x) = 6x + 5", "f'(x) = 3x + 5", "f'(x) = 6x² + 5", "f'(x) = 6x - 7"],
+          correct: 0,
+          explanation: "La dérivée de x² est 2x, donc (3x²)' = 6x, et (5x)' = 5. D'où f'(x) = 6x + 5."
+        },
+        {
+          q: "Que représente le coefficient directeur de la tangente à une courbe en un point d'abscisse a ?",
+          options: ["f(a)", "f'(a)", "1 / f(a)", "f''(a)"],
+          correct: 1,
+          explanation: "Par définition, le nombre dérivé f'(a) est le coefficient directeur de la tangente au point d'abscisse a."
+        },
+        {
+          q: "Si f'(x) > 0 sur un intervalle I, que peut-on affirmer sur f ?",
+          options: ["f est décroissante", "f est strictement constante", "f est strictement croissante", "f s'annule obligatoirement"],
+          correct: 2,
+          explanation: "Si la dérivée est strictement positive sur un intervalle, la fonction y est strictement croissante."
+        },
+        {
+          q: "Quelle est la dérivée de la fonction constante f(x) = 42 ?",
+          options: ["f'(x) = 42", "f'(x) = 1", "f'(x) = 0", "f'(x) = 42x"],
+          correct: 2,
+          explanation: "La dérivée de toute fonction constante est nulle : f'(x) = 0."
         }
-      };
-    }
+      ]
+    };
 
-    if (submitAiBtn) {
-      const executeAiQuery = (queryText) => {
-        const val = queryText || document.getElementById("input-ai-prompt").value.trim();
-        if (!val) return;
-        window.HardwareManager.vibrate(30);
-        window.HardwareManager.playSuccessChime();
+    function renderStudentInteractiveQuiz() {
+      const titleEl = document.getElementById("sq-quiz-title");
+      const metaEl = document.getElementById("sq-quiz-meta");
+      const listEl = document.getElementById("student-quiz-questions-list");
+      const resultBox = document.getElementById("student-quiz-result-box");
+      const submitBtn = document.getElementById("btn-submit-student-quiz");
 
-        const responseBox = document.getElementById("ai-response-box");
-        responseBox.innerHTML = `<em>Daara AI analyse les métriques pédagogiques pour "${val}"...</em>`;
-
-        setTimeout(() => {
-          let advice = "Sur la base des dernières évaluations, les compétences fondamentales sont maîtrisées à 94.2%. Nous recommandons des exercices ciblés pour conforter la mention Félicitations.";
-          if (val.toLowerCase().includes("math")) {
-            advice = "En Mathématiques (95/100), vous maîtrisez le calcul différentiel. Astuce clé : vérifiez systématiquement l'ensemble de définition avant de dériver.";
-          } else if (val.toLowerCase().includes("faible") || val.toLowerCase().includes("point")) {
-            advice = "Votre point de consolidation prioritaire est l'Histoire-Géographie (84/100). 30 minutes de révision des repères chronologiques permettront d'atteindre 92/100.";
-          } else if (val.toLowerCase().includes("plan") || val.toLowerCase().includes("revis")) {
-            advice = "Planning conseillé : Lundi (Maths 45min), Mardi (Physique 40min), Jeudi (SVT 30min), Samedi (Synthèse générale & QCM blanc).";
-          }
-
-          responseBox.innerHTML = `<strong>Daara AI :</strong> ${advice}`;
-          document.getElementById("input-ai-prompt").value = "";
-        }, 500);
-      };
-
-      submitAiBtn.addEventListener("click", () => executeAiQuery());
-
-      // AI Suggestion Prompt Chips
-      document.querySelectorAll(".ai-chip-prompt").forEach(chip => {
-        chip.onclick = () => {
-          const prompt = chip.dataset.prompt;
-          executeAiQuery(prompt);
-        };
-      });
-    }
-
-    // Global Spotlight Search (Ctrl+K / ⌘K)
-    const btnOpenSpotlight = document.getElementById("btn-global-quick-search-trigger");
-    const modalSpotlight = document.getElementById("modal-global-spotlight-search");
-    const btnCloseSpotlight = document.getElementById("btn-close-spotlight-modal");
-    const spotlightInput = document.getElementById("spotlight-search-input");
-    const spotlightResults = document.getElementById("spotlight-search-results");
-
-    function openSpotlight() {
-      if (modalSpotlight) {
-        window.HardwareManager.vibrate(25);
-        modalSpotlight.style.display = "flex";
-        if (spotlightInput) {
-          spotlightInput.value = "";
-          setTimeout(() => spotlightInput.focus(), 50);
-        }
+      if (titleEl) titleEl.innerText = currentActiveQuiz.title;
+      if (metaEl) metaEl.innerText = currentActiveQuiz.meta;
+      if (resultBox) resultBox.style.display = "none";
+      if (submitBtn) {
+        submitBtn.style.display = "block";
+        submitBtn.disabled = false;
+        submitBtn.innerText = window.i18n.t("quiz.btn_submit_answers") || "Valider mes Réponses & Calculer Note";
       }
+
+      if (!listEl) return;
+      let qHtml = "";
+      currentActiveQuiz.questions.forEach((item, qIdx) => {
+        qHtml += `
+          <div class="metric-card-dark" style="padding: 12px; background: rgba(15, 23, 42, 0.95); border: 1px solid var(--border-glass);">
+            <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+              <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; font-size: 0.68rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; height: fit-content;">Q${qIdx + 1}</span>
+              <strong style="color: #FFF; font-size: 0.82rem; line-height: 1.4;">${item.q}</strong>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+        `;
+
+        item.options.forEach((opt, optIdx) => {
+          qHtml += `
+            <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 8px 10px; border-radius: 8px; font-size: 0.74rem; color: #E2E8F0; cursor: pointer; transition: all 0.2s;">
+              <input type="radio" name="quiz_q_${qIdx}" value="${optIdx}" style="accent-color: #10B981; cursor: pointer;" ${optIdx === 0 ? 'checked' : ''}>
+              <span>${opt}</span>
+            </label>
+          `;
+        });
+
+        qHtml += `</div></div>`;
+      });
+
+      listEl.innerHTML = qHtml;
     }
 
-    function closeSpotlight() {
-      if (modalSpotlight) modalSpotlight.style.display = "none";
+    // Student Quiz Modal Close
+    const btnCloseStudentQuiz = document.getElementById("btn-close-student-quiz-modal");
+    if (btnCloseStudentQuiz) {
+      btnCloseStudentQuiz.onclick = () => {
+        const modal = document.getElementById("modal-interactive-student-quiz");
+        if (modal) modal.style.display = "none";
+      };
     }
 
-    if (btnOpenSpotlight) btnOpenSpotlight.onclick = openSpotlight;
-    if (btnCloseSpotlight) btnCloseSpotlight.onclick = closeSpotlight;
-
-    // Keyboard shortcut (Ctrl+K or Cmd+K)
-    window.addEventListener("keydown", (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+    // Submit Quiz & Compute Score
+    const formStudentQuiz = document.getElementById("form-submit-interactive-quiz");
+    if (formStudentQuiz) {
+      formStudentQuiz.onsubmit = async (e) => {
         e.preventDefault();
-        openSpotlight();
-      } else if (e.key === "Escape" && modalSpotlight && modalSpotlight.style.display === "flex") {
-        closeSpotlight();
-      }
-    });
+        window.HardwareManager.vibrate(50);
 
-    if (spotlightInput && spotlightResults) {
-      spotlightInput.addEventListener("input", (e) => {
-        const query = e.target.value.toLowerCase();
-        spotlightResults.querySelectorAll(".spotlight-item").forEach(item => {
-          const text = item.innerText.toLowerCase();
-          item.style.display = text.includes(query) ? "flex" : "none";
-        });
-      });
+        let correctCount = 0;
+        const total = currentActiveQuiz.questions.length;
 
-      spotlightResults.querySelectorAll(".spotlight-item").forEach(item => {
-        item.onclick = () => {
-          window.HardwareManager.vibrate(30);
-          closeSpotlight();
-          const action = item.dataset.action;
-          if (action === "tab-notes") switchStudentParentTab("notes");
-          else if (action === "tab-emploi") switchStudentParentTab("emploi");
-          else if (action === "open-payment") {
-            const m = document.getElementById("modal-tuition-payment-checkout");
-            if (m) m.style.display = "flex";
-          } else if (action === "open-quiz") {
-            const btn = document.getElementById("btn-open-student-active-quiz");
-            if (btn) btn.click();
-          } else if (action === "download-transcript") {
-            generateOfficialPdfTranscript();
+        currentActiveQuiz.questions.forEach((q, idx) => {
+          const selected = formStudentQuiz.querySelector(`input[name="quiz_q_${idx}"]:checked`);
+          if (selected && parseInt(selected.value) === q.correct) {
+            correctCount++;
           }
-        };
-      });
-    }
-
-    // Trimester Switcher Handler
-    document.querySelectorAll(".trim-pill").forEach(pill => {
-      pill.onclick = () => {
-        window.HardwareManager.vibrate(25);
-        document.querySelectorAll(".trim-pill").forEach(p => {
-          p.classList.remove("active");
-          p.style.background = "rgba(255,255,255,0.05)";
-          p.style.border = "1px solid var(--border-glass)";
-          p.style.color = "#94A3B8";
         });
-        pill.classList.add("active");
-        pill.style.background = "var(--senegal-green)";
-        pill.style.border = "none";
-        pill.style.color = "#FFF";
 
-        const trim = pill.dataset.trim;
-        const gpaHero = document.getElementById("sp-hero-gpa-val");
-        const metricAvg = document.getElementById("metric-avg-val");
-        if (trim === "1") {
-          if (gpaHero) gpaHero.innerText = "89.40";
-          if (metricAvg) metricAvg.innerText = "89.40";
-          showToast("Affichage des notes du 1er Trimestre");
-        } else if (trim === "2") {
-          if (gpaHero) gpaHero.innerText = "91.32";
-          if (metricAvg) metricAvg.innerText = "91.32";
-          showToast("Affichage des notes du 2ème Trimestre");
-        } else {
-          showToast("3ème Trimestre : En cours d'évaluation");
+        const score = Math.round((correctCount / total) * 100);
+        const resultBox = document.getElementById("student-quiz-result-box");
+        const scoreVal = document.getElementById("sq-final-score-val");
+        const feedbackText = document.getElementById("sq-ai-feedback-text");
+        const submitBtn = document.getElementById("btn-submit-student-quiz");
+
+        if (scoreVal) scoreVal.innerText = `${score} / 100`;
+        if (feedbackText) {
+          if (score >= 80) {
+            feedbackText.innerHTML = `<strong>Évaluation Excellente (${score}%) !</strong> Daara AI valide votre maîtrise des concepts fondamentaux. Continuez sur cette lancée pour maintenir votre statut Top 5%.`;
+          } else if (score >= 50) {
+            feedbackText.innerHTML = `<strong>Résultat Satisfaisant (${score}%) !</strong> De bonnes bases identifiées, mais consolidez la méthode de calcul des tangentes avec les astuces suggérées.`;
+          } else {
+            feedbackText.innerHTML = `<strong>Révision Requise (${score}%) !</strong> Nous recommandons de revoir la fiche de cours et d'utiliser l'assistant Daara AI pour des exercices guidés pas-à-pas.`;
+          }
+        }
+
+        if (resultBox) resultBox.style.display = "block";
+        if (submitBtn) submitBtn.style.display = "none";
+
+        window.HardwareManager.playSuccessChime();
+        showToast(`Quiz terminé avec succès : Score ${score} / 100 !`);
+
+        // Sync Quiz Result to Firestore
+        if (window.FirebaseESchoolService && window.FirebaseESchoolService.saveQuizResult) {
+          await window.FirebaseESchoolService.saveQuizResult({
+            studentId: currentUser ? currentUser.id : 'STU-101',
+            studentName: currentUser ? currentUser.name : 'Amadou Diallo',
+            quizTitle: currentActiveQuiz.title,
+            score: score,
+            totalQuestions: total,
+            correctCount: correctCount
+          });
         }
       };
-    });
+    }
 
-    // GPA Target Simulator Handler
+    // Teacher AI Quiz Generator Modal Handlers
+    const btnOpenTeacherQuiz = document.getElementById("btn-open-teacher-ai-quiz-modal");
+    const btnCloseTeacherQuiz = document.getElementById("btn-close-ai-quiz-modal");
+    const formTeacherQuiz = document.getElementById("form-generate-ai-quiz");
+
+    if (btnOpenTeacherQuiz) {
+      btnOpenTeacherQuiz.onclick = () => {
+        window.HardwareManager.vibrate(30);
+        const modal = document.getElementById("modal-ai-quiz-generator");
+        if (modal) modal.style.display = "flex";
+      };
+    }
+
+    if (btnCloseTeacherQuiz) {
+      btnCloseTeacherQuiz.onclick = () => {
+        const modal = document.getElementById("modal-ai-quiz-generator");
+        if (modal) modal.style.display = "none";
+      };
+    }
+
+    if (formTeacherQuiz) {
+      formTeacherQuiz.onsubmit = (e) => {
+        e.preventDefault();
+        window.HardwareManager.vibrate(40);
+
+        const subject = document.getElementById("ai-quiz-subject").value;
+        const grade = document.getElementById("ai-quiz-grade").value;
+        const topic = document.getElementById("ai-quiz-topic").value.trim() || "Fonctions Dérivées";
+        const diff = document.getElementById("ai-quiz-difficulty").value;
+        const count = parseInt(document.getElementById("ai-quiz-count").value) || 4;
+
+        currentActiveQuiz = {
+          title: `${subject} — ${topic}`,
+          meta: `Niveau: ${grade} • Difficulté: ${diff} • Conçu par Daara AI`,
+          questions: [
+            {
+              q: `Question 1 sur ${topic} : Quel est le résultat fondamental ?`,
+              options: ["Propriété A validée", "Propriété B", "Propriété C", "Propriété D"],
+              correct: 0,
+              explanation: "Règle générale démontrée en cours."
+            },
+            {
+              q: `Question 2 (${subject}) : Quelle relation lie les grandeurs associées ?`,
+              options: ["Formule Standard 1", "Formule Dérivée exacte", "Approximation linéaire", "Constante nulle"],
+              correct: 1,
+              explanation: "Formule clé du programme officiel."
+            },
+            {
+              q: `Question 3 : Dans quel cas particulier cette condition est-elle vérifiée ?`,
+              options: ["Pour tout x réel", "Uniquement sur [0, +inf[", "Sur le domaine de définition", "Cas singulier nul"],
+              correct: 2,
+              explanation: "Vérification sur l'ensemble de validité."
+            }
+          ]
+        };
+
+        const tTitle = document.getElementById("teacher-quiz-active-title");
+        const tMeta = document.getElementById("teacher-quiz-active-meta");
+        if (tTitle) tTitle.innerText = `Épreuve Active : ${subject} (${count} QCM)`;
+        if (tMeta) tMeta.innerText = `Matière: ${subject} • Chapitre: ${topic} • Niveau: ${grade}`;
+
+        const modal = document.getElementById("modal-ai-quiz-generator");
+        if (modal) modal.style.display = "none";
+
+        window.HardwareManager.playSuccessChime();
+        showToast(`Nouvelle épreuve IA générée et publiée pour la classe ${grade} !`);
+      };
+    }
+
+    // =========================================================
+    // 15. GPA TARGET SIMULATOR (Notes Tab)
+    // =========================================================
     const gpaSlider = document.getElementById("input-gpa-sim-slider");
-    const gpaDisplay = document.getElementById("gpa-sim-target-display");
+    const gpaTargetDisp = document.getElementById("gpa-sim-target-display");
     const gpaProjected = document.getElementById("gpa-sim-projected-result");
     const gpaBadge = document.getElementById("gpa-sim-badge");
 
-    if (gpaSlider && gpaDisplay && gpaProjected) {
-      gpaSlider.oninput = (e) => {
-        const targetVal = parseFloat(e.target.value);
-        gpaDisplay.innerText = `${targetVal} / 100`;
+    if (gpaSlider) {
+      gpaSlider.addEventListener("input", () => {
+        const targetVal = parseFloat(gpaSlider.value) || 94;
+        if (gpaTargetDisp) gpaTargetDisp.innerText = `${targetVal} / 100`;
 
-        // Weighted projected GPA calculation
-        const projected = ((91.32 * 0.7) + (targetVal * 0.3)).toFixed(2);
-        gpaProjected.innerText = `${projected} / 100`;
+        const currentAvg = 91.32;
+        const projected = ((currentAvg * 2 + targetVal) / 3).toFixed(2);
+        if (gpaProjected) gpaProjected.innerText = `${projected} / 100`;
 
-        if (projected >= 90) {
-          gpaBadge.innerText = "Félicitations du Conseil";
-          gpaBadge.style.color = "#FBBF24";
-          gpaBadge.style.borderColor = "rgba(245, 158, 11, 0.4)";
-        } else if (projected >= 80) {
-          gpaBadge.innerText = "Tableau d'Honneur";
-          gpaBadge.style.color = "#34D399";
-          gpaBadge.style.borderColor = "rgba(16, 185, 129, 0.4)";
+        if (gpaBadge) {
+          if (projected >= 92) {
+            gpaBadge.innerText = "Félicitations du Conseil";
+            gpaBadge.style.color = "#FBBF24";
+            gpaBadge.style.background = "rgba(245, 158, 11, 0.2)";
+          } else if (projected >= 85) {
+            gpaBadge.innerText = "Tableau d'Honneur";
+            gpaBadge.style.color = "#34D399";
+            gpaBadge.style.background = "rgba(16, 185, 129, 0.2)";
+          } else {
+            gpaBadge.innerText = "Encouragements";
+            gpaBadge.style.color = "#38BDF8";
+            gpaBadge.style.background = "rgba(56, 189, 248, 0.2)";
+          }
+        }
+      });
+    }
+
+    // Trimester Switcher on Notes Tab
+    document.querySelectorAll(".trim-pill").forEach(btn => {
+      btn.addEventListener("click", () => {
+        window.HardwareManager.vibrate(20);
+        document.querySelectorAll(".trim-pill").forEach(b => {
+          b.classList.remove("active");
+          b.style.background = "rgba(255,255,255,0.05)";
+          b.style.color = "#94A3B8";
+          b.style.border = "1px solid var(--border-glass)";
+        });
+        btn.classList.add("active");
+        btn.style.background = "var(--senegal-green)";
+        btn.style.color = "#FFF";
+        btn.style.border = "none";
+        const trim = btn.dataset.trim;
+        showToast(`Relevé affiché : Trimestre ${trim}`);
+      });
+    });
+
+    // =========================================================
+    // 16. DAARA AI ASSISTANT & TEXT-TO-SPEECH (TTS)
+    // =========================================================
+    const btnSubmitAi = document.getElementById("btn-submit-ai");
+    const inputAiPrompt = document.getElementById("input-ai-prompt");
+    const aiResponseBox = document.getElementById("ai-response-box");
+    const btnSpeakAi = document.getElementById("btn-speak-ai");
+
+    function executeAiAnalysis(promptText) {
+      if (!promptText) promptText = inputAiPrompt ? inputAiPrompt.value.trim() : "";
+      if (!promptText) return;
+
+      window.HardwareManager.vibrate(30);
+      if (aiResponseBox) {
+        aiResponseBox.innerHTML = `<em>Analyse IA en cours pour : "${promptText}"...</em>`;
+      }
+
+      setTimeout(() => {
+        let answer = "";
+        const lower = promptText.toLowerCase();
+
+        if (lower.includes("point") || lower.includes("faible") || lower.includes("amélioration")) {
+          answer = "<strong>Diagnostic Daara AI :</strong> Vos matières d'excellence sont l'Anglais (98/100) et les Mathématiques (95/100). Pour optimiser votre moyenne générale, renforcez vos révisions en Physique-Chimie sur le chapitre des dosages (actuellement 89/100).";
+        } else if (lower.includes("math") || lower.includes("dériv")) {
+          answer = "<strong>Méthode Mathématiques :</strong> Pour calculer la tangente d'une courbe en x = a, appliquez l'équation fondamentale y = f'(a)(x - a) + f(a). Pensez à toujours vérifier le domaine de dérivabilité au préalable.";
+        } else if (lower.includes("plan") || lower.includes("révis") || lower.includes("planning")) {
+          answer = "<strong>Planning Personnalisé Recommandé :</strong><br>• Lundi/Mercredi (18h-19h30) : Physique-Chimie & SVT<br>• Mardi/Jeudi (18h-19h30) : Français & Histoire-Géo<br>• Vendredi (17h-18h30) : Quiz IA & Entraînement Mathématiques.";
         } else {
-          gpaBadge.innerText = "Encouragements";
-          gpaBadge.style.color = "#38BDF8";
-          gpaBadge.style.borderColor = "rgba(56, 189, 248, 0.4)";
+          answer = `<strong>Recommandation Daara AI :</strong> Concernant votre question "<em>${promptText}</em>", nous recommandons d'effectuer 3 exercices types du cours et de consulter le support PDF déposé par votre professeur.`;
+        }
+
+        if (aiResponseBox) {
+          aiResponseBox.innerHTML = answer;
+        }
+        if (inputAiPrompt) inputAiPrompt.value = "";
+        window.HardwareManager.playSuccessChime();
+      }, 400);
+    }
+
+    if (btnSubmitAi) {
+      btnSubmitAi.onclick = () => executeAiAnalysis();
+    }
+
+    if (inputAiPrompt) {
+      inputAiPrompt.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          executeAiAnalysis();
+        }
+      });
+    }
+
+    document.querySelectorAll(".ai-chip-prompt").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const p = chip.dataset.prompt;
+        if (inputAiPrompt) inputAiPrompt.value = p;
+        executeAiAnalysis(p);
+      });
+    });
+
+    if (btnSpeakAi) {
+      btnSpeakAi.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        if ('speechSynthesis' in window && aiResponseBox) {
+          const textToSpeak = aiResponseBox.innerText.replace(/Daara AI/g, "Daara A I");
+          window.speechSynthesis.cancel();
+          const utterance = new SpeechSynthesisUtterance(textToSpeak);
+          const lang = window.i18n.getLanguage();
+          utterance.lang = lang === 'es' ? 'es-ES' : (lang === 'en' ? 'en-US' : 'fr-FR');
+          utterance.rate = 1.0;
+          window.speechSynthesis.speak(utterance);
+          showToast("Lecture vocale IA en cours...");
+        } else {
+          showToast("Synthèse vocale audio non supportée sur ce navigateur.");
         }
       };
     }
 
-    // Honor Certificate Modal (Tableau d'Honneur)
-    const takdirBadge = document.querySelector(".hero-takdir-badge");
-    const modalHonor = document.getElementById("modal-honor-certificate");
+    // =========================================================
+    // 17. TABLEAU D'HONNEUR CERTIFICATE MODAL
+    // =========================================================
     const btnCloseHonor = document.getElementById("btn-close-honor-modal");
     const btnDismissHonor = document.getElementById("btn-dismiss-certificate");
     const btnPrintHonor = document.getElementById("btn-print-certificate");
 
-    if (takdirBadge && modalHonor) {
-      takdirBadge.style.cursor = "pointer";
-      takdirBadge.onclick = () => {
-        window.HardwareManager.vibrate(35);
-        modalHonor.style.display = "flex";
-      };
-    }
+    const closeHonorModal = () => {
+      const modal = document.getElementById("modal-honor-certificate");
+      if (modal) modal.style.display = "none";
+    };
 
-    if (btnCloseHonor && modalHonor) btnCloseHonor.onclick = () => modalHonor.style.display = "none";
-    if (btnDismissHonor && modalHonor) btnDismissHonor.onclick = () => modalHonor.style.display = "none";
-
+    if (btnCloseHonor) btnCloseHonor.onclick = closeHonorModal;
+    if (btnDismissHonor) btnDismissHonor.onclick = closeHonorModal;
     if (btnPrintHonor) {
       btnPrintHonor.onclick = () => {
-        window.HardwareManager.vibrate(40);
-        showToast("Attestation d'Excellence téléchargée avec succès !");
-        setTimeout(() => { if (modalHonor) modalHonor.style.display = "none"; }, 800);
+        window.HardwareManager.vibrate(35);
+        showToast("Téléchargement de l'Attestation Officielle du Tableau d'Honneur...");
+        closeHonorModal();
       };
     }
 
-    // Tuition Payment & Mobile Money Checkout Modal
-    const btnOpenPayment = document.getElementById("btn-open-tuition-payment-modal");
-    const modalPayment = document.getElementById("modal-tuition-payment-checkout");
-    const btnClosePayment = document.getElementById("btn-close-payment-modal");
-    const btnExecPayment = document.getElementById("btn-execute-tuition-payment");
-    const paymentReceiptBox = document.getElementById("payment-receipt-success-box");
+    // =========================================================
+    // 18. GLOBAL SPOTLIGHT COMMAND PALETTE (Ctrl+K / ⌘K)
+    // =========================================================
+    const btnOpenSpotlight = document.getElementById("btn-global-quick-search-trigger");
+    const modalSpotlight = document.getElementById("modal-global-spotlight-search");
+    const btnCloseSpotlight = document.getElementById("btn-close-spotlight-modal") || document.getElementById("btn-close-spotlight");
+    const inputSpotlight = document.getElementById("spotlight-search-input");
 
-    if (btnOpenPayment && modalPayment) {
-      btnOpenPayment.onclick = () => {
+    function openGlobalSpotlight() {
+      if (modalSpotlight) {
+        window.HardwareManager.vibrate(25);
+        modalSpotlight.style.display = "flex";
+        if (inputSpotlight) {
+          inputSpotlight.value = "";
+          setTimeout(() => inputSpotlight.focus(), 80);
+        }
+      }
+    }
+
+    function closeGlobalSpotlight() {
+      if (modalSpotlight) modalSpotlight.style.display = "none";
+    }
+
+    if (btnOpenSpotlight) btnOpenSpotlight.onclick = openGlobalSpotlight;
+    if (btnCloseSpotlight) btnCloseSpotlight.onclick = closeGlobalSpotlight;
+
+    window.addEventListener("keydown", (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        if (modalSpotlight && modalSpotlight.style.display === "flex") {
+          closeGlobalSpotlight();
+        } else {
+          openGlobalSpotlight();
+        }
+      } else if (e.key === "Escape") {
+        closeGlobalSpotlight();
+      }
+    });
+
+    document.querySelectorAll(".spotlight-item").forEach(item => {
+      item.onclick = () => {
+        const action = item.dataset.action;
+        closeGlobalSpotlight();
         window.HardwareManager.vibrate(30);
-        modalPayment.style.display = "flex";
-        if (paymentReceiptBox) paymentReceiptBox.style.display = "none";
-      };
-    }
 
-    if (btnClosePayment && modalPayment) {
-      btnClosePayment.onclick = () => modalPayment.style.display = "none";
-    }
-
-    // Payment Method Selection
-    let selectedPayMethod = "Wave";
-    document.querySelectorAll(".pay-method-pill").forEach(pill => {
-      pill.onclick = () => {
-        window.HardwareManager.vibrate(20);
-        document.querySelectorAll(".pay-method-pill").forEach(p => {
-          p.classList.remove("active");
-          p.style.border = "1px solid var(--border-glass)";
-          p.style.background = "rgba(255,255,255,0.04)";
-        });
-        pill.classList.add("active");
-        pill.style.border = "1.5px solid #00F5D4";
-        pill.style.background = "rgba(0,245,212,0.1)";
-
-        const m = pill.dataset.method;
-        selectedPayMethod = m === "wave" ? "Wave" : (m === "om" ? "Orange Money" : "Free Money");
-        if (btnExecPayment) {
-          btnExecPayment.innerText = `Payer 45.000 FCFA avec ${selectedPayMethod}`;
+        if (action === "tab-notes") {
+          switchStudentParentTab("notes");
+        } else if (action === "tab-emploi") {
+          switchStudentParentTab("emploi");
+        } else if (action === "open-quiz") {
+          renderStudentInteractiveQuiz();
+          const modal = document.getElementById("modal-interactive-student-quiz");
+          if (modal) modal.style.display = "flex";
+        } else if (action === "download-transcript") {
+          const btnDl = document.getElementById("btn-download-pdf-transcript");
+          if (btnDl) btnDl.click();
         }
       };
     });
-
-    if (btnExecPayment) {
-      btnExecPayment.onclick = () => {
-        window.HardwareManager.vibrate([80, 50, 80]);
-        btnExecPayment.innerText = "Traitement du paiement...";
-        btnExecPayment.disabled = true;
-
-        setTimeout(() => {
-          btnExecPayment.style.display = "none";
-          if (paymentReceiptBox) paymentReceiptBox.style.display = "block";
-          window.HardwareManager.sendLocalNotification("E-School Caisse", "Paiement 45.000 FCFA validé (Reçu #DAARA-8821)");
-          showToast(`Quittance validée avec succès via ${selectedPayMethod} !`);
-        }, 900);
-      };
-    }
 
     // 3D Flashcard Revision Card Flip
     const fcInner = document.getElementById("flashcard-sample-inner-1");
@@ -1861,393 +2017,6 @@ function bootESchoolApp() {
     });
   }
 
-  // ================= AI ASSESSMENT & QUIZ GENERATOR ENGINE =================
-  let currentActiveQuiz = {
-    id: "quiz-101",
-    title: "Mathématiques — Fonctions Dérivées & Tangentes",
-    subject: "Mathématiques",
-    grade: "10-A (Seconde)",
-    difficulty: "Moyen",
-    questions: [
-      {
-        q: "Quelle est la dérivée de la fonction f(x) = 3x² + 5x - 7 ?",
-        options: ["f'(x) = 6x + 5", "f'(x) = 3x + 5", "f'(x) = 6x - 7", "f'(x) = x² + 5"],
-        correct: 0,
-        explanation: "La dérivée de x^n est n*x^(n-1). Donc (3x²)' = 6x et (5x)' = 5."
-      },
-      {
-        q: "Quel est le coefficient directeur de la tangente à la courbe de f en a ?",
-        options: ["f(a)", "f'(a)", "f'(x) - f(a)", "a / f(a)"],
-        correct: 1,
-        explanation: "Par définition, le nombre dérivé f'(a) représente la pente de la tangente au point d'abscisse a."
-      },
-      {
-        q: "Si f'(x) > 0 sur un intervalle I, alors la fonction f est :",
-        options: ["Strictement décroissante", "Constante", "Strictement croissante", "Nulle"],
-        correct: 2,
-        explanation: "Le signe positif de la dérivée implique une fonction strictement croissante sur cet intervalle."
-      },
-      {
-        q: "La dérivée de la fonction constante f(x) = 42 est égale à :",
-        options: ["42", "1", "0", "-42"],
-        correct: 2,
-        explanation: "La dérivée de toute constante numérique k est toujours égale à 0."
-      }
-    ]
-  };
-
-  // AI Quiz Generator Form Handler (Teacher)
-  const formAiQuizGen = document.getElementById("form-generate-ai-quiz");
-  if (formAiQuizGen) {
-    formAiQuizGen.onsubmit = (e) => {
-      e.preventDefault();
-      const subject = document.getElementById("ai-quiz-subject").value;
-      const grade = document.getElementById("ai-quiz-grade").value;
-      const topic = document.getElementById("ai-quiz-topic").value;
-      const diff = document.getElementById("ai-quiz-difficulty").value;
-      const count = parseInt(document.getElementById("ai-quiz-count").value) || 4;
-
-      window.HardwareManager.vibrate(40);
-      showToast("Daara AI: Conception de l'épreuve en cours...");
-
-      setTimeout(() => {
-        currentActiveQuiz = {
-          id: "quiz-" + Date.now(),
-          title: `${subject} — ${topic}`,
-          subject: subject,
-          grade: grade,
-          difficulty: diff,
-          questions: generateDynamicAiQuestions(subject, topic, count)
-        };
-
-        // Update Teacher Card Preview
-        const tTitle = document.getElementById("teacher-quiz-active-title");
-        const tMeta = document.getElementById("teacher-quiz-active-meta");
-        if (tTitle) tTitle.innerText = `Épreuve Active : ${subject} (${count} QCM)`;
-        if (tMeta) tMeta.innerText = `Matière: ${subject} • Chapitre: ${topic} • Niveau: ${grade} (${diff})`;
-
-        // Close modal
-        const modalGen = document.getElementById("modal-ai-quiz-generator");
-        if (modalGen) modalGen.style.display = "none";
-
-        showToast("Épreuve générée par l'IA et publiée aux élèves !");
-      }, 1200);
-    };
-  }
-
-  // Generate subject-specific questions dynamically
-  function generateDynamicAiQuestions(subject, topic, count) {
-    const qBank = {
-      "Mathématiques": [
-        { q: `Dans le cadre de (${topic}), que vaut la dérivée seconde de f(x) = x³ ?`, options: ["f''(x) = 6x", "f''(x) = 3x²", "f''(x) = 6", "f''(x) = x"], correct: 0, explanation: "f'(x)=3x², f''(x)=6x." },
-        { q: `Quelle condition assure l'existence d'un extremum local pour f dérivable ?`, options: ["f'(x) = 0 et change de signe", "f(x) = 0", "f''(x) = 0", "f'(x) > 0 partout"], correct: 0, explanation: "L'annulation et le changement de signe de f' caractérisent un extremum." },
-        { q: `L'équation de la tangente au point a s'écrit :`, options: ["y = f'(a)(x - a) + f(a)", "y = f(a)(x - a) + f'(a)", "y = f'(a)x + a", "y = f(x) - a"], correct: 0, explanation: "Formule standard de Taylor-Lagrange à l'ordre 1." },
-        { q: `Si f(x) = e^(2x), alors f'(x) est égal à :`, options: ["2e^(2x)", "e^(2x)", "2e^x", "e^x / 2"], correct: 0, explanation: "(e^(u))' = u' * e^u, ici (2x)' = 2." },
-        { q: `La primitive de f(x) = 2x s'annulant en 0 est :`, options: ["F(x) = x²", "F(x) = 2x²", "F(x) = x", "F(x) = x² + 1"], correct: 0, explanation: "F(x) = x² car (x²)' = 2x et F(0)=0." }
-      ],
-      "Physique-Chimie": [
-        { q: `Concernant (${topic}), quelle est la relation fondamentale de la dynamique (2e loi de Newton) ?`, options: ["Σ F = m * a", "E = m * c²", "P = U * I", "F = k * q / d²"], correct: 0, explanation: "La somme vectorielle des forces est égale à la masse multipliée par l'accélération." },
-        { q: `Lors d'un dosage pH-métrique, à l'équivalence :`, options: ["Les réactifs sont introduits en proportions stœchiométriques", "Le pH est obligatoirement égal à 7", "Le volume versé est nul", "La réaction s'arrête"], correct: 0, explanation: "Définition stricte du point d'équivalence stœchiométrique." },
-        { q: `Quelle est l'unité internationale de la force ?`, options: ["Newton (N)", "Joule (J)", "Watt (W)", "Pascal (Pa)"], correct: 0, explanation: "Le Newton est l'unité légale du SI." },
-        { q: `L'énergie cinétique d'un corps de masse m et de vitesse v vaut :`, options: ["Ec = 1/2 * m * v²", "Ec = m * g * h", "Ec = m * v", "Ec = 2 * m * v²"], correct: 0, explanation: "Formule cinématique classique : 1/2 m v²." }
-      ],
-      "Français & Littérature": [
-        { q: `Dans l'étude littéraire de (${topic}), qui est l'auteur de 'Une si longue lettre' ?`, options: ["Mariama Bâ", "Sembène Ousmane", "Léopold Sédar Senghor", "Cheikh Hamidou Kane"], correct: 0, explanation: "Mariama Bâ est l'illustre romancière sénégalaise auteure de ce chef-d'œuvre épistolaire." },
-        { q: `Quelle figure de style consiste à répéter un mot en début de vers ?`, options: ["Anaphore", "Oxymore", "Métonymie", "Chiasme"], correct: 0, explanation: "L'anaphore est la répétition voulue en tête de phrase ou de vers." },
-        { q: `Le mouvement de la Négritude a été cofondé par :`, options: ["Aimé Césaire & L.S. Senghor", "Victor Hugo", "Albert Camus", "Émile Zola"], correct: 0, explanation: "Césaire, Senghor et Damas sont les pères fondateurs de la Négritude." }
-      ]
-    };
-
-    const list = qBank[subject] || qBank["Mathématiques"];
-    return list.slice(0, count);
-  }
-
-  // Teacher Trigger to Open AI Quiz Modal
-  const btnTeacherAiQuiz = document.getElementById("btn-open-teacher-ai-quiz-modal");
-  if (btnTeacherAiQuiz) {
-    btnTeacherAiQuiz.onclick = () => {
-      window.HardwareManager.vibrate(20);
-      const modal = document.getElementById("modal-ai-quiz-generator");
-      if (modal) modal.style.display = "flex";
-    };
-  }
-
-  const btnCloseAiQuiz = document.getElementById("btn-close-ai-quiz-modal");
-  if (btnCloseAiQuiz) {
-    btnCloseAiQuiz.onclick = () => {
-      const modal = document.getElementById("modal-ai-quiz-generator");
-      if (modal) modal.style.display = "none";
-    };
-  }
-
-  // Student Trigger to Open Interactive Quiz Modal
-  const btnStudentOpenQuiz = document.getElementById("btn-open-student-active-quiz");
-  if (btnStudentOpenQuiz) {
-    btnStudentOpenQuiz.onclick = () => {
-      window.HardwareManager.vibrate(20);
-      renderStudentInteractiveQuiz();
-      const modal = document.getElementById("modal-interactive-student-quiz");
-      if (modal) modal.style.display = "flex";
-    };
-  }
-
-  const btnCloseStudentQuiz = document.getElementById("btn-close-student-quiz-modal");
-  if (btnCloseStudentQuiz) {
-    btnCloseStudentQuiz.onclick = () => {
-      const modal = document.getElementById("modal-interactive-student-quiz");
-      if (modal) modal.style.display = "none";
-    };
-  }
-
-  // Render questions inside Student Quiz Modal
-  function renderStudentInteractiveQuiz() {
-    const titleEl = document.getElementById("sq-quiz-title");
-    const metaEl = document.getElementById("sq-quiz-meta");
-    const qList = document.getElementById("student-quiz-questions-list");
-    const resBox = document.getElementById("student-quiz-result-box");
-    const submitBtn = document.getElementById("btn-submit-student-quiz");
-
-    if (resBox) resBox.style.display = "none";
-    if (submitBtn) submitBtn.style.display = "block";
-
-    if (titleEl) titleEl.innerText = currentActiveQuiz.title;
-    if (metaEl) metaEl.innerText = `Niveau: ${currentActiveQuiz.grade} • Difficulté: ${currentActiveQuiz.difficulty} • Conçu par Daara AI`;
-
-    if (!qList) return;
-    let html = "";
-
-    currentActiveQuiz.questions.forEach((item, qIdx) => {
-      html += `
-        <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px;">
-          <div style="font-size: 0.76rem; font-weight: 800; color: #FFF; margin-bottom: 8px;">
-            <span style="color: #A855F7;">Q${qIdx + 1}.</span> ${item.q}
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 6px;">
-      `;
-
-      item.options.forEach((opt, oIdx) => {
-        html += `
-          <label style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.04); padding: 8px 10px; border-radius: 6px; font-size: 0.72rem; color: #CBD5E1; cursor: pointer; border: 1px solid transparent; transition: all 0.2s;">
-            <input type="radio" name="quiz_q_${qIdx}" value="${oIdx}" required style="accent-color: #10B981;">
-            <span>${opt}</span>
-          </label>
-        `;
-      });
-
-      html += `
-          </div>
-          <div id="sq-explanation-${qIdx}" style="display: none; margin-top: 8px; font-size: 0.68rem; color: #34D399; background: rgba(16, 185, 129, 0.1); padding: 6px 8px; border-radius: 6px;"></div>
-        </div>
-      `;
-    });
-
-    qList.innerHTML = html;
-  }
-
-  // Handle Interactive Quiz Submission
-  const formSubmitQuiz = document.getElementById("form-submit-interactive-quiz");
-  if (formSubmitQuiz) {
-    formSubmitQuiz.onsubmit = (e) => {
-      e.preventDefault();
-      window.HardwareManager.vibrate(50);
-
-      let correctCount = 0;
-      const total = currentActiveQuiz.questions.length;
-
-      currentActiveQuiz.questions.forEach((item, qIdx) => {
-        const selected = document.querySelector(`input[name="quiz_q_${qIdx}"]:checked`);
-        const expEl = document.getElementById(`sq-explanation-${qIdx}`);
-        
-        if (selected) {
-          const val = parseInt(selected.value);
-          const isRight = (val === item.correct);
-          if (isRight) correctCount++;
-
-          if (expEl) {
-            expEl.style.display = "block";
-            expEl.style.color = isRight ? "#34D399" : "#FCA5A5";
-            expEl.style.background = isRight ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)";
-            expEl.innerHTML = `<strong>${isRight ? "✓ Correct !" : "✕ Incorrect."}</strong> Explication: ${item.explanation}`;
-          }
-        }
-      });
-
-      const scorePercent = Math.round((correctCount / total) * 100);
-      const resBox = document.getElementById("student-quiz-result-box");
-      const scoreVal = document.getElementById("sq-final-score-val");
-      const fbText = document.getElementById("sq-ai-feedback-text");
-      const submitBtn = document.getElementById("btn-submit-student-quiz");
-
-      if (scoreVal) scoreVal.innerText = `${scorePercent} / 100 (${correctCount}/${total} exactes)`;
-      if (fbText) {
-        if (scorePercent >= 80) {
-          fbText.innerHTML = `<strong style="color: #34D399;">Félicitations Exceptionnelles !</strong> Vous maîtrisez parfaitement les notions fondamentales de (${currentActiveQuiz.title}). Note enregistrée sur votre bulletin.`;
-        } else if (scorePercent >= 50) {
-          fbText.innerHTML = `<strong style="color: #F59E0B;">Bon Travail !</strong> Notions acquises, mais nous vous recommandons de revoir les points détaillés ci-dessus avec le Daara AI Assistant.`;
-        } else {
-          fbText.innerHTML = `<strong style="color: #EF4444;">Révision Nécessaire.</strong> Concentrez votre travail sur les explications formulées ci-dessus.`;
-        }
-      }
-
-      if (resBox) resBox.style.display = "block";
-      if (submitBtn) submitBtn.style.display = "none";
-
-      if (window.FirebaseESchoolService && window.FirebaseESchoolService.saveQuizResult) {
-        window.FirebaseESchoolService.saveQuizResult(
-          currentUser ? currentUser.id : 'STU-101',
-          currentActiveQuiz.title,
-          scorePercent
-        );
-      }
-
-      window.HardwareManager.playSuccessChime();
-      showToast(`Évaluation terminée : Note de ${scorePercent}/100 !`);
-    };
-  }
-
-  // ================= 16. GLOBAL SPOTLIGHT SEARCH (Ctrl + K) =================
-  const modalSpotlight = document.getElementById("modal-global-spotlight-search");
-  const inputSpotlight = document.getElementById("spotlight-search-input");
-  const containerSpotlight = document.getElementById("spotlight-results-container");
-  const btnCloseSpotlight = document.getElementById("btn-close-spotlight");
-  const btnTriggerSpotlight = document.getElementById("btn-global-quick-search-trigger");
-
-  function openSpotlight() {
-    window.HardwareManager.vibrate(20);
-    if (modalSpotlight) modalSpotlight.style.display = "flex";
-    if (inputSpotlight) {
-      inputSpotlight.focus();
-      inputSpotlight.value = "";
-    }
-  }
-
-  function closeSpotlight() {
-    if (modalSpotlight) modalSpotlight.style.display = "none";
-  }
-
-  if (btnTriggerSpotlight) btnTriggerSpotlight.onclick = openSpotlight;
-  if (btnCloseSpotlight) btnCloseSpotlight.onclick = closeSpotlight;
-
-  window.addEventListener("keydown", (e) => {
-    if ((e.ctrlKey || e.metaKey) && (e.key === "k" || e.key === "K")) {
-      e.preventDefault();
-      openSpotlight();
-    }
-    if (e.key === "Escape") closeSpotlight();
-  });
-
-  if (inputSpotlight && containerSpotlight) {
-    inputSpotlight.addEventListener("input", () => {
-      const q = inputSpotlight.value.toLowerCase().trim();
-      if (!q) {
-        containerSpotlight.innerHTML = `<div style="color: #64748B; text-align: center; padding: 12px;">Tapez un nom d'élève (ex: Amadou), une matière ou une commande...</div>`;
-        return;
-      }
-
-      const items = [
-        { title: "Amadou Diallo (10-A)", sub: "Élève • GPA: 91.32 • Présent", role: "student", action: () => switchTab('notes') },
-        { title: "Mariama Ba (10-A)", sub: "Élève • GPA: 88.40 • Présente", role: "student", action: () => switchTab('notes') },
-        { title: "Ousmane Sonko (10-A)", sub: "Élève • GPA: 94.10 • Présent", role: "student", action: () => switchTab('notes') },
-        { title: "Mathématiques — Fonctions Dérivées", sub: "Devoir actif • Prof. Fall", role: "course", action: () => switchTab('devoirs') },
-        { title: "Physique-Chimie — Dosages", sub: "Support de cours PDF", role: "course", action: () => switchTab('devoirs') },
-        { title: "Générateur d'Épreuve IA", sub: "Créer un Quiz instantané", role: "action", action: () => { const m = document.getElementById("modal-ai-quiz-generator"); if(m) m.style.display = "flex"; } },
-        { title: "Scanner QR Présence", sub: "Prise d'appel caméra", role: "action", action: () => { const m = document.getElementById("modal-qr-attendance-scanner"); if(m) m.style.display = "flex"; } }
-      ];
-
-      const matches = items.filter(it => it.title.toLowerCase().includes(q) || it.sub.toLowerCase().includes(q));
-
-      if (matches.length === 0) {
-        containerSpotlight.innerHTML = `<div style="color: #EF4444; text-align: center; padding: 12px;">Aucun résultat trouvé pour "${q}".</div>`;
-        return;
-      }
-
-      let html = "";
-      matches.forEach((m, idx) => {
-        html += `
-          <div class="spotlight-result-row" data-idx="${idx}" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: all 0.2s;">
-            <div style="font-weight: 800; color: #38BDF8;">${m.title}</div>
-            <div style="font-size: 0.65rem; color: #94A3B8;">${m.sub}</div>
-          </div>
-        `;
-      });
-      containerSpotlight.innerHTML = html;
-
-      containerSpotlight.querySelectorAll(".spotlight-result-row").forEach(row => {
-        row.onclick = () => {
-          const idx = parseInt(row.dataset.idx);
-          closeSpotlight();
-          matches[idx].action();
-        };
-      });
-    });
-  }
-
-  // ================= 17. FLOATING QUICK ACTION (+) MENU =================
-  const btnMainFloating = document.getElementById("btn-main-floating-trigger");
-  const sheetQuickMenu = document.getElementById("floating-quick-menu-sheet");
-
-  if (btnMainFloating && sheetQuickMenu) {
-    btnMainFloating.onclick = () => {
-      window.HardwareManager.vibrate(25);
-      const isVisible = sheetQuickMenu.style.display === "flex";
-      sheetQuickMenu.style.display = isVisible ? "none" : "flex";
-      btnMainFloating.style.transform = isVisible ? "rotate(0deg)" : "rotate(45deg)";
-    };
-
-    const qaQuiz = document.getElementById("qa-btn-quiz");
-    const qaAtt = document.getElementById("qa-btn-attendance");
-    const qaExcuse = document.getElementById("qa-btn-excuse");
-    const qaChat = document.getElementById("qa-btn-chat");
-
-    if (qaQuiz) {
-      qaQuiz.onclick = () => {
-        sheetQuickMenu.style.display = "none";
-        btnMainFloating.style.transform = "rotate(0deg)";
-        const modal = document.getElementById("modal-ai-quiz-generator");
-        if (modal) modal.style.display = "flex";
-      };
-    }
-
-    if (qaAtt) {
-      qaAtt.onclick = () => {
-        sheetQuickMenu.style.display = "none";
-        btnMainFloating.style.transform = "rotate(0deg)";
-        const modal = document.getElementById("modal-qr-attendance-scanner");
-        if (modal) modal.style.display = "flex";
-      };
-    }
-
-    if (qaExcuse) {
-      qaExcuse.onclick = () => {
-        sheetQuickMenu.style.display = "none";
-        btnMainFloating.style.transform = "rotate(0deg)";
-        const modal = document.getElementById("modal-absence-excuse");
-        if (modal) modal.style.display = "flex";
-      };
-    }
-
-    if (qaChat) {
-      qaChat.onclick = () => {
-        sheetQuickMenu.style.display = "none";
-        btnMainFloating.style.transform = "rotate(0deg)";
-        switchTab("messages");
-      };
-    }
-  }
-
-  // ================= 18. THEME QUICK TOGGLE (LIGHT / DARK) =================
-  const btnThemeToggle = document.getElementById("btn-theme-quick-toggle");
-  if (btnThemeToggle) {
-    btnThemeToggle.onclick = () => {
-      window.HardwareManager.vibrate(20);
-      const current = document.body.getAttribute("data-theme") || "dark";
-      const next = current === "dark" ? "light" : "dark";
-      document.body.setAttribute("data-theme", next);
-      btnThemeToggle.innerText = next === "dark" ? "☀️" : "🌙";
-      showToast(`Thème : ${next.toUpperCase()} activé`);
-    };
-  }
-
   function showToast(msg) {
     let toast = document.getElementById("toast-notice-box");
     if (!toast) {
@@ -2269,5 +2038,6 @@ if (document.readyState === "loading") {
 } else {
   bootESchoolApp();
 }
+
 
 

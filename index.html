@@ -1360,7 +1360,49 @@
         </div>
       </div>
 
+      <!-- Admin KPI Stats Grid -->
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
+        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
+          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_students">Élèves Inscrits</div>
+          <div id="admin-stat-students-val" style="font-size: 1.35rem; font-weight: 900; color: #38BDF8; font-family: monospace; margin-top: 2px;">1,240</div>
+        </div>
+        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
+          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_teachers">Corps Enseignant</div>
+          <div id="admin-stat-teachers-val" style="font-size: 1.35rem; font-weight: 900; color: #10B981; font-family: monospace; margin-top: 2px;">68</div>
+        </div>
+        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
+          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_gpa">Moyenne Globale</div>
+          <div id="admin-stat-gpa-val" style="font-size: 1.35rem; font-weight: 900; color: #F59E0B; font-family: monospace; margin-top: 2px;">89.4</div>
+        </div>
+        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
+          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_att">Taux d'Assiduité</div>
+          <div id="admin-stat-att-val" style="font-size: 1.35rem; font-weight: 900; color: #A78BFA; font-family: monospace; margin-top: 2px;">94.2%</div>
+        </div>
+      </div>
+
+      <!-- Emergency Broadcast Alert -->
+      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(239, 68, 68, 0.4); background: radial-gradient(circle at top right, rgba(239, 68, 68, 0.15), rgba(15, 23, 42, 0.95));">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <strong style="color: #EF4444; font-size: 0.82rem;">Diffusion d'Alerte d'Urgence (SMS / Push)</strong>
+          <span style="font-size: 0.6rem; background: rgba(239, 68, 68, 0.2); color: #FCA5A5; padding: 2px 6px; border-radius: 4px; font-weight: 800;">PRIORITÉ HAUTE</span>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <input type="text" id="input-emergency-broadcast-msg" class="form-input-dark" placeholder="Ex: Campus fermé ce vendredi (Alerte Météo)..." style="margin: 0; flex: 1; font-size: 0.72rem;">
+          <button type="button" id="btn-send-emergency-broadcast" style="background: #EF4444; border: none; color: #FFF; font-weight: 800; font-size: 0.72rem; padding: 0 12px; border-radius: 8px; cursor: pointer;">
+            Envoyer
+          </button>
+        </div>
+      </div>
+
+      <!-- Absence Excuses Approval Queue -->
+      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(245, 158, 11, 0.3);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <h4 style="color: #F59E0B; font-size: 0.85rem; font-weight: 800;" data-i18n="excuse.admin_title">Demandes de Justificatifs d'Absences</h4>
+          <span style="font-size: 0.62rem; color: #F59E0B; background: rgba(245, 158, 11, 0.15); padding: 2px 6px; border-radius: 4px; font-weight: 800;" data-i18n="excuse.admin_badge">FLUX PARENTS</span>
+        </div>
+        <div id="admin-excuses-list-container" style="display: flex; flex-direction: column; gap: 6px;"></div>
+      </div>
+
       <!-- User Directory & Live Search -->
       <div class="metric-card-dark" style="margin-bottom: 14px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
@@ -1371,8 +1413,9 @@
         <div id="admin-users-table-container" style="max-height: 180px; overflow-y: auto; font-size: 0.72rem; margin-bottom: 10px;"></div>
       </div>
 
+      <!-- Official Announcement Broadcast -->
       <div class="metric-card-dark" style="margin-bottom: 14px;">
-        <h4 style="color: #F59E0B; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="admin.tab_announcements">Diffuser une Annonce Officielle</h4>
+        <h4 style="color: #A78BFA; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="admin.tab_announcements">Diffuser une Annonce Officielle</h4>
         <form id="form-broadcast-announcement" style="display: flex; flex-direction: column; gap: 6px;">
           <input type="text" id="adm-ann-title" class="form-input-dark" placeholder="Titre de l'annonce" required data-i18n-placeholder="admin.ann_title_ph">
           <textarea id="adm-ann-content" class="form-input-dark" placeholder="Message officiel diffusé aux élèves et parents..." rows="2" required data-i18n-placeholder="admin.ann_content_ph"></textarea>
