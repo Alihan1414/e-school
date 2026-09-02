@@ -42,29 +42,33 @@
    MASTER THEME ARCHITECTURE (Light, OLED, Navy, Emerald, Dark)
    ========================================================= */
 
-/* 1. LIGHT THEME (Crisp Daylight Mode with Flawless Contrast) */
+/* =========================================================
+   MASTER THEME ARCHITECTURE (Light, OLED, Navy, Emerald, Dark)
+   ========================================================= */
+
+/* 1. LIGHT THEME (Pure Crisp White & High-Contrast Daylight Mode) */
 body[data-theme="light"] {
-  --bg-dark-app: #F8FAFC;
+  --bg-dark-app: #FFFFFF;
   --bg-card-dark: #FFFFFF;
-  --bg-card-subtle: #F1F5F9;
-  --bg-card-glass: rgba(255, 255, 255, 0.95);
+  --bg-card-subtle: #F8FAFC;
+  --bg-card-glass: rgba(255, 255, 255, 0.98);
   --text-white: #0F172A;
   --text-slate: #334155;
   --text-dim: #64748B;
   --border-glass: #E2E8F0;
-  --border-emerald: rgba(16, 185, 129, 0.4);
-  background-color: #E2E8F0 !important;
+  --border-emerald: rgba(16, 185, 129, 0.5);
+  background-color: #F8FAFC !important;
   color: #0F172A !important;
 }
 
 body[data-theme="light"] .phone-viewport-wrapper {
   background-color: #FFFFFF !important;
-  border-color: #CBD5E1 !important;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.05) !important;
 }
 
 body[data-theme="light"] .phone-top-bar {
-  background: rgba(255, 255, 255, 0.92) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
   border-bottom: 1px solid #E2E8F0 !important;
 }
 
@@ -87,46 +91,95 @@ body[data-theme="light"] .pwa-install-banner-card,
 body[data-theme="light"] .demo-chip-dark,
 body[data-theme="light"] .action-chip-btn,
 body[data-theme="light"] .feature-tile-btn,
-body[data-theme="light"] .modal-card-luxury {
+body[data-theme="light"] .modal-card-luxury,
+body[data-theme="light"] .profile-header-section,
+body[data-theme="light"] .homework-card-item,
+body[data-theme="light"] .timetable-slot-card,
+body[data-theme="light"] .chat-message-bubble.incoming {
   background: #FFFFFF !important;
   border: 1px solid #E2E8F0 !important;
   color: #0F172A !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
 }
 
-body[data-theme="light"] #view-auth-portal > div {
+/* Light Mode Overrides for Dark Inline Backgrounds */
+body[data-theme="light"] [style*="background: #1E293B"],
+body[data-theme="light"] [style*="background: #0F172A"],
+body[data-theme="light"] [style*="background: rgba(30, 41, 59"],
+body[data-theme="light"] [style*="background: rgba(15, 23, 42"],
+body[data-theme="light"] [style*="background: linear-gradient(145deg, rgba(30, 41, 59"],
+body[data-theme="light"] [style*="background: rgba(0, 0, 0, 0.35)"],
+body[data-theme="light"] [style*="background: rgba(0, 0, 0, 0.6)"],
+body[data-theme="light"] [style*="background: rgba(0,0,0,0.4)"] {
   background: #FFFFFF !important;
   border-color: #E2E8F0 !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
 }
 
-body[data-theme="light"] .form-input-dark,
+/* Light Mode Role Tabs in Login */
+body[data-theme="light"] .auth-role-tab-btn:not(.active) {
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+}
+
+body[data-theme="light"] .auth-role-tab-btn.active {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+}
+
+/* Light Mode Input Elements */
+body[data-theme="light"] input.form-input-dark,
 body[data-theme="light"] select.form-input-dark,
-body[data-theme="light"] textarea.form-input-dark {
+body[data-theme="light"] textarea.form-input-dark,
+body[data-theme="light"] input[type="text"],
+body[data-theme="light"] input[type="password"],
+body[data-theme="light"] input[type="email"],
+body[data-theme="light"] input[type="number"],
+body[data-theme="light"] select,
+body[data-theme="light"] textarea {
   background: #FFFFFF !important;
   color: #0F172A !important;
-  border: 1px solid #CBD5E1 !important;
+  border: 1.5px solid #CBD5E1 !important;
 }
 
-body[data-theme="light"] .form-input-dark:focus {
+body[data-theme="light"] input:focus,
+body[data-theme="light"] select:focus,
+body[data-theme="light"] textarea:focus {
   border-color: #10B981 !important;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
 }
 
-body[data-theme="light"] .user-text-fullname,
+/* Light Mode Typography & Visibility (Eliminate Invisible Text) */
 body[data-theme="light"] h1,
 body[data-theme="light"] h2,
 body[data-theme="light"] h3,
 body[data-theme="light"] h4,
+body[data-theme="light"] h5,
+body[data-theme="light"] h6,
 body[data-theme="light"] strong,
+body[data-theme="light"] b,
+body[data-theme="light"] .user-text-fullname,
 body[data-theme="light"] .metric-val {
   color: #0F172A !important;
 }
 
+/* Force inline white text to dark slate in light mode (except on emerald/blue buttons) */
+body[data-theme="light"] [style*="color: #FFFFFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
+body[data-theme="light"] [style*="color: rgb(255, 255, 255)"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
+body[data-theme="light"] [style*="color:#FFFFFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
+body[data-theme="light"] [style*="color:#fff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
+body[data-theme="light"] [style*="color: #fff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active) {
+  color: #0F172A !important;
+}
+
+/* Light Mode Subtitle & Dim Text */
+body[data-theme="light"] [style*="color: #94A3B8"],
+body[data-theme="light"] [style*="color: #CBD5E1"],
+body[data-theme="light"] [style*="color: #64748B"],
 body[data-theme="light"] .user-text-greeting,
 body[data-theme="light"] .metric-lbl,
 body[data-theme="light"] .sub-caption-text {
-  color: #64748B !important;
+  color: #475569 !important;
 }
 
 body[data-theme="light"] .lang-pill-btn {
@@ -142,7 +195,7 @@ body[data-theme="light"] .lang-pill-btn.active {
 }
 
 body[data-theme="light"] .bottom-navigation-bar {
-  background: rgba(255, 255, 255, 0.94) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
   border-color: #E2E8F0 !important;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06) !important;
 }
@@ -153,7 +206,7 @@ body[data-theme="light"] .nav-tab-btn {
 
 body[data-theme="light"] .nav-tab-btn.active {
   color: #10B981 !important;
-  background: rgba(16, 185, 129, 0.1) !important;
+  background: rgba(16, 185, 129, 0.12) !important;
 }
 
 body[data-theme="light"] table.data-table-dark {
@@ -177,7 +230,7 @@ body[data-theme="light"] table.data-table-dark tr:hover td {
 }
 
 body[data-theme="light"] ::-webkit-scrollbar-track {
-  background: #F1F5F9 !important;
+  background: #F8FAFC !important;
 }
 
 body[data-theme="light"] ::-webkit-scrollbar-thumb {
@@ -195,6 +248,7 @@ body[data-theme="oled"] {
   --bg-card-subtle: #050505;
   --border-glass: rgba(255, 255, 255, 0.12);
   background-color: #000000 !important;
+  color: #FFFFFF !important;
 }
 body[data-theme="oled"] .phone-viewport-wrapper {
   background-color: #000000 !important;
@@ -208,6 +262,7 @@ body[data-theme="navy"] {
   --bg-card-subtle: #172A45;
   --border-glass: rgba(100, 255, 218, 0.15);
   background-color: #020C1B !important;
+  color: #F8FAFC !important;
 }
 body[data-theme="navy"] .phone-viewport-wrapper {
   background-color: #0A192F !important;
@@ -221,10 +276,31 @@ body[data-theme="emerald"] {
   --bg-card-subtle: #047857;
   --border-glass: rgba(52, 211, 153, 0.2);
   background-color: #022C22 !important;
+  color: #ECFDF5 !important;
 }
 body[data-theme="emerald"] .phone-viewport-wrapper {
   background-color: #064E3B !important;
   border-color: #059669 !important;
+}
+
+/* 5. DARK THEME HIGH-CONTRAST VISIBILITY ENFORCEMENT */
+body[data-theme="dark"],
+body:not([data-theme="light"]):not([data-theme="oled"]):not([data-theme="navy"]):not([data-theme="emerald"]) {
+  background-color: #080E1E !important;
+  color: #FFFFFF !important;
+}
+
+body[data-theme="dark"] .phone-viewport-wrapper,
+body:not([data-theme="light"]) .phone-viewport-wrapper {
+  background-color: #080E1E !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body[data-theme="dark"] h1, body[data-theme="dark"] h2, body[data-theme="dark"] h3,
+body[data-theme="dark"] h4, body[data-theme="dark"] strong, body[data-theme="dark"] b,
+body:not([data-theme="light"]) h1, body:not([data-theme="light"]) h2,
+body:not([data-theme="light"]) h3, body:not([data-theme="light"]) strong {
+  color: #FFFFFF !important;
 }
 
 * {
