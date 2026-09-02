@@ -104,17 +104,95 @@ function bootESchoolApp() {
       });
     });
 
-    // 3. Theme Switcher Engine
+    // =========================================================
+    // 3. MASTER HARDWARE-AWARE THEME CONTROLLER
+    // =========================================================
+    function applyAppTheme(themeName, notify = false) {
+      const validThemes = ["dark", "light", "oled", "navy", "emerald"];
+      const activeTheme = validThemes.includes(themeName) ? themeName : "dark";
+
+      document.body.setAttribute("data-theme", activeTheme);
+      localStorage.setItem("eschool_theme", activeTheme);
+
+      // 1. Dynamic Top Bar Quick Toggle Icon & Tooltip
+      const quickToggleBtn = document.getElementById("btn-theme-quick-toggle");
+      if (quickToggleBtn) {
+        if (activeTheme === "light") {
+          quickToggleBtn.textContent = "🌙";
+          quickToggleBtn.title = "Passer en Mode Sombre (Dark)";
+        } else {
+          quickToggleBtn.textContent = "☀️";
+          quickToggleBtn.title = "Passer en Mode Clair (Light)";
+        }
+      }
+
+      // 2. Hardware OS Status Bar Theme-Color Sync
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme) {
+        const themeColors = {
+          light: "#F8FAFC",
+          oled: "#000000",
+          navy: "#0A192F",
+          emerald: "#064E3B",
+          dark: "#080E1E"
+        };
+        metaTheme.setAttribute("content", themeColors[activeTheme] || "#080E1E");
+      }
+
+      // 3. Profile Palette Switcher Pills Sync
+      document.querySelectorAll(".btn-theme-switcher").forEach(btn => {
+        if (btn.dataset.setTheme === activeTheme) {
+          btn.classList.add("active");
+          btn.style.opacity = "1";
+        } else {
+          btn.classList.remove("active");
+          btn.style.opacity = "0.7";
+        }
+      });
+
+      if (notify) {
+        showToast(`Thème activé : ${activeTheme.toUpperCase()}`);
+      }
+    }
+
+    // Top Status Bar Quick Toggle Button
+    const btnQuickTheme = document.getElementById("btn-theme-quick-toggle");
+    if (btnQuickTheme) {
+      btnQuickTheme.addEventListener("click", () => {
+        window.HardwareManager.vibrate(25);
+        const current = document.body.getAttribute("data-theme") || "dark";
+        const nextTheme = current === "light" ? "dark" : "light";
+        applyAppTheme(nextTheme, true);
+      });
+    }
+
+    // Profile Settings Theme Buttons
     document.querySelectorAll(".btn-theme-switcher").forEach(btn => {
       btn.addEventListener("click", () => {
-        window.HardwareManager.vibrate(20);
-        document.querySelectorAll(".btn-theme-switcher").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+        window.HardwareManager.vibrate(25);
         const theme = btn.dataset.setTheme;
-        document.body.setAttribute("data-theme", theme);
-        showToast(`Palette switched to: ${theme.toUpperCase()}`);
+        applyAppTheme(theme, true);
       });
     });
+
+    // Initial Theme Load & Hardware Preference Detection
+    const savedTheme = localStorage.getItem("eschool_theme");
+    if (savedTheme) {
+      applyAppTheme(savedTheme, false);
+    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
+      applyAppTheme("light", false);
+    } else {
+      applyAppTheme("dark", false);
+    }
+
+    // Hardware OS System Theme Change Listener
+    if (window.matchMedia) {
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+        if (!localStorage.getItem("eschool_theme_manual")) {
+          applyAppTheme(e.matches ? "dark" : "light", true);
+        }
+      });
+    }
 
     // =========================================================
     // 5. SECURITY: FORGOT PASSWORD 2FA OTP WORKFLOW
@@ -676,27 +754,6 @@ function bootESchoolApp() {
 
     if (btnDownloadPdf) btnDownloadPdf.onclick = generateOfficialPdfTranscript;
     if (btnExportAdminPdf) btnExportAdminPdf.onclick = generateOfficialPdfTranscript;
-
-    // Theme Switcher (OLED Dark, Deep Navy, Emerald, Light)
-    document.querySelectorAll(".btn-theme-switcher").forEach(btn => {
-      btn.onclick = () => {
-        window.HardwareManager.vibrate(25);
-        const theme = btn.dataset.setTheme;
-        document.body.setAttribute("data-theme", theme);
-        localStorage.setItem("eschool_theme", theme);
-
-        document.querySelectorAll(".btn-theme-switcher").forEach(b => {
-          b.classList.remove("active");
-          b.style.opacity = "0.7";
-        });
-        btn.classList.add("active");
-        btn.style.opacity = "1";
-        showToast(`Thème activé : ${theme.toUpperCase()}`);
-      };
-    });
-
-    const savedTheme = localStorage.getItem("eschool_theme") || "dark";
-    document.body.setAttribute("data-theme", savedTheme);
 
     // Real-Time Chat System
     const chatForm = document.getElementById("form-chat-send-msg");

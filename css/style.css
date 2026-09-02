@@ -38,7 +38,11 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-/* Light Theme Master Styles & Contrast Fixes */
+/* =========================================================
+   MASTER THEME ARCHITECTURE (Light, OLED, Navy, Emerald, Dark)
+   ========================================================= */
+
+/* 1. LIGHT THEME (Crisp Daylight Mode with Flawless Contrast) */
 body[data-theme="light"] {
   --bg-dark-app: #F8FAFC;
   --bg-card-dark: #FFFFFF;
@@ -47,7 +51,8 @@ body[data-theme="light"] {
   --text-white: #0F172A;
   --text-slate: #334155;
   --text-dim: #64748B;
-  --border-glass: rgba(0, 0, 0, 0.1);
+  --border-glass: #E2E8F0;
+  --border-emerald: rgba(16, 185, 129, 0.4);
   background-color: #E2E8F0 !important;
   color: #0F172A !important;
 }
@@ -55,23 +60,57 @@ body[data-theme="light"] {
 body[data-theme="light"] .phone-viewport-wrapper {
   background-color: #FFFFFF !important;
   border-color: #CBD5E1 !important;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08) !important;
+}
+
+body[data-theme="light"] .phone-top-bar {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+}
+
+body[data-theme="light"] #live-phone-clock {
+  color: #0F172A !important;
+}
+
+body[data-theme="light"] #btn-global-quick-search-trigger,
+body[data-theme="light"] #btn-theme-quick-toggle {
+  background: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #0F172A !important;
 }
 
 body[data-theme="light"] .metric-card-dark,
 body[data-theme="light"] .hero-gpa-card,
 body[data-theme="light"] .ai-assistant-card,
-body[data-theme="light"] .permissions-modal-card {
+body[data-theme="light"] .permissions-modal-card,
+body[data-theme="light"] .pwa-install-banner-card,
+body[data-theme="light"] .demo-chip-dark,
+body[data-theme="light"] .action-chip-btn,
+body[data-theme="light"] .feature-tile-btn,
+body[data-theme="light"] .modal-card-luxury {
   background: #FFFFFF !important;
   border: 1px solid #E2E8F0 !important;
   color: #0F172A !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
 }
 
-body[data-theme="light"] .form-input-dark {
-  background: #F8FAFC !important;
+body[data-theme="light"] #view-auth-portal > div {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+body[data-theme="light"] .form-input-dark,
+body[data-theme="light"] select.form-input-dark,
+body[data-theme="light"] textarea.form-input-dark {
+  background: #FFFFFF !important;
   color: #0F172A !important;
   border: 1px solid #CBD5E1 !important;
+}
+
+body[data-theme="light"] .form-input-dark:focus {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
 }
 
 body[data-theme="light"] .user-text-fullname,
@@ -79,19 +118,113 @@ body[data-theme="light"] h1,
 body[data-theme="light"] h2,
 body[data-theme="light"] h3,
 body[data-theme="light"] h4,
-body[data-theme="light"] strong {
+body[data-theme="light"] strong,
+body[data-theme="light"] .metric-val {
   color: #0F172A !important;
 }
 
+body[data-theme="light"] .user-text-greeting,
+body[data-theme="light"] .metric-lbl,
+body[data-theme="light"] .sub-caption-text {
+  color: #64748B !important;
+}
+
 body[data-theme="light"] .lang-pill-btn {
-  background: #F1F5F9;
-  color: #334155;
-  border-color: #CBD5E1;
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+  border-color: #CBD5E1 !important;
 }
 
 body[data-theme="light"] .lang-pill-btn.active {
-  background: #10B981;
-  color: #FFFFFF;
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  border-color: #10B981 !important;
+}
+
+body[data-theme="light"] .bottom-navigation-bar {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+body[data-theme="light"] .nav-tab-btn {
+  color: #64748B !important;
+}
+
+body[data-theme="light"] .nav-tab-btn.active {
+  color: #10B981 !important;
+  background: rgba(16, 185, 129, 0.1) !important;
+}
+
+body[data-theme="light"] table.data-table-dark {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+body[data-theme="light"] table.data-table-dark th {
+  background: #F8FAFC !important;
+  color: #334155 !important;
+  border-bottom: 2px solid #E2E8F0 !important;
+}
+
+body[data-theme="light"] table.data-table-dark td {
+  border-bottom: 1px solid #F1F5F9 !important;
+  color: #0F172A !important;
+}
+
+body[data-theme="light"] table.data-table-dark tr:hover td {
+  background: #F8FAFC !important;
+}
+
+body[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #F1F5F9 !important;
+}
+
+body[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: #CBD5E1 !important;
+}
+
+body[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8 !important;
+}
+
+/* 2. OLED PITCH BLACK THEME */
+body[data-theme="oled"] {
+  --bg-dark-app: #000000;
+  --bg-card-dark: #000000;
+  --bg-card-subtle: #050505;
+  --border-glass: rgba(255, 255, 255, 0.12);
+  background-color: #000000 !important;
+}
+body[data-theme="oled"] .phone-viewport-wrapper {
+  background-color: #000000 !important;
+  border-color: #1F2937 !important;
+}
+
+/* 3. DEEP NAVY THEME */
+body[data-theme="navy"] {
+  --bg-dark-app: #0A192F;
+  --bg-card-dark: #112240;
+  --bg-card-subtle: #172A45;
+  --border-glass: rgba(100, 255, 218, 0.15);
+  background-color: #020C1B !important;
+}
+body[data-theme="navy"] .phone-viewport-wrapper {
+  background-color: #0A192F !important;
+  border-color: #233554 !important;
+}
+
+/* 4. SENEGAL EMERALD THEME */
+body[data-theme="emerald"] {
+  --bg-dark-app: #064E3B;
+  --bg-card-dark: #065F46;
+  --bg-card-subtle: #047857;
+  --border-glass: rgba(52, 211, 153, 0.2);
+  background-color: #022C22 !important;
+}
+body[data-theme="emerald"] .phone-viewport-wrapper {
+  background-color: #064E3B !important;
+  border-color: #059669 !important;
 }
 
 * {
