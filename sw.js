@@ -1,5 +1,5 @@
 // Service Worker for E-School Daara (PWA & Offline-First Enterprise Caching)
-const CACHE_NAME = 'eschool-daara-v23';
+const CACHE_NAME = 'eschool-daara-v24';
 
 const ASSETS_TO_CACHE = [
   './',

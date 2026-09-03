@@ -600,34 +600,34 @@
       </div>
 
       <!-- Modern Glassmorphic Login Card -->
-      <div style="background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 18px; padding: 18px 16px; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5); margin-bottom: 16px;">
+      <div class="auth-login-card" style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 18px; padding: 18px 16px; margin-bottom: 16px;">
         
         <!-- Interactive Role Switcher Pills -->
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: rgba(0, 0, 0, 0.35); padding: 4px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 14px;">
-          <button type="button" class="auth-role-tab-btn active" data-role-id="ADM-01" data-role-pass="admin123" style="background: #10B981; color: #FFF; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_admin">🏛️ Admin</button>
-          <button type="button" class="auth-role-tab-btn" data-role-id="TCH-01" data-role-pass="teach123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_teacher">👨‍🏫 Prof</button>
-          <button type="button" class="auth-role-tab-btn" data-role-id="STU-101" data-role-pass="stud123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_student">🎓 Élève</button>
-          <button type="button" class="auth-role-tab-btn" data-role-id="PAR-101" data-role-pass="parent123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_parent">👨‍👩‍👧 Parent</button>
+        <div class="auth-role-switcher-box" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; border-radius: 12px; margin-bottom: 14px;">
+          <button type="button" class="auth-role-tab-btn active" data-role-id="ADM-01" data-role-pass="admin123" style="padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_admin">🏛️ Admin</button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="TCH-01" data-role-pass="teach123" style="padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_teacher">👨‍🏫 Prof</button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="STU-101" data-role-pass="stud123" style="padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_student">🎓 Élève</button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="PAR-101" data-role-pass="parent123" style="padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_parent">👨‍👩‍👧 Parent</button>
         </div>
 
         <!-- Login Form -->
         <form id="form-auth-login">
           <div id="auth-error-notice" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; margin-bottom: 10px;"></div>
 
-          <div style="text-align: left; margin-bottom: 4px; font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;">
-            <span>👤</span> <span data-i18n="auth.id_label">Identifiant / Matricule (ID)</span>
+          <div style="text-align: left; margin-bottom: 4px; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+            <span>👤</span> <span data-i18n="auth.id_label" class="auth-field-label">Identifiant / Matricule (ID)</span>
           </div>
-          <input type="text" id="input-login-id" class="form-input-dark" placeholder="Ex: ADM-01, TCH-01, STU-101, PAR-101" value="ADM-01" required style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 12px; font-size: 0.82rem;">
+          <input type="text" id="input-login-id" class="form-input-dark" placeholder="Ex: ADM-01, TCH-01, STU-101, PAR-101" value="ADM-01" required style="margin-bottom: 12px; font-size: 0.82rem;">
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-            <span style="font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;">
-              <span>🔒</span> <span data-i18n="auth.pass_label">Mot de passe</span>
+            <span style="font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+              <span>🔒</span> <span data-i18n="auth.pass_label" class="auth-field-label">Mot de passe</span>
             </span>
             <button type="button" id="btn-trigger-forgot-pass" style="background: none; border: none; color: #38BDF8; font-size: 0.68rem; font-weight: 700; cursor: pointer; text-decoration: underline;" data-i18n="auth.forgot_pass_link">
               Mot de passe oublié ?
             </button>
           </div>
-          <input type="password" id="input-login-pass" class="form-input-dark" placeholder="••••••••" value="admin123" required style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 16px; font-size: 0.82rem;">
+          <input type="password" id="input-login-pass" class="form-input-dark" placeholder="••••••••" value="admin123" required style="margin-bottom: 16px; font-size: 0.82rem;">
 
           <button type="submit" class="btn-emerald-glow" style="padding: 12px; font-size: 0.88rem; font-weight: 900; letter-spacing: 0.5px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
             <span>🚀</span>
@@ -639,48 +639,48 @@
       <!-- Quick 1-Click Access Role Cards Grid -->
       <div style="margin-bottom: 16px; text-align: left;">
         <div style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-          <span data-i18n="auth.quick_demo">Accès Rapide Démo (1-Click)</span>
+          <span data-i18n="auth.quick_demo" class="auth-demo-header-label">Accès Rapide Démo (1-Click)</span>
           <span style="font-size: 0.58rem; color: #10B981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 1px 6px; border-radius: 4px;" data-i18n="auth.quick_demo_badge">TOUCH TO LOGIN</span>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
           
-          <div class="demo-chip-dark" data-cred="ADM-01:admin123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(167, 139, 250, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+          <div class="demo-chip-dark" data-cred="ADM-01:admin123" style="border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
             <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(167, 139, 250, 0.2); border: 1px solid #A78BFA; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
               🏛️
             </div>
             <div style="overflow: hidden;">
-              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">M. Ousmane Diop</div>
+              <div class="demo-chip-name" style="font-size: 0.72rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">M. Ousmane Diop</div>
               <div style="font-size: 0.6rem; color: #A78BFA; font-weight: 700;" data-i18n="auth.demo_adm_role">Direction (ADM)</div>
             </div>
           </div>
 
-          <div class="demo-chip-dark" data-cred="TCH-01:teach123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(52, 211, 153, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+          <div class="demo-chip-dark" data-cred="TCH-01:teach123" style="border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
             <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(52, 211, 153, 0.2); border: 1px solid #34D399; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
               👨‍🏫
             </div>
             <div style="overflow: hidden;">
-              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Prof. Jean-Marc</div>
+              <div class="demo-chip-name" style="font-size: 0.72rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Prof. Jean-Marc</div>
               <div style="font-size: 0.6rem; color: #34D399; font-weight: 700;" data-i18n="auth.demo_tch_role">Enseignant (TCH)</div>
             </div>
           </div>
 
-          <div class="demo-chip-dark" data-cred="STU-101:stud123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+          <div class="demo-chip-dark" data-cred="STU-101:stud123" style="border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
             <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(56, 189, 248, 0.2); border: 1px solid #38BDF8; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
               🎓
             </div>
             <div style="overflow: hidden;">
-              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Amadou Diallo</div>
+              <div class="demo-chip-name" style="font-size: 0.72rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Amadou Diallo</div>
               <div style="font-size: 0.6rem; color: #38BDF8; font-weight: 700;" data-i18n="auth.demo_stu_role">Élève (10-A)</div>
             </div>
           </div>
 
-          <div class="demo-chip-dark" data-cred="PAR-101:parent123" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
+          <div class="demo-chip-dark" data-cred="PAR-101:parent123" style="border-radius: 12px; padding: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px;">
             <div style="width: 32px; height: 32px; border-radius: 8px; background: rgba(245, 158, 11, 0.2); border: 1px solid #F59E0B; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
               👨‍👩‍👧
             </div>
             <div style="overflow: hidden;">
-              <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Moussa Diallo</div>
+              <div class="demo-chip-name" style="font-size: 0.72rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Moussa Diallo</div>
               <div style="font-size: 0.6rem; color: #F59E0B; font-weight: 700;" data-i18n="auth.demo_par_role">Parent d'Élève</div>
             </div>
           </div>

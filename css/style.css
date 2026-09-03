@@ -240,6 +240,75 @@ body[data-theme="light"] .corporate-brand-header > div:first-child {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
 }
 
+/* Light Mode Auth / Unified Login Portal */
+body[data-theme="light"] #view-auth-portal {
+  background: transparent !important;
+}
+
+body[data-theme="light"] .corporate-brand-header h1 {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #0F172A !important;
+  color: #0F172A !important;
+  text-shadow: none !important;
+}
+
+body[data-theme="light"] .auth-login-card {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+body[data-theme="light"] .auth-role-switcher-box {
+  background: #F1F5F9 !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+body[data-theme="light"] .auth-role-tab-btn {
+  background: transparent !important;
+  color: #64748B !important;
+}
+
+body[data-theme="light"] .auth-role-tab-btn.active {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35) !important;
+}
+
+body[data-theme="light"] .auth-field-label {
+  color: #1E293B !important;
+}
+
+body[data-theme="light"] .form-input-dark {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1.5px solid #CBD5E1 !important;
+}
+
+body[data-theme="light"] .form-input-dark:focus {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+body[data-theme="light"] .demo-chip-dark {
+  background: #FFFFFF !important;
+  border: 1.5px solid #E2E8F0 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+}
+
+body[data-theme="light"] .demo-chip-dark:hover {
+  border-color: #10B981 !important;
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.15) !important;
+}
+
+body[data-theme="light"] .demo-chip-name {
+  color: #0F172A !important;
+}
+
+body[data-theme="light"] .auth-demo-header-label {
+  color: #475569 !important;
+}
+
 /* Light Mode Quick Action Buttons & Secondary Badges */
 body[data-theme="light"] .quick-action-pill-btn,
 body[data-theme="light"] .notif-bell-btn,
@@ -438,11 +507,15 @@ body {
 /* Mobile Screens (< 768px) */
 @media (max-width: 767px) {
   body {
-    background: #080E1E !important;
+    background: var(--bg-dark-app) !important;
     padding: 0 !important;
     margin: 0 !important;
     width: 100vw;
     overflow-x: hidden;
+  }
+
+  body[data-theme="light"] {
+    background: #F8FAFC !important;
   }
 
   .phone-viewport-wrapper {
@@ -568,6 +641,10 @@ body {
   body {
     padding: 20px 14px;
     background: radial-gradient(circle at top center, #0F172A 0%, #030712 100%);
+  }
+
+  body[data-theme="light"] {
+    background: #F1F5F9 !important;
   }
 
   .phone-viewport-wrapper {
