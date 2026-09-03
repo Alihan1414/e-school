@@ -53,6 +53,14 @@ window.i18n = {
       }
     });
 
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      const text = this.t(key);
+      if (text) {
+        el.innerHTML = text;
+      }
+    });
+
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       const key = el.getAttribute('data-i18n-placeholder');
       const text = this.t(key);

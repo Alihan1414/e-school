@@ -261,12 +261,12 @@
           <div>
             <label style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="quiz.subject_label">Matière d'Évaluation</label>
             <select id="ai-quiz-subject" class="form-input-dark" style="margin: 2px 0 0 0; font-size: 0.75rem;">
-              <option value="Mathématiques">Mathématiques</option>
-              <option value="Physique-Chimie">Physique-Chimie</option>
-              <option value="SVT / Biologie">SVT / Biologie</option>
-              <option value="Français & Littérature">Français & Littérature</option>
-              <option value="Histoire-Géographie">Histoire-Géographie</option>
-              <option value="Anglais">Anglais</option>
+              <option value="Mathématiques" data-i18n="opt.math">Mathématiques</option>
+              <option value="Physique-Chimie" data-i18n="opt.phys">Physique-Chimie</option>
+              <option value="SVT / Biologie" data-i18n="opt.bio">SVT / Biologie</option>
+              <option value="Français & Littérature" data-i18n="opt.lit">Français & Littérature</option>
+              <option value="Histoire-Géographie" data-i18n="opt.hist">Histoire-Géographie</option>
+              <option value="Anglais" data-i18n="opt.eng">Anglais</option>
             </select>
           </div>
           <div>
@@ -397,43 +397,43 @@
     <div class="permissions-modal-card" style="max-width: 480px; text-align: left; padding: 18px;">
       <div style="display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border-glass); padding-bottom: 10px; margin-bottom: 12px;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="spotlight-search-input" placeholder="Rechercher élève, matière, devoir, fonction (ex: notes, bulletin, quiz)..." style="background: transparent; border: none; outline: none; color: #FFF; font-size: 0.85rem; flex: 1;" autofocus>
+        <input type="text" id="spotlight-search-input" placeholder="Rechercher élève, matière, devoir, fonction (ex: notes, bulletin, quiz)..." data-i18n-placeholder="spotlight.placeholder" style="background: transparent; border: none; outline: none; color: #FFF; font-size: 0.85rem; flex: 1;" autofocus>
         <button id="btn-close-spotlight-modal" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
       </div>
 
-      <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;">Actions &amp; Accès Rapides</div>
+      <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; margin-bottom: 6px;" data-i18n="spotlight.quick_title">Actions &amp; Accès Rapides</div>
       
       <div id="spotlight-search-results" style="display: flex; flex-direction: column; gap: 6px; max-height: 280px; overflow-y: auto;">
         <div class="spotlight-item" data-action="tab-notes" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 8px 12px; border-radius: 8px; cursor: pointer;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span>📊</span>
-            <strong style="color: #FFF; font-size: 0.78rem;">Relevé de Notes &amp; Évaluations (Semestre 2)</strong>
+            <strong style="color: #FFF; font-size: 0.78rem;" data-i18n="spotlight.notes">Relevé de Notes &amp; Évaluations (Semestre 2)</strong>
           </div>
-          <span style="font-size: 0.62rem; color: #38BDF8;">Onglet Notes ↵</span>
+          <span style="font-size: 0.62rem; color: #38BDF8;" data-i18n="spotlight.notes_action">Onglet Notes ↵</span>
         </div>
 
         <div class="spotlight-item" data-action="open-quiz" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 8px 12px; border-radius: 8px; cursor: pointer;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span>📝</span>
-            <strong style="color: #FFF; font-size: 0.78rem;">Évaluation &amp; Quiz Daara AI (Mathématiques)</strong>
+            <strong style="color: #FFF; font-size: 0.78rem;" data-i18n="spotlight.quiz">Évaluation &amp; Quiz Daara AI (Mathématiques)</strong>
           </div>
-          <span style="font-size: 0.62rem; color: #A78BFA;">Quiz IA ↵</span>
+          <span style="font-size: 0.62rem; color: #A78BFA;" data-i18n="spotlight.quiz_action">Quiz IA ↵</span>
         </div>
 
         <div class="spotlight-item" data-action="tab-emploi" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 8px 12px; border-radius: 8px; cursor: pointer;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span>📅</span>
-            <strong style="color: #FFF; font-size: 0.78rem;">Emploi du Temps &amp; Planning de Classe 10-A</strong>
+            <strong style="color: #FFF; font-size: 0.78rem;" data-i18n="spotlight.timetable">Emploi du Temps &amp; Planning de Classe 10-A</strong>
           </div>
-          <span style="font-size: 0.62rem; color: #F59E0B;">Planning ↵</span>
+          <span style="font-size: 0.62rem; color: #F59E0B;" data-i18n="spotlight.timetable_action">Planning ↵</span>
         </div>
 
         <div class="spotlight-item" data-action="download-transcript" style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); padding: 8px 12px; border-radius: 8px; cursor: pointer;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span>📄</span>
-            <strong style="color: #FFF; font-size: 0.78rem;">Télécharger Bulletin Officiel Scellé (PDF)</strong>
+            <strong style="color: #FFF; font-size: 0.78rem;" data-i18n="spotlight.transcript">Télécharger Bulletin Officiel Scellé (PDF)</strong>
           </div>
-          <span style="font-size: 0.62rem; color: #34D399;">PDF ↵</span>
+          <span style="font-size: 0.62rem; color: #34D399;" data-i18n="spotlight.transcript_action">PDF ↵</span>
         </div>
       </div>
     </div>
@@ -451,8 +451,8 @@
             <img src="icons/favicon.svg" alt="Logo" style="width: 22px; height: 22px;">
           </div>
           <div>
-            <div style="font-size: 0.85rem; font-weight: 900; color: #FFFFFF;">INSTALLER E-SCHOOL DAARA</div>
-            <div style="font-size: 0.62rem; color: #10B981; font-weight: 800;">Application Scolaire Progressive (PWA)</div>
+            <div style="font-size: 0.85rem; font-weight: 900; color: #FFFFFF;" data-i18n="pwa.modal_title">INSTALLER E-SCHOOL DAARA</div>
+            <div style="font-size: 0.62rem; color: #10B981; font-weight: 800;" data-i18n="pwa.modal_sub">Application Scolaire Progressive (PWA)</div>
           </div>
         </div>
         <button id="btn-pwa-modal-close" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.1rem;">✕</button>
@@ -473,22 +473,22 @@
         <div style="display: flex; align-items: flex-start; gap: 10px;">
           <span style="font-size: 1.1rem;">⚡</span>
           <div>
-            <strong style="font-size: 0.76rem; color: #FFF;">Lancement Instantané &amp; Plein Écran</strong>
-            <div style="font-size: 0.65rem; color: #94A3B8;">Fonctionne comme une application native sans barre de navigateur.</div>
+            <strong style="font-size: 0.76rem; color: #FFF;" data-i18n="pwa.feat_native_title">Lancement Instantané &amp; Plein Écran</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="pwa.feat_native_desc">Fonctionne comme une application native sans barre de navigateur.</div>
           </div>
         </div>
         <div style="display: flex; align-items: flex-start; gap: 10px;">
           <span style="font-size: 1.1rem;">📴</span>
           <div>
-            <strong style="font-size: 0.76rem; color: #34D399;">Disponibilité 100% Hors-Ligne</strong>
-            <div style="font-size: 0.65rem; color: #94A3B8;">Consultez vos notes, devoirs et emplois du temps même sans connexion Internet.</div>
+            <strong style="font-size: 0.76rem; color: #34D399;" data-i18n="pwa.feat_offline">Disponibilité 100% Hors-Ligne</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="pwa.feat_off_desc">Consultez vos notes, devoirs et emplois du temps même sans connexion Internet.</div>
           </div>
         </div>
         <div style="display: flex; align-items: flex-start; gap: 10px;">
           <span style="font-size: 1.1rem;">🔔</span>
           <div>
-            <strong style="font-size: 0.76rem; color: #38BDF8;">Notifications Push &amp; Alertes</strong>
-            <div style="font-size: 0.65rem; color: #94A3B8;">Recevez instantanément les alertes de notes, présences et reçus de paiement.</div>
+            <strong style="font-size: 0.76rem; color: #38BDF8;" data-i18n="pwa.feat_push">Notifications Push &amp; Alertes</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="pwa.feat_push_desc">Recevez instantanément les alertes de notes, présences et reçus de paiement.</div>
           </div>
         </div>
       </div>
@@ -604,32 +604,24 @@
         
         <!-- Interactive Role Switcher Pills -->
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: rgba(0, 0, 0, 0.35); padding: 4px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 14px;">
-          <button type="button" class="auth-role-tab-btn active" data-role-id="ADM-01" data-role-pass="admin123" style="background: #10B981; color: #FFF; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
-            🏛️ Admin
-          </button>
-          <button type="button" class="auth-role-tab-btn" data-role-id="TCH-01" data-role-pass="teach123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
-            👨‍🏫 Prof
-          </button>
-          <button type="button" class="auth-role-tab-btn" data-role-id="STU-101" data-role-pass="stud123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
-            🎓 Élève
-          </button>
-          <button type="button" class="auth-role-tab-btn" data-role-id="PAR-101" data-role-pass="parent123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;">
-            👨‍👩‍👧 Parent
-          </button>
+          <button type="button" class="auth-role-tab-btn active" data-role-id="ADM-01" data-role-pass="admin123" style="background: #10B981; color: #FFF; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_admin">🏛️ Admin</button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="TCH-01" data-role-pass="teach123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_teacher">👨‍🏫 Prof</button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="STU-101" data-role-pass="stud123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_student">🎓 Élève</button>
+          <button type="button" class="auth-role-tab-btn" data-role-id="PAR-101" data-role-pass="parent123" style="background: transparent; color: #94A3B8; border: none; padding: 6px 2px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer; transition: all 0.2s ease;" data-i18n="auth.role_parent">👨‍👩‍👧 Parent</button>
         </div>
 
         <!-- Login Form -->
         <form id="form-auth-login">
           <div id="auth-error-notice" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 8px; border-radius: 8px; font-size: 0.72rem; font-weight: 700; margin-bottom: 10px;"></div>
 
-          <div style="text-align: left; margin-bottom: 4px; font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;" data-i18n="auth.id_label">
-            <span>👤</span> Identifiant / Matricule (ID)
+          <div style="text-align: left; margin-bottom: 4px; font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+            <span>👤</span> <span data-i18n="auth.id_label">Identifiant / Matricule (ID)</span>
           </div>
           <input type="text" id="input-login-id" class="form-input-dark" placeholder="Ex: ADM-01, TCH-01, STU-101, PAR-101" value="ADM-01" required style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 12px; font-size: 0.82rem;">
 
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-            <span style="font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;" data-i18n="auth.pass_label">
-              <span>🔒</span> Mot de passe
+            <span style="font-size: 0.7rem; color: #CBD5E1; font-weight: 700; display: flex; align-items: center; gap: 4px;">
+              <span>🔒</span> <span data-i18n="auth.pass_label">Mot de passe</span>
             </span>
             <button type="button" id="btn-trigger-forgot-pass" style="background: none; border: none; color: #38BDF8; font-size: 0.68rem; font-weight: 700; cursor: pointer; text-decoration: underline;" data-i18n="auth.forgot_pass_link">
               Mot de passe oublié ?
@@ -637,9 +629,9 @@
           </div>
           <input type="password" id="input-login-pass" class="form-input-dark" placeholder="••••••••" value="admin123" required style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.12); margin-bottom: 16px; font-size: 0.82rem;">
 
-          <button type="submit" class="btn-emerald-glow" style="padding: 12px; font-size: 0.88rem; font-weight: 900; letter-spacing: 0.5px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;" data-i18n="auth.login_btn">
+          <button type="submit" class="btn-emerald-glow" style="padding: 12px; font-size: 0.88rem; font-weight: 900; letter-spacing: 0.5px; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;">
             <span>🚀</span>
-            <span>Se Connecter à E-School</span>
+            <span data-i18n="auth.login_btn">Se Connecter à E-School</span>
           </button>
         </form>
       </div>
@@ -648,7 +640,7 @@
       <div style="margin-bottom: 16px; text-align: left;">
         <div style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
           <span data-i18n="auth.quick_demo">Accès Rapide Démo (1-Click)</span>
-          <span style="font-size: 0.58rem; color: #10B981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 1px 6px; border-radius: 4px;">TOUCH TO LOGIN</span>
+          <span style="font-size: 0.58rem; color: #10B981; font-weight: 800; background: rgba(16, 185, 129, 0.15); padding: 1px 6px; border-radius: 4px;" data-i18n="auth.quick_demo_badge">TOUCH TO LOGIN</span>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
@@ -659,7 +651,7 @@
             </div>
             <div style="overflow: hidden;">
               <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">M. Ousmane Diop</div>
-              <div style="font-size: 0.6rem; color: #A78BFA; font-weight: 700;">Direction (ADM)</div>
+              <div style="font-size: 0.6rem; color: #A78BFA; font-weight: 700;" data-i18n="auth.demo_adm_role">Direction (ADM)</div>
             </div>
           </div>
 
@@ -669,7 +661,7 @@
             </div>
             <div style="overflow: hidden;">
               <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Prof. Jean-Marc</div>
-              <div style="font-size: 0.6rem; color: #34D399; font-weight: 700;">Enseignant (TCH)</div>
+              <div style="font-size: 0.6rem; color: #34D399; font-weight: 700;" data-i18n="auth.demo_tch_role">Enseignant (TCH)</div>
             </div>
           </div>
 
@@ -679,7 +671,7 @@
             </div>
             <div style="overflow: hidden;">
               <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Amadou Diallo</div>
-              <div style="font-size: 0.6rem; color: #38BDF8; font-weight: 700;">Élève (10-A)</div>
+              <div style="font-size: 0.6rem; color: #38BDF8; font-weight: 700;" data-i18n="auth.demo_stu_role">Élève (10-A)</div>
             </div>
           </div>
 
@@ -689,7 +681,7 @@
             </div>
             <div style="overflow: hidden;">
               <div style="font-size: 0.72rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Moussa Diallo</div>
-              <div style="font-size: 0.6rem; color: #F59E0B; font-weight: 700;">Parent d'Élève</div>
+              <div style="font-size: 0.6rem; color: #F59E0B; font-weight: 700;" data-i18n="auth.demo_par_role">Parent d'Élève</div>
             </div>
           </div>
 
@@ -704,8 +696,8 @@
               📲
             </div>
             <div style="text-align: left;">
-              <div style="font-size: 0.78rem; font-weight: 900; color: #FFFFFF;">Installer l'Application PWA</div>
-              <div style="font-size: 0.62rem; color: #94A3B8;">Accès instantané &amp; mode 100% hors-ligne</div>
+              <div style="font-size: 0.78rem; font-weight: 900; color: #FFFFFF;" data-i18n="pwa.banner_title">Installer l'Application PWA</div>
+              <div style="font-size: 0.62rem; color: #94A3B8;" data-i18n="pwa.banner_sub">Accès instantané &amp; mode 100% hors-ligne</div>
             </div>
           </div>
           <span style="font-size: 0.58rem; background: rgba(16, 185, 129, 0.2); color: #34D399; font-weight: 800; padding: 2px 6px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.4);">
@@ -716,19 +708,19 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 10px;">
           <div class="pwa-feature-pill">
             <span class="icon">⚡</span>
-            <span>Accès Direct</span>
+            <span data-i18n="pwa.feat_direct">Accès Direct</span>
           </div>
           <div class="pwa-feature-pill">
             <span class="icon">📴</span>
-            <span>100% Hors-Ligne</span>
+            <span data-i18n="pwa.feat_offline">100% Hors-Ligne</span>
           </div>
           <div class="pwa-feature-pill">
             <span class="icon">🔔</span>
-            <span>Notifications Push</span>
+            <span data-i18n="pwa.feat_push">Notifications Push</span>
           </div>
           <div class="pwa-feature-pill">
             <span class="icon">🛡️</span>
-            <span>Chiffrement Local</span>
+            <span data-i18n="pwa.feat_crypto">Chiffrement Local</span>
           </div>
         </div>
 
@@ -816,7 +808,7 @@
             <div style="font-size: 0.72rem; font-weight: 900; color: #FFFFFF; letter-spacing: 0.5px; text-transform: uppercase;" data-i18n="dash.card_hw_title">HOMEWORK</div>
             <div style="display: flex; align-items: baseline; gap: 4px; margin-top: 2px;">
               <span style="font-size: 1.05rem; font-weight: 900; color: #38BDF8; font-family: monospace;">2</span>
-              <span style="font-size: 0.62rem; color: #94A3B8;">Pending</span>
+              <span style="font-size: 0.62rem; color: #94A3B8;" data-i18n="home.pending">Pending</span>
             </div>
           </div>
 
@@ -880,8 +872,8 @@
         <!-- 3. "Today's Schedule" Active Card with Countdown -->
         <div style="margin-bottom: 18px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
-            <div style="font-size: 0.82rem; font-weight: 900; color: #FFFFFF;" data-i18n="tab.emploi">Today's Schedule</div>
-            <span onclick="window.switchStudentParentTab('emploi')" style="font-size: 0.65rem; color: #10B981; font-weight: 700; cursor: pointer;">Voir Tout &rarr;</span>
+            <div style="font-size: 0.82rem; font-weight: 900; color: #FFFFFF;" data-i18n="home.schedule_title">Today's Schedule</div>
+            <span onclick="window.switchStudentParentTab('emploi')" style="font-size: 0.65rem; color: #10B981; font-weight: 700; cursor: pointer;" data-i18n-html="home.see_all">Voir Tout &rarr;</span>
           </div>
 
           <div class="metric-card-dark" onclick="window.switchStudentParentTab('emploi')" style="cursor: pointer; padding: 14px 16px; border-radius: 18px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.65) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1.5px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 24px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: space-between;">
@@ -890,22 +882,20 @@
                 <span style="font-size: 0.62rem; font-weight: 900; color: #FFFFFF; font-family: monospace; animation: none;">35m</span>
               </div>
               <div>
-                <div style="font-size: 0.62rem; color: #38BDF8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Upcoming Class</div>
+                <div style="font-size: 0.62rem; color: #38BDF8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="home.upcoming_class">Upcoming Class</div>
                 <div style="font-size: 0.95rem; font-weight: 900; color: #FFFFFF; margin-top: 1px;" id="countdown-exam-subject">Mathématiques | 10:30 AM</div>
                 <div style="font-size: 0.68rem; color: #94A3B8; margin-top: 2px;">Salle B-104 • Prof. Jean-Marc Fall</div>
               </div>
             </div>
-            <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34D399; font-size: 0.64rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;">
-              En direct
-            </div>
+            <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34D399; font-size: 0.64rem; font-weight: 800; padding: 4px 10px; border-radius: 20px;" data-i18n="home.live_badge">En direct</div>
           </div>
         </div>
 
         <!-- 4. "Latest Grades" Mini Progress Cards -->
         <div style="margin-bottom: 22px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
-            <div style="font-size: 0.82rem; font-weight: 900; color: #FFFFFF;" data-i18n="tab.notes">Latest Grades</div>
-            <span onclick="window.switchStudentParentTab('notes')" style="font-size: 0.65rem; color: #10B981; font-weight: 700; cursor: pointer;">Relevé Complet &rarr;</span>
+            <div style="font-size: 0.82rem; font-weight: 900; color: #FFFFFF;" data-i18n="home.latest_grades">Latest Grades</div>
+            <span onclick="window.switchStudentParentTab('notes')" style="font-size: 0.65rem; color: #10B981; font-weight: 700; cursor: pointer;" data-i18n-html="home.full_report">Relevé Complet &rarr;</span>
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
@@ -997,21 +987,17 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
             <div style="display: flex; align-items: center; gap: 6px;">
               <span style="font-size: 1rem;">🎯</span>
-              <strong style="color: #34D399; font-size: 0.82rem;">Simulateur d'Objectif de Mention</strong>
+              <strong style="color: #34D399; font-size: 0.82rem;" data-i18n="notes.sim_title">Simulateur d'Objectif de Mention</strong>
             </div>
-            <span id="gpa-sim-badge" style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.4);">
-              Félicitations du Conseil
-            </span>
+            <span id="gpa-sim-badge" style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.4);" data-i18n="notes.sim_badge">Félicitations du Conseil</span>
           </div>
-          <p style="font-size: 0.68rem; color: #94A3B8; margin-bottom: 10px;">
-            Ajustez votre note visée aux prochains examens pour projeter votre moyenne finale :
-          </p>
+          <p style="font-size: 0.68rem; color: #94A3B8; margin-bottom: 10px;" data-i18n="notes.sim_desc">Ajustez votre note visée aux prochains examens pour projeter votre moyenne finale :</p>
           <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
             <input type="range" id="input-gpa-sim-slider" min="70" max="100" value="94" style="flex: 1; accent-color: #10B981; cursor: pointer;">
             <span id="gpa-sim-target-display" style="font-family: monospace; font-size: 0.95rem; font-weight: 900; color: #38BDF8; min-width: 45px;">94 / 100</span>
           </div>
           <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px;">
-            <span style="color: #94A3B8;">Moyenne Finale Projetée :</span>
+            <span style="color: #94A3B8;" data-i18n="notes.sim_projected">Moyenne Finale Projetée :</span>
             <strong id="gpa-sim-projected-result" style="color: #10B981; font-size: 1.05rem; font-family: monospace;">92.45 / 100</strong>
           </div>
         </div>
@@ -1022,10 +1008,10 @@
         <div class="metric-card-dark" style="margin-top: 14px; border: 1px solid rgba(16, 185, 129, 0.3);">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <div>
-              <strong style="color: #10B981; font-size: 0.82rem;">Performance Relative aux Moyennes de Classe</strong>
-              <div style="font-size: 0.65rem; color: #94A3B8;">Repère orange : Moyenne Générale de la Classe 10-A</div>
+              <strong style="color: #10B981; font-size: 0.82rem;" data-i18n="notes.chart_title">Performance Relative aux Moyennes de Classe</strong>
+              <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="notes.chart_sub">Repère orange : Moyenne Générale de la Classe 10-A</div>
             </div>
-            <span style="font-size: 0.65rem; color: #34D399; font-weight: 800;">TOP 5%</span>
+            <span style="font-size: 0.65rem; color: #34D399; font-weight: 800;" data-i18n="notes.top_badge">TOP 5%</span>
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.72rem;">
@@ -1094,9 +1080,9 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <div style="display: flex; align-items: center; gap: 6px;">
               <span style="font-size: 1rem;">🗂️</span>
-              <strong style="color: #818CF8; font-size: 0.82rem;">Cartes Mémo Interactives (Flashcards IA)</strong>
+              <strong style="color: #818CF8; font-size: 0.82rem;" data-i18n="flash.title">Cartes Mémo Interactives (Flashcards IA)</strong>
             </div>
-            <span style="font-size: 0.65rem; color: #C084FC; font-weight: 800;">3 NOTIONS CLÉS</span>
+            <span style="font-size: 0.65rem; color: #C084FC; font-weight: 800;" data-i18n="flash.badge">3 NOTIONS CLÉS</span>
           </div>
 
           <div class="flashcard-wrapper" id="flashcard-sample-1" title="Cliquez pour tourner la carte et voir la réponse">
@@ -1104,24 +1090,24 @@
               <!-- FRONT -->
               <div class="flashcard-face flashcard-front">
                 <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #818CF8; font-weight: 800;">
-                  <span>MATHÉMATIQUES</span>
-                  <span>QUESTION #1</span>
+                  <span data-i18n="flash.math_title">MATHÉMATIQUES</span>
+                  <span data-i18n="flash.q1">QUESTION #1</span>
                 </div>
                 <div style="font-size: 0.82rem; font-weight: 800; color: #FFF; margin: 8px 0;">
-                  Quelle est la dérivée de f(x) = ln(x) pour x &gt; 0 ?
+                  <span data-i18n="flash.q1_text">Quelle est la dérivée de f(x) = ln(x) pour x &gt; 0 ?</span>
                 </div>
-                <div style="font-size: 0.62rem; color: #94A3B8;">🔄 Touchez pour révéler la formule</div>
+                <div style="font-size: 0.62rem; color: #94A3B8;" data-i18n="flash.reveal">🔄 Touchez pour révéler la formule</div>
               </div>
               <!-- BACK -->
               <div class="flashcard-face flashcard-back">
                 <div style="display: flex; justify-content: space-between; font-size: 0.65rem; color: #34D399; font-weight: 800;">
-                  <span>RÉPONSE VALIDÉE</span>
-                  <span>✓ FORMULE EXACTE</span>
+                  <span data-i18n="flash.validated">RÉPONSE VALIDÉE</span>
+                  <span data-i18n="flash.exact">✓ FORMULE EXACTE</span>
                 </div>
                 <div style="font-size: 1.1rem; font-weight: 900; color: #FFF; font-family: monospace; margin: 6px 0;">
                   f'(x) = 1 / x
                 </div>
-                <div style="font-size: 0.65rem; color: #CBD5E1;">Condition : Dérivable sur ]0 ; +∞[</div>
+                <div style="font-size: 0.65rem; color: #CBD5E1;" data-i18n="flash.cond">Condition : Dérivable sur ]0 ; +∞[</div>
               </div>
             </div>
           </div>
@@ -1144,12 +1130,12 @@
 
         <!-- Timetable Day Filter Pills -->
         <div style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px;" id="timetable-day-filter-pills">
-          <button class="tt-filter-pill active" data-day="all" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--senegal-green); border: none; color: #FFF; cursor: pointer;">Tous</button>
-          <button class="tt-filter-pill" data-day="Lundi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Lundi</button>
-          <button class="tt-filter-pill" data-day="Mardi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Mardi</button>
-          <button class="tt-filter-pill" data-day="Mercredi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Mercredi</button>
-          <button class="tt-filter-pill" data-day="Jeudi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Jeudi</button>
-          <button class="tt-filter-pill" data-day="Vendredi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;">Vendredi</button>
+          <button class="tt-filter-pill active" data-day="all" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--senegal-green); border: none; color: #FFF; cursor: pointer;" data-i18n="tt.all">Tous</button>
+          <button class="tt-filter-pill" data-day="Lundi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;" data-i18n="tt.mon">Lundi</button>
+          <button class="tt-filter-pill" data-day="Mardi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;" data-i18n="tt.tue">Mardi</button>
+          <button class="tt-filter-pill" data-day="Mercredi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;" data-i18n="tt.wed">Mercredi</button>
+          <button class="tt-filter-pill" data-day="Jeudi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;" data-i18n="tt.thu">Jeudi</button>
+          <button class="tt-filter-pill" data-day="Vendredi" style="padding: 4px 10px; border-radius: 12px; font-size: 0.68rem; font-weight: 800; background: var(--bg-card-subtle); border: 1px solid var(--border-glass); color: var(--text-slate); cursor: pointer;" data-i18n="tt.fri">Vendredi</button>
         </div>
         
         <div id="timetable-interactive-container"></div>
@@ -1192,7 +1178,7 @@
                   <span style="font-size: 1.1rem;">🇸🇳</span>
                   <div>
                     <div style="font-size: 0.58rem; letter-spacing: 1px; color: var(--neon-cyan); font-weight: 900; text-transform: uppercase;">RÉPUBLIQUE DU SÉNÉGAL</div>
-                    <div style="font-size: 0.68rem; font-weight: 800; color: #FFF;">CARTE D'IDENTITÉ SCOLAIRE</div>
+                    <div style="font-size: 0.68rem; font-weight: 800; color: #FFF;" data-i18n="card.school_title">CARTE D'IDENTITÉ SCOLAIRE</div>
                   </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 4px; background: rgba(0, 245, 212, 0.15); border: 1px solid var(--neon-cyan); padding: 2px 6px; border-radius: 4px;">
@@ -1213,7 +1199,7 @@
 
               <div style="display: flex; justify-content: space-between; align-items: flex-end; font-size: 0.62rem; color: #94A3B8; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 6px;">
                 <div>Année : <strong style="color: #FFF;">2025-2026</strong></div>
-                <div style="color: var(--neon-cyan); font-weight: 700;">🔄 Touchez pour retourner</div>
+                <div style="color: var(--neon-cyan); font-weight: 700;" data-i18n="card.flip_hint">🔄 Touchez pour retourner</div>
               </div>
             </div>
 
@@ -1221,27 +1207,25 @@
             <div class="id-card-face id-card-back">
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                  <span style="font-size: 0.65rem; font-weight: 800; color: #F59E0B;">INFORMATIONS DE SÉCURITÉ</span>
-                  <span style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: 800;">GROUPE : O+</span>
+                  <span style="font-size: 0.65rem; font-weight: 800; color: #F59E0B;" data-i18n="card.sec_info">INFORMATIONS DE SÉCURITÉ</span>
+                  <span style="background: rgba(245, 158, 11, 0.2); color: #FBBF24; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: 800;" data-i18n="card.blood_group">GROUPE : O+</span>
                 </div>
                 <div style="font-size: 0.68rem; color: #CBD5E1; line-height: 1.5; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 6px; margin-bottom: 8px;">
-                  • <strong>Parent Référent :</strong> Moussa Diallo (+221 77 123 4567)<br>
-                  • <strong>Résidence :</strong> Almadies, Dakar, Sénégal<br>
-                  • <strong>Campus :</strong> Lycée d'Excellence (Dakar Plateau)
+                  • <strong data-i18n="card.ref_parent">Parent Référent :</strong> Moussa Diallo (+221 77 123 4567)<br>
+                  • <strong data-i18n="card.residence">Résidence :</strong> Almadies, Dakar, Sénégal<br>
+                  • <strong data-i18n="card.campus_site">Campus :</strong> Lycée d'Excellence (Dakar Plateau)
                 </div>
               </div>
 
               <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px;">
                 <div style="font-family: monospace; font-size: 0.72rem; letter-spacing: 2px; color: #94A3B8;">||| | |||| | ||||| ||</div>
-                <div style="font-size: 0.62rem; color: #10B981; font-weight: 800;">✓ VISA PROVISEUR VALIDÉ</div>
+                <div style="font-size: 0.62rem; color: #10B981; font-weight: 800;" data-i18n="card.visa_validated">✓ VISA PROVISEUR VALIDÉ</div>
               </div>
             </div>
           </div>
         </div>
 
-        <button id="btn-download-smart-badge" class="btn-emerald-glow" style="margin-bottom: 16px; padding: 9px; font-size: 0.75rem; background: linear-gradient(135deg, #00F5D4 0%, #059669 100%); color: #030712; font-weight: 900;">
-          📲 Télécharger le Badge Numérique (Smart Card)
-        </button>
+        <button id="btn-download-smart-badge" class="btn-emerald-glow" style="margin-bottom: 16px; padding: 9px; font-size: 0.75rem; background: linear-gradient(135deg, #00F5D4 0%, #059669 100%); color: #030712; font-weight: 900;" data-i18n="card.btn_smart_badge">📲 Télécharger le Badge Numérique (Smart Card)</button>
 
         <!-- Security & Password Change Button -->
         <h4 style="font-size: 0.8rem; color: #F59E0B; margin-bottom: 8px; font-weight: 800;" data-i18n="sec.account_security">Sécurité du Compte</h4>
@@ -1293,7 +1277,7 @@
           </div>
           <div>
             <div style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF;" id="teacher-profile-name">Prof. Jean-Marc Fall</div>
-            <div style="font-size: 0.68rem; color: #94A3B8;">Département de Mathématiques</div>
+            <div style="font-size: 0.68rem; color: #94A3B8;" data-i18n="teacher.dept_math">Département de Mathématiques</div>
           </div>
         </div>
 
@@ -1310,7 +1294,7 @@
       <!-- Active Class Selector Pill -->
       <div style="display: flex; justify-content: center; margin-bottom: 16px;">
         <div style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; box-shadow: 0 0 16px rgba(16, 185, 129, 0.3); color: #34D399; padding: 6px 18px; border-radius: 20px; font-size: 0.76rem; font-weight: 900; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
-          <span>🏫</span> Classe : 10-A (Mathématiques)
+          <span>🏫</span> <span data-i18n="teacher.active_class">Classe : 10-A (Mathématiques)</span>
         </div>
       </div>
 
@@ -1323,7 +1307,7 @@
             📷
           </div>
           <div style="font-size: 0.8rem; font-weight: 900; color: #FFFFFF; line-height: 1.2;" data-i18n="teacher.scan_qr">Scanner QR Présence</div>
-          <div style="font-size: 0.62rem; color: #94A3B8; margin-top: 3px;">Caméra &amp; Badge NFC</div>
+          <div style="font-size: 0.62rem; color: #94A3B8; margin-top: 3px;" data-i18n="teacher.badge_nfc">Caméra &amp; Badge NFC</div>
         </div>
 
         <!-- Action 2: Take Attendance Roster -->
@@ -1332,7 +1316,7 @@
             📋
           </div>
           <div style="font-size: 0.8rem; font-weight: 900; color: #FFFFFF; line-height: 1.2;" data-i18n="teacher.tab_attendance">Faire l'Appel</div>
-          <div style="font-size: 0.62rem; color: #94A3B8; margin-top: 3px;">28 Élèves Inscrits</div>
+          <div style="font-size: 0.62rem; color: #94A3B8; margin-top: 3px;" data-i18n="teacher.enrolled_count">28 Élèves Inscrits</div>
         </div>
 
       </div>
@@ -1342,12 +1326,12 @@
         <div class="metric-card-dark" style="padding: 16px; border-radius: 18px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1.5px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
           <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
             <span style="width: 4px; height: 18px; border-radius: 4px; background: #10B981; display: inline-block;"></span>
-            <span style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">SÉANCE EN COURS</span>
+            <span style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="teacher.active_session">SÉANCE EN COURS</span>
           </div>
-          <div style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF; margin: 2px 0;">Mathématiques &amp; Algèbre</div>
+          <div style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF; margin: 2px 0;" data-i18n="teacher.active_lesson">Mathématiques &amp; Algèbre</div>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.72rem; color: #94A3B8;">
             <span style="color: #38BDF8; font-weight: 800;">⏱️ 10:30 - 12:00</span>
-            <span>Salle B-104 (28 Élèves)</span>
+            <span data-i18n="teacher.room_info">Salle B-104 (28 Élèves)</span>
           </div>
         </div>
       </div>
@@ -1358,11 +1342,9 @@
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
             <div>
               <div style="font-size: 0.88rem; font-weight: 900; color: #FFFFFF;" data-i18n="teacher.tab_grades">Saisie Rapide des Notes</div>
-              <div style="font-size: 0.65rem; color: #94A3B8;">Examen Trimestriel • Classe 10-A</div>
+              <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="teacher.quick_grades_sub">Examen Trimestriel • Classe 10-A</div>
             </div>
-            <button id="btn-open-full-gradebook-modal" onclick="document.getElementById('modal-teacher-full-gradebook').style.display='flex'" class="btn-emerald-glow" style="width: auto; padding: 6px 12px; font-size: 0.7rem; border-radius: 10px;">
-              Ouvrir Carnet &rarr;
-            </button>
+            <button id="btn-open-full-gradebook-modal" onclick="document.getElementById('modal-teacher-full-gradebook').style.display='flex'" class="btn-emerald-glow" style="width: auto; padding: 6px 12px; font-size: 0.7rem; border-radius: 10px;" data-i18n-html="teacher.open_gradebook">Ouvrir Carnet &rarr;</button>
           </div>
 
           <!-- Sample Quick Student Rows -->
@@ -1444,10 +1426,10 @@
       <div class="metric-card-dark" style="margin-top: 14px; border: 1px solid rgba(56, 189, 248, 0.3);">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
           <div>
-            <strong style="color: #38BDF8; font-size: 0.82rem;">Devoirs Récents Déposés par les Élèves</strong>
-            <div style="font-size: 0.65rem; color: #94A3B8;">Évaluations et copies en attente de correction</div>
+            <strong style="color: #38BDF8; font-size: 0.82rem;" data-i18n="teacher.recent_submissions">Devoirs Récents Déposés par les Élèves</strong>
+            <div style="font-size: 0.65rem; color: #94A3B8;" data-i18n="teacher.pending_grading">Évaluations et copies en attente de correction</div>
           </div>
-          <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800;">2 NOUVEAUX</span>
+          <span style="background: rgba(56, 189, 248, 0.15); color: #38BDF8; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 800;" data-i18n="teacher.new_submissions_badge">2 NOUVEAUX</span>
         </div>
 
         <div id="teacher-submitted-hw-container" style="display: flex; flex-direction: column; gap: 8px;">
@@ -1483,8 +1465,8 @@
           <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 1.2rem;">📄</span>
             <div>
-              <div style="font-size: 0.92rem; font-weight: 900; color: #FFFFFF;">Carnet de Notes &amp; Examens</div>
-              <div style="font-size: 0.65rem; color: #10B981; font-weight: 700;">Classe : 10-A (Mathématiques)</div>
+              <div style="font-size: 0.92rem; font-weight: 900; color: #FFFFFF;" data-i18n="teacher.gradebook_heading">Carnet de Notes &amp; Examens</div>
+              <div style="font-size: 0.65rem; color: #10B981; font-weight: 700;" data-i18n="teacher.class_math">Classe : 10-A (Mathématiques)</div>
             </div>
           </div>
           <button onclick="document.getElementById('modal-teacher-full-gradebook').style.display='none'" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.2rem;">✕</button>
@@ -1492,10 +1474,10 @@
 
         <!-- Exam Type Selector Pills -->
         <div style="display: flex; gap: 6px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 4px;">
-          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;">Devoir 1</button>
-          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;">Devoir 2</button>
-          <button class="trim-pill active" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #10B981; border: none; color: #FFF; cursor: pointer;">Examen Trimestriel</button>
-          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;">Oral</button>
+          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;" data-i18n="teacher.tab_hw1">Devoir 1</button>
+          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;" data-i18n="teacher.tab_hw2">Devoir 2</button>
+          <button class="trim-pill active" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #10B981; border: none; color: #FFF; cursor: pointer;" data-i18n="teacher.tab_exam">Examen Trimestriel</button>
+          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;" data-i18n="teacher.tab_oral">Oral</button>
         </div>
 
         <!-- Student Scoring List -->
@@ -1544,7 +1526,7 @@
         </div>
 
         <button onclick="window.HardwareManager.vibrate(35); showToast('Notes académiques publiées sur le Cloud Firestore !'); document.getElementById('modal-teacher-full-gradebook').style.display='none';" class="btn-emerald-glow" style="padding: 12px; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
-          <span>☁️</span> <span>Enregistrer &amp; Publier les Notes (Cloud Sync)</span>
+          <span>☁️</span> <span data-i18n="teacher.publish_cloud">Enregistrer &amp; Publier les Notes (Cloud Sync)</span>
         </button>
       </div>
     </div>
@@ -1604,7 +1586,7 @@
             <span style="font-size: 0.85rem;">👨‍🏫</span>
           </div>
           <div id="admin-stat-teachers-val" style="font-size: 1.35rem; font-weight: 900; color: #38BDF8; font-family: monospace; margin: 4px 0 2px 0;">84</div>
-          <div style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;">Enseignants Actifs</div>
+          <div style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.kpi_teachers_sub">Enseignants Actifs</div>
         </div>
 
         <!-- KPI 3: Attendance Rate -->
@@ -1614,7 +1596,7 @@
             <span style="font-size: 0.85rem;">⏱️</span>
           </div>
           <div id="admin-stat-att-val" style="font-size: 1.35rem; font-weight: 900; color: #F59E0B; font-family: monospace; margin: 4px 0 2px 0;">97.4%</div>
-          <div style="font-size: 0.62rem; color: #10B981; font-weight: 700;">+1.2% ce mois</div>
+          <div style="font-size: 0.62rem; color: #10B981; font-weight: 700;" data-i18n="admin.kpi_att_sub">+1.2% ce mois</div>
         </div>
 
         <!-- KPI 4: Academic Overall GPA -->
@@ -1627,7 +1609,7 @@
             <span id="admin-stat-gpa-val" style="font-size: 1.35rem; font-weight: 900; color: #C084FC; font-family: monospace;">88.6</span>
             <span style="font-size: 0.65rem; color: #94A3B8; font-weight: 800;">/100</span>
           </div>
-          <div style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;">Top 5% National</div>
+          <div style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.kpi_gpa_sub">Top 5% National</div>
         </div>
 
       </div>
@@ -1677,7 +1659,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <div>
             <h4 style="color: #FFFFFF; font-size: 0.85rem; font-weight: 900; margin: 0;" data-i18n="admin.users_title">Annuaire &amp; Audit Actif</h4>
-            <div style="font-size: 0.64rem; color: #94A3B8; margin-top: 1px;">Comptes &amp; Personnel de l'Établissement</div>
+            <div style="font-size: 0.64rem; color: #94A3B8; margin-top: 1px;" data-i18n="admin.users_subtitle">Comptes &amp; Personnel de l'Établissement</div>
           </div>
           <span style="font-size: 0.62rem; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 12px; font-weight: 800;" data-i18n="admin.users_badge">BASE SQLITE ACTIVE</span>
         </div>
@@ -1695,10 +1677,10 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
               <input type="text" id="adm-new-user-id" class="form-input-dark" placeholder="Matricule (TCH-03, STU-106)" required style="margin: 0; padding: 6px; font-size: 0.7rem;">
               <select id="adm-new-user-role" class="form-input-dark" style="margin: 0; padding: 6px; font-size: 0.7rem;">
-                <option value="teacher">Professeur (Teacher)</option>
-                <option value="student">Élève (Student)</option>
-                <option value="parent">Parent</option>
-                <option value="admin">Administrateur</option>
+                <option value="teacher" data-i18n="role.opt_teacher">Professeur (Teacher)</option>
+                <option value="student" data-i18n="role.opt_student">Élève (Student)</option>
+                <option value="parent" data-i18n="role.opt_parent">Parent</option>
+                <option value="admin" data-i18n="role.opt_admin">Administrateur</option>
               </select>
             </div>
             <input type="text" id="adm-new-teacher-name" class="form-input-dark" placeholder="Nom complet" required data-i18n-placeholder="admin.new_user_ph" style="margin: 0; padding: 6px; font-size: 0.7rem;">

@@ -35,6 +35,9 @@ function bootESchoolApp() {
   window.addEventListener("languageChanged", () => {
     if (currentUser) {
       renderCurrentPortal();
+    } else {
+      // Re-sync any dynamic labels on login screen
+      window.i18n.updateDOM();
     }
   });
 
@@ -1661,7 +1664,8 @@ function bootESchoolApp() {
       window.ESchoolData.homeworks.forEach(hw => {
         const isSubmitted = hw.status === "submitted";
         const badgeColor = isSubmitted ? "#10B981" : (hw.status === "new" ? "#38BDF8" : "#F59E0B");
-        const statusLabel = isSubmitted ? "Submitted" : "To Do";
+        const statusLabel = isSubmitted ? (window.i18n.t("hw.status_submitted") || "Submitted") : (window.i18n.t("hw.status_todo") || "To Do");
+        const actionLabel = isSubmitted ? (window.i18n.t("hw.btn_view") || "Voir le Rendu") : (window.i18n.t("hw.btn_upload") || "Déposer Devoir (Upload)");
 
         hwHtml += `
           <div class="metric-card-dark" style="margin-bottom: 10px;">
@@ -1674,9 +1678,9 @@ function bootESchoolApp() {
             </div>
             <p style="font-size: 0.72rem; color: #94A3B8; margin-bottom: 8px;">${hw.desc}</p>
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 0.68rem; color: #F59E0B;">Due: ${hw.due}</span>
+              <span style="font-size: 0.68rem; color: #F59E0B;">${window.i18n.t("hw.due_label") || "Due:"} ${hw.due}</span>
               <button class="btn-emerald-glow btn-submit-hw-trigger" data-hw-title="${hw.subject} : ${hw.title}" style="width: auto; padding: 4px 10px; font-size: 0.72rem;">
-                ${isSubmitted ? "View Submission" : "Déposer Devoir (Upload)"}
+                ${actionLabel}
               </button>
             </div>
           </div>
@@ -1702,8 +1706,8 @@ function bootESchoolApp() {
               <strong style="color: #A78BFA; font-size: 0.82rem;">${m.subject} : ${m.title}</strong>
               <div style="font-size: 0.68rem; color: #94A3B8;">${m.type} • ${m.size} • ${m.teacher}</div>
             </div>
-            <button class="btn-emerald-glow" style="width: auto; padding: 4px 8px; font-size: 0.7rem;" onclick="window.HardwareManager.vibrate(20); showToast('Downloading ${m.title}...');">
-              Download
+            <button class="btn-emerald-glow" style="width: auto; padding: 4px 8px; font-size: 0.7rem;" onclick="window.HardwareManager.vibrate(20); showToast('${window.i18n.t("hw.download_btn") || "Télécharger"} ${m.title}...');">
+              ${window.i18n.t("hw.download_btn") || "Télécharger"}
             </button>
           </div>
         `;
@@ -1738,21 +1742,30 @@ function bootESchoolApp() {
       }
     } catch (e) {}
 
+    const dayKeyMap = {
+      'Lundi': 'tt.mon',
+      'Mardi': 'tt.tue',
+      'Mercredi': 'tt.wed',
+      'Jeudi': 'tt.thu',
+      'Vendredi': 'tt.fri'
+    };
+
     const days = filterDay === "all" ? ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'] : [filterDay];
     let html = "";
     days.forEach(day => {
       const dayLessons = entries.filter(e => e.day_name === day);
       if (dayLessons.length > 0) {
+        const translatedDay = window.i18n.t(dayKeyMap[day]) || day;
         html += `
           <div style="margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <h4 style="color: #F59E0B; font-size: 0.85rem;">${day}</h4>
-              <span style="font-size: 0.65rem; color: #94A3B8;">${dayLessons.length} cours prévus</span>
+              <h4 style="color: #F59E0B; font-size: 0.85rem;">${translatedDay}</h4>
+              <span style="font-size: 0.65rem; color: #94A3B8;">${dayLessons.length} ${window.i18n.t("tt.courses_planned") || "cours prévus"}</span>
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px;">
         `;
         dayLessons.forEach(l => {
-          const currentBadge = l.isCurrent ? `<span style="background: rgba(16, 185, 129, 0.2); color: #34D399; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: 900; border: 1px solid rgba(16, 185, 129, 0.4);">EN COURS</span>` : ``;
+          const currentBadge = l.isCurrent ? `<span style="background: rgba(16, 185, 129, 0.2); color: #34D399; padding: 2px 6px; border-radius: 4px; font-size: 0.6rem; font-weight: 900; border: 1px solid rgba(16, 185, 129, 0.4);">${window.i18n.t("tt.in_progress") || "EN COURS"}</span>` : ``;
           html += `
             <div class="metric-card-dark" style="padding: 10px 12px; ${l.isCurrent ? 'border-color: #10B981; box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);' : ''}">
               <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -1835,9 +1848,9 @@ function bootESchoolApp() {
               <div style="font-size: 0.68rem; color: #94A3B8;">ID: ${st.id} • ${st.matricule || 'DKR-2026'}</div>
             </div>
             <div class="att-trio-buttons">
-              <button class="att-status-btn selected-present" data-status="present">Present</button>
-              <button class="att-status-btn" data-status="late">Late</button>
-              <button class="att-status-btn" data-status="absent">Absent</button>
+              <button class="att-status-btn selected-present" data-status="present">${window.i18n.t('status.present') || 'Present'}</button>
+              <button class="att-status-btn" data-status="late">${window.i18n.t('status.late') || 'Late'}</button>
+              <button class="att-status-btn" data-status="absent">${window.i18n.t('status.absent') || 'Absent'}</button>
             </div>
           </div>
         `;
@@ -2104,19 +2117,20 @@ function bootESchoolApp() {
       const isPending = ex.status === "PENDING";
       const badgeBg = isPending ? "rgba(245, 158, 11, 0.15)" : (ex.status === "APPROVED" ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)");
       const badgeColor = isPending ? "#F59E0B" : (ex.status === "APPROVED" ? "#10B981" : "#EF4444");
+      const statusText = isPending ? (window.i18n.t("admin.status_pending") || "PENDING") : (ex.status === "APPROVED" ? (window.i18n.t("admin.status_approved") || "APPROVED") : (window.i18n.t("admin.status_rejected") || "REJECTED"));
 
       html += `
         <div style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); padding: 10px; border-radius: 8px; margin-bottom: 8px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
             <strong style="color: #FFF;">${ex.student_name} (${ex.student_id})</strong>
-            <span style="background: ${badgeBg}; color: ${badgeColor}; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 0.65rem;">${ex.status}</span>
+            <span style="background: ${badgeBg}; color: ${badgeColor}; padding: 2px 6px; border-radius: 4px; font-weight: 800; font-size: 0.65rem;">${statusText}</span>
           </div>
           <div style="color: #38BDF8; font-size: 0.68rem;">Motif : ${ex.reason_type} • Dates : ${ex.date_start} au ${ex.date_end}</div>
           <p style="color: #94A3B8; font-size: 0.68rem; margin: 4px 0;">${ex.reason_details}</p>
           ${isPending ? `
             <div style="display: flex; gap: 6px; margin-top: 6px;">
-              <button class="btn-review-excuse" data-eid="${ex.id}" data-action="APPROVED" style="background: #10B981; border: none; color: #FFF; padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer;">Valider</button>
-              <button class="btn-review-excuse" data-eid="${ex.id}" data-action="REJECTED" style="background: #EF4444; border: none; color: #FFF; padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer;">Refuser</button>
+              <button class="btn-review-excuse" data-eid="${ex.id}" data-action="APPROVED" style="background: #10B981; border: none; color: #FFF; padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer;">${window.i18n.t("excuse.btn_approve") || "Valider"}</button>
+              <button class="btn-review-excuse" data-eid="${ex.id}" data-action="REJECTED" style="background: #EF4444; border: none; color: #FFF; padding: 3px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; cursor: pointer;">${window.i18n.t("excuse.btn_reject") || "Refuser"}</button>
             </div>
           ` : ''}
         </div>
@@ -2191,7 +2205,7 @@ function bootESchoolApp() {
           </div>
           <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
             <button class="btn-delete-user" data-uid="${u.id}" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #FCA5A5; padding: 4px 8px; border-radius: 6px; font-size: 0.62rem; font-weight: 800; cursor: pointer;">
-              Supprimer
+              ${window.i18n.t("admin.btn_delete") || "Supprimer"}
             </button>
           </div>
         </div>
