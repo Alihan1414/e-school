@@ -186,7 +186,9 @@ window.i18n_wo = {
   // Profile & Themes
   "prof.title": "Kayitu Ndongo & Paramètres",
   "prof.school": "Lycée d'Excellence Sénégalo-Turc",
-  "prof.theme_title": "Palette de Thème Kurumsal",
+  "prof.theme_title": "Melow Daara (Thème)",
+  "prof.theme_light": "Weex (Clair)",
+  "prof.theme_dark": "Koyu (Sombre)",
   "prof.hardware_title": "Saytu Jumtukaay yi",
   "prof.btn_cam": "Ubbil Scanner QR / Nataalukaay",
   "prof.btn_notif": "Nattal Yégle Push",

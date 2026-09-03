@@ -108,11 +108,10 @@ function bootESchoolApp() {
     });
 
     // =========================================================
-    // 3. MASTER HARDWARE-AWARE THEME CONTROLLER
+    // 3. MASTER BINARY THEME CONTROLLER (Light / Dark)
     // =========================================================
     function applyAppTheme(themeName, notify = false) {
-      const validThemes = ["dark", "light", "oled", "navy", "emerald"];
-      const activeTheme = validThemes.includes(themeName) ? themeName : "dark";
+      const activeTheme = (themeName === "light") ? "light" : "dark";
 
       document.body.setAttribute("data-theme", activeTheme);
       localStorage.setItem("eschool_theme", activeTheme);
@@ -132,14 +131,7 @@ function bootESchoolApp() {
       // 2. Hardware OS Status Bar Theme-Color Sync
       const metaTheme = document.querySelector('meta[name="theme-color"]');
       if (metaTheme) {
-        const themeColors = {
-          light: "#F8FAFC",
-          oled: "#000000",
-          navy: "#0A192F",
-          emerald: "#064E3B",
-          dark: "#080E1E"
-        };
-        metaTheme.setAttribute("content", themeColors[activeTheme] || "#080E1E");
+        metaTheme.setAttribute("content", activeTheme === "light" ? "#FFFFFF" : "#080E1E");
       }
 
       // 3. Profile Palette Switcher Pills Sync
@@ -147,14 +139,19 @@ function bootESchoolApp() {
         if (btn.dataset.setTheme === activeTheme) {
           btn.classList.add("active");
           btn.style.opacity = "1";
+          btn.style.borderColor = "#10B981";
+          btn.style.boxShadow = "0 0 10px rgba(16, 185, 129, 0.35)";
         } else {
           btn.classList.remove("active");
           btn.style.opacity = "0.7";
+          btn.style.borderColor = activeTheme === "light" ? "#CBD5E1" : "#1E2D4D";
+          btn.style.boxShadow = "none";
         }
       });
 
       if (notify) {
-        showToast(`Thème activé : ${activeTheme.toUpperCase()}`);
+        const themeLabel = activeTheme === "light" ? "Mode Blanc (Daylight)" : "Mode Koyu (Dark Obsidian)";
+        showToast(themeLabel);
       }
     }
 

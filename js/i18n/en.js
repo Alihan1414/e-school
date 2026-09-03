@@ -186,7 +186,9 @@ window.i18n_en = {
   // Profile & Themes
   "prof.title": "Student ID Card & Settings",
   "prof.school": "Lycée d'Excellence Sénégalo-Turc",
-  "prof.theme_title": "Enterprise Color Palette",
+  "prof.theme_title": "App Theme Mode",
+  "prof.theme_light": "White (Daylight)",
+  "prof.theme_dark": "Dark (Koyu)",
   "prof.hardware_title": "Device Diagnostics",
   "prof.btn_cam": "Open QR Scanner / Camera",
   "prof.btn_notif": "Test Push Notification",

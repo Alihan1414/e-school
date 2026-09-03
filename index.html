@@ -1233,17 +1233,16 @@
           Changer mon Mot de Passe
         </button>
 
-        <!-- Theme Switcher -->
-        <h4 style="font-size: 0.8rem; color: #38BDF8; margin-bottom: 8px; font-weight: 800;" data-i18n="prof.theme_title">Palette de Thème Kurumsal</h4>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 16px;">
-          <button class="btn-theme-switcher active" data-set-theme="dark" style="padding: 8px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #0A1628; border: 1px solid #1E2D4D; color: #FFF; cursor: pointer;">
-            OLED Dark
+        <!-- Theme Switcher: Binary White (Blanc) / Dark (Koyu) -->
+        <h4 style="font-size: 0.8rem; color: #38BDF8; margin-bottom: 8px; font-weight: 800;" data-i18n="prof.theme_title">Thème de l'Application</h4>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+          <button class="btn-theme-switcher" data-set-theme="light" style="padding: 10px 8px; font-size: 0.72rem; font-weight: 800; border-radius: 10px; background: #FFFFFF; border: 1.5px solid #CBD5E1; color: #0F172A; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+            <span>☀️</span>
+            <span data-i18n="prof.theme_light">Blanc (Clair)</span>
           </button>
-          <button class="btn-theme-switcher" data-set-theme="navy" style="padding: 8px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #0B192C; border: 1px solid #1E3E62; color: #38BDF8; cursor: pointer;">
-            Deep Navy
-          </button>
-          <button class="btn-theme-switcher" data-set-theme="emerald" style="padding: 8px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #064E3B; border: 1px solid #059669; color: #34D399; cursor: pointer;">
-            Emerald
+          <button class="btn-theme-switcher active" data-set-theme="dark" style="padding: 10px 8px; font-size: 0.72rem; font-weight: 800; border-radius: 10px; background: #0A1628; border: 1.5px solid #1E2D4D; color: #FFFFFF; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>🌙</span>
+            <span data-i18n="prof.theme_dark">Koyu (Sombre)</span>
           </button>
         </div>
 

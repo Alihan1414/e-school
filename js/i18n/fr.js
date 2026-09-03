@@ -186,7 +186,9 @@ window.i18n_fr = {
   // Profile & Themes
   "prof.title": "Carte Scolaire & Paramètres",
   "prof.school": "Lycée d'Excellence Sénégalo-Turc",
-  "prof.theme_title": "Palette de Thème Kurumsal",
+  "prof.theme_title": "Thème de l'Application",
+  "prof.theme_light": "Blanc (Clair)",
+  "prof.theme_dark": "Koyu (Sombre)",
   "prof.hardware_title": "Contrôle des Matériels",
   "prof.btn_cam": "Ouvrir Scanner QR / Caméra",
   "prof.btn_notif": "Tester Notification Push",

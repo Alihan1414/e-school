@@ -229,6 +229,35 @@ body[data-theme="light"] table.data-table-dark tr:hover td {
   background: #F8FAFC !important;
 }
 
+/* Light Mode Drawer & Popups */
+body[data-theme="light"] #teacher-attendance-drawer,
+body[data-theme="light"] #teacher-gradebook-drawer,
+body[data-theme="light"] #admin-broadcast-drawer,
+body[data-theme="light"] .chat-input-footer-glass,
+body[data-theme="light"] .corporate-brand-header > div:first-child {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Light Mode Quick Action Buttons & Secondary Badges */
+body[data-theme="light"] .quick-action-pill-btn,
+body[data-theme="light"] .notif-bell-btn,
+body[data-theme="light"] .btn-user-logout-trigger,
+body[data-theme="light"] #btn-teacher-open-qr,
+body[data-theme="light"] #btn-toggle-attendance-view,
+body[data-theme="light"] #btn-admin-open-qr {
+  background: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  color: #0F172A !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04) !important;
+}
+
+body[data-theme="light"] #btn-teacher-open-qr div[style*="font-size: 0.8rem"],
+body[data-theme="light"] #btn-toggle-attendance-view div[style*="font-size: 0.8rem"] {
+  color: #0F172A !important;
+}
+
 body[data-theme="light"] ::-webkit-scrollbar-track {
   background: #F8FAFC !important;
 }

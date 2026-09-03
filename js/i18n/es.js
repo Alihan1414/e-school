@@ -186,7 +186,11 @@ window.i18n_es = {
   // Profile & Themes
   "prof.title": "Carnet Escolar y Ajustes",
   "prof.school": "Lycée d'Excellence Sénégalo-Turc",
-  "prof.theme_title": "Paleta de Temas Corporativos",
+  "prof.theme_title": "Tema de la Aplicación",
+  "prof.theme_light": "Blanco (Claro)",
+  "prof.theme_dark": "Oscuro (Koyu)",
+  "prof.theme_light": "Blanco (Claro)",
+  "prof.theme_dark": "Oscuro (Koyu)",
   "prof.hardware_title": "Control de Hardware",
   "prof.btn_cam": "Abrir Escáner QR / Cámara",
   "prof.btn_notif": "Probar Notificación Push",
