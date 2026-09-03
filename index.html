@@ -1228,36 +1228,130 @@
 
 
     <!-- =========================================================
-         12. TEACHER WORKSPACE ECOSYSTEM
+         12. TEACHER WORKSPACE ECOSYSTEM (Luxury Modern Teacher OS)
          ========================================================= -->
-    <div id="view-teacher-root" style="display: none; padding: 18px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <div>
-          <h2 style="font-size: 1.15rem; font-weight: 900; color: #10B981;" data-i18n="teacher.title">Espace Pédagogique Enseignant</h2>
-          <span style="font-size: 0.7rem; color: #94A3B8;">Prof. Jean-Marc Fall • Mathématiques</span>
+    <div id="view-teacher-root" style="display: none; padding: 14px 16px;">
+      
+      <!-- Top Header & Teacher Info -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 4px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; padding: 2px; background: linear-gradient(135deg, #10B981, #00F5D4); box-shadow: 0 0 16px rgba(16, 185, 129, 0.35);">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80" alt="Prof. Jean-Marc Fall" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+          </div>
+          <div>
+            <div style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF;" id="teacher-profile-name">Prof. Jean-Marc Fall</div>
+            <div style="font-size: 0.68rem; color: #94A3B8;">Département de Mathématiques</div>
+          </div>
         </div>
+
         <div style="display: flex; gap: 6px;">
-          <button id="btn-teacher-change-pass" style="background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; padding: 4px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; cursor: pointer;" data-i18n="auth.pass_label">
+          <button id="btn-teacher-change-pass" style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.3); color: #FBBF24; padding: 5px 8px; border-radius: 8px; font-size: 0.65rem; font-weight: 800; cursor: pointer;" data-i18n="auth.pass_label">
             Mot de passe
           </button>
-          <button class="btn-user-logout-trigger" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; cursor: pointer;" data-i18n="auth.logout">
+          <button class="btn-user-logout-trigger" style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); color: #FCA5A5; padding: 5px 8px; border-radius: 8px; font-size: 0.68rem; font-weight: 800; cursor: pointer;" data-i18n="auth.logout">
             Déconnexion
           </button>
         </div>
       </div>
 
-      <!-- Live Search in Teacher Roster -->
-      <div class="metric-card-dark" style="margin-bottom: 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <strong style="color: #38BDF8; font-size: 0.82rem;" data-i18n="teacher.tab_attendance">Prise des Présences (Appel)</strong>
-          <div style="display: flex; gap: 6px;">
-            <button id="btn-teacher-open-qr" style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; padding: 4px 8px; border-radius: 4px; font-size: 0.66rem; font-weight: 800; cursor: pointer;" data-i18n="teacher.scan_qr">
-              Scanner QR
-            </button>
-            <button id="btn-mark-all-present" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #10B981; padding: 4px 8px; border-radius: 4px; font-size: 0.66rem; font-weight: 800; cursor: pointer;" data-i18n="teacher.mark_all_present">
-              Tout le monde Présent
+      <!-- Active Class Selector Pill -->
+      <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+        <div style="background: rgba(16, 185, 129, 0.15); border: 1.5px solid #10B981; box-shadow: 0 0 16px rgba(16, 185, 129, 0.3); color: #34D399; padding: 6px 18px; border-radius: 20px; font-size: 0.76rem; font-weight: 900; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;">
+          <span>🏫</span> Classe : 10-A (Mathématiques)
+        </div>
+      </div>
+
+      <!-- 2 Hero Quick Action Cards: QR Scanner & Take Attendance -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        
+        <!-- Action 1: Instant QR Scanner -->
+        <div id="btn-teacher-open-qr" style="cursor: pointer; padding: 18px 14px; border-radius: 20px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid #10B981; box-shadow: 0 10px 25px rgba(0,0,0,0.35); text-align: center; display: flex; flex-direction: column; align-items: center;">
+          <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 10px; color: #10B981;">
+            📷
+          </div>
+          <div style="font-size: 0.8rem; font-weight: 900; color: #FFFFFF; line-height: 1.2;" data-i18n="teacher.scan_qr">Scanner QR Présence</div>
+          <div style="font-size: 0.62rem; color: #94A3B8; margin-top: 3px;">Caméra &amp; Badge NFC</div>
+        </div>
+
+        <!-- Action 2: Take Attendance Roster -->
+        <div id="btn-toggle-attendance-view" onclick="document.getElementById('teacher-attendance-drawer').scrollIntoView({ behavior: 'smooth' })" style="cursor: pointer; padding: 18px 14px; border-radius: 20px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid rgba(56, 189, 248, 0.4); box-shadow: 0 10px 25px rgba(0,0,0,0.35); text-align: center; display: flex; flex-direction: column; align-items: center;">
+          <div style="width: 48px; height: 48px; border-radius: 14px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 10px; color: #38BDF8;">
+            📋
+          </div>
+          <div style="font-size: 0.8rem; font-weight: 900; color: #FFFFFF; line-height: 1.2;" data-i18n="teacher.tab_attendance">Faire l'Appel</div>
+          <div style="font-size: 0.62rem; color: #94A3B8; margin-top: 3px;">28 Élèves Inscrits</div>
+        </div>
+
+      </div>
+
+      <!-- Today's Teaching Schedule Card -->
+      <div style="margin-bottom: 18px;">
+        <div class="metric-card-dark" style="padding: 16px; border-radius: 18px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1.5px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span style="width: 4px; height: 18px; border-radius: 4px; background: #10B981; display: inline-block;"></span>
+            <span style="font-size: 0.68rem; color: #94A3B8; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">SÉANCE EN COURS</span>
+          </div>
+          <div style="font-size: 1.05rem; font-weight: 900; color: #FFFFFF; margin: 2px 0;">Mathématiques &amp; Algèbre</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.72rem; color: #94A3B8;">
+            <span style="color: #38BDF8; font-weight: 800;">⏱️ 10:30 - 12:00</span>
+            <span>Salle B-104 (28 Élèves)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sleekbook Quick Grade Entry Preview Card -->
+      <div style="margin-bottom: 18px;">
+        <div class="metric-card-dark" style="padding: 16px; border-radius: 18px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.95) 100%); border: 1.5px solid rgba(16, 185, 129, 0.35); box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px;">
+            <div>
+              <div style="font-size: 0.88rem; font-weight: 900; color: #FFFFFF;" data-i18n="teacher.tab_grades">Saisie Rapide des Notes</div>
+              <div style="font-size: 0.65rem; color: #94A3B8;">Examen Trimestriel • Classe 10-A</div>
+            </div>
+            <button id="btn-open-full-gradebook-modal" onclick="document.getElementById('modal-teacher-full-gradebook').style.display='flex'" class="btn-emerald-glow" style="width: auto; padding: 6px 12px; font-size: 0.7rem; border-radius: 10px;">
+              Ouvrir Carnet &rarr;
             </button>
           </div>
+
+          <!-- Sample Quick Student Rows -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 4px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                <span style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Amadou Diallo</span>
+              </div>
+              <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #34D399; font-size: 0.74rem; font-weight: 900; padding: 3px 10px; border-radius: 12px; font-family: monospace;">18.5 / 20</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 4px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                <span style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Fatou Sow</span>
+              </div>
+              <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #34D399; font-size: 0.74rem; font-weight: 900; padding: 3px 10px; border-radius: 12px; font-family: monospace;">16.5 / 20</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 4px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                <span style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">Moussa Ba</span>
+              </div>
+              <span style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; font-size: 0.74rem; font-weight: 900; padding: 3px 10px; border-radius: 12px; font-family: monospace;">14.0 / 20</span>
+            </div>
+          </div>
+
+          <button id="btn-save-teacher-grades" class="btn-emerald-glow" style="margin-top: 12px; padding: 10px; font-size: 0.76rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>✓</span> <span data-i18n="teacher.sync_grades">Enregistrer &amp; Synchroniser Cloud</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Attendance Roster Section (Expandable Drawer) -->
+      <div id="teacher-attendance-drawer" class="metric-card-dark" style="margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <strong style="color: #38BDF8; font-size: 0.82rem;" data-i18n="teacher.tab_attendance">Prise des Présences (Appel)</strong>
+          <button id="btn-mark-all-present" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; color: #10B981; padding: 4px 8px; border-radius: 4px; font-size: 0.66rem; font-weight: 800; cursor: pointer;" data-i18n="teacher.mark_all_present">
+            Tout le monde Présent
+          </button>
         </div>
 
         <input type="text" id="teacher-search-student-input" class="form-input-dark" placeholder="Rechercher élève par nom ou matricule..." style="padding: 7px; margin-bottom: 8px; font-size: 0.72rem;" data-i18n-placeholder="teacher.search_ph">
@@ -1290,16 +1384,8 @@
         </div>
       </div>
 
-      <!-- Gradebook Roster -->
-      <div class="metric-card-dark">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <strong style="color: #10B981; font-size: 0.82rem;" data-i18n="teacher.tab_grades">Saisie des Notes de Classe</strong>
-          <button id="btn-save-teacher-grades" class="btn-emerald-glow" style="width: auto; padding: 6px 12px; font-size: 0.72rem;" data-i18n="teacher.sync_grades">
-            Sync Firestore
-          </button>
-        </div>
-        <div id="teacher-gradebook-roster"></div>
-      </div>
+      <!-- Hidden Full Gradebook Roster Container Keeper for sync & search -->
+      <div style="display: none;" id="teacher-gradebook-roster"></div>
 
       <!-- Teacher Submitted Homeworks Review Desk -->
       <div class="metric-card-dark" style="margin-top: 14px; border: 1px solid rgba(56, 189, 248, 0.3);">
@@ -1332,6 +1418,81 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- =========================================================
+         MODAL: FULL TEACHER GRADEBOOK & EXAM SCORING
+         ========================================================= -->
+    <div id="modal-teacher-full-gradebook" class="permissions-overlay-modal" style="display: none;">
+      <div class="permissions-modal-card" style="max-width: 480px; text-align: left; max-height: 90vh; overflow-y: auto; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-glass); padding-bottom: 10px; margin-bottom: 14px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 1.2rem;">📄</span>
+            <div>
+              <div style="font-size: 0.92rem; font-weight: 900; color: #FFFFFF;">Carnet de Notes &amp; Examens</div>
+              <div style="font-size: 0.65rem; color: #10B981; font-weight: 700;">Classe : 10-A (Mathématiques)</div>
+            </div>
+          </div>
+          <button onclick="document.getElementById('modal-teacher-full-gradebook').style.display='none'" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1.2rem;">✕</button>
+        </div>
+
+        <!-- Exam Type Selector Pills -->
+        <div style="display: flex; gap: 6px; overflow-x: auto; margin-bottom: 14px; padding-bottom: 4px;">
+          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;">Devoir 1</button>
+          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;">Devoir 2</button>
+          <button class="trim-pill active" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: #10B981; border: none; color: #FFF; cursor: pointer;">Examen Trimestriel</button>
+          <button class="trim-pill" style="padding: 4px 10px; font-size: 0.68rem; font-weight: 800; border-radius: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-glass); color: #94A3B8; cursor: pointer;">Oral</button>
+        </div>
+
+        <!-- Student Scoring List -->
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
+          <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover;">
+              <div>
+                <strong style="color: #FFF; font-size: 0.85rem;">Amadou Diallo</strong>
+                <div style="font-size: 0.64rem; color: #94A3B8;">Matricule: STU-101</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" class="form-input-dark" value="18.5" step="0.5" min="0" max="20" style="width: 65px; margin: 0; padding: 6px; text-align: center; font-weight: 900; color: #10B981; border-color: #10B981;">
+              <span style="font-size: 0.72rem; color: #94A3B8;">/20</span>
+            </div>
+          </div>
+
+          <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover;">
+              <div>
+                <strong style="color: #FFF; font-size: 0.85rem;">Fatou Sow</strong>
+                <div style="font-size: 0.64rem; color: #94A3B8;">Matricule: STU-102</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" class="form-input-dark" value="16.5" step="0.5" min="0" max="20" style="width: 65px; margin: 0; padding: 6px; text-align: center; font-weight: 900; color: #10B981; border-color: #10B981;">
+              <span style="font-size: 0.72rem; color: #94A3B8;">/20</span>
+            </div>
+          </div>
+
+          <div style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover;">
+              <div>
+                <strong style="color: #FFF; font-size: 0.85rem;">Moussa Ba</strong>
+                <div style="font-size: 0.64rem; color: #94A3B8;">Matricule: STU-103</div>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <input type="number" class="form-input-dark" value="14.0" step="0.5" min="0" max="20" style="width: 65px; margin: 0; padding: 6px; text-align: center; font-weight: 900; color: #38BDF8; border-color: #38BDF8;">
+              <span style="font-size: 0.72rem; color: #94A3B8;">/20</span>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="window.HardwareManager.vibrate(35); showToast('Notes académiques publiées sur le Cloud Firestore !'); document.getElementById('modal-teacher-full-gradebook').style.display='none';" class="btn-emerald-glow" style="padding: 12px; font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <span>☁️</span> <span>Enregistrer &amp; Publier les Notes (Cloud Sync)</span>
+        </button>
       </div>
     </div>
 
