@@ -5,7 +5,7 @@ window.i18n_es = {
   "app.motto": "Un Pueblo – Una Meta – Una Fe",
   "app.title": "E-School Daara",
   "app.tagline": "El sistema operativo de gestión escolar inteligente que conecta a toda la comunidad educativa.",
-  "app.greeting": "Buenos días,",
+  "app.greeting": "Bienvenido,",
   "app.location": "Campus Dakar Conectado",
   "app.advisor": "Prof. Jean-Marc Fall",
   
@@ -195,6 +195,12 @@ window.i18n_es = {
   // Parent Multi-Child
   "parent.children_title": "Mis Hijos Matriculados :",
   "parent.status_today": "Presente hoy (08:15)",
+  "parent.chat_teacher": "Chat Profesor",
+  "parent.send_excuse": "Justificar Falta",
+  "parent.bulletin_pdf": "Boletín PDF",
+  "parent.official_notice": "COMUNICADO OFICIAL INSTITUCIONAL",
+  "parent.notice_title": "Reunión Pedagógica Trimestral y Entrega de Calificaciones",
+  "parent.notice_desc": "La dirección escolar invita a todos los padres de familia a la entrega solemne de boletines y orientación académica para el próximo periodo.",
 
   // Teacher Workspace
   "teacher.title": "Espacio Docente",

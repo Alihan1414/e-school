@@ -1441,9 +1441,19 @@ function bootESchoolApp() {
     const parentBar = document.getElementById("parent-child-selector-bar");
     const liveAttPill = document.getElementById("parent-live-attendance-pill");
 
+    const studentGrid = document.getElementById("student-actions-grid");
+    const parentActions = document.getElementById("parent-actions-section");
+    const parentNotice = document.getElementById("parent-notice-card");
+    const studentFooter = document.getElementById("student-footer-actions");
+
     if (currentUser.role === "parent") {
       parentBar.style.display = "block";
       liveAttPill.style.display = "inline-block";
+
+      if (studentGrid) studentGrid.style.display = "none";
+      if (parentActions) parentActions.style.display = "block";
+      if (parentNotice) parentNotice.style.display = "block";
+      if (studentFooter) studentFooter.style.display = "none";
 
       const family = currentUser.family || window.ESchoolData.parentFamilies["PAR-101"];
       const children = family.children;
@@ -1471,9 +1481,50 @@ function bootESchoolApp() {
       });
 
       liveAttPill.innerText = `${currentStudentObj.statusToday}`;
+
+      // Wire up the 3 Parent Action Cards
+      const btnParentChat = document.getElementById("btn-parent-action-chat");
+      if (btnParentChat) {
+        btnParentChat.onclick = () => {
+          window.HardwareManager.vibrate(25);
+          switchStudentParentTab("messages");
+        };
+      }
+
+      const btnParentExcuse = document.getElementById("btn-parent-action-excuse");
+      if (btnParentExcuse) {
+        btnParentExcuse.onclick = () => {
+          window.HardwareManager.vibrate(25);
+          const modal = document.getElementById("modal-submit-absence-excuse");
+          if (modal) {
+            modal.style.display = "flex";
+            const dateInput = document.getElementById("excuse-date-start");
+            if (dateInput && !dateInput.value) {
+              dateInput.value = new Date().toISOString().split('T')[0];
+            }
+            const confirmAlert = document.getElementById("excuse-confirmation-alert");
+            if (confirmAlert) confirmAlert.style.display = "none";
+          }
+        };
+      }
+
+      const btnParentTranscript = document.getElementById("btn-parent-action-transcript");
+      if (btnParentTranscript) {
+        btnParentTranscript.onclick = () => {
+          window.HardwareManager.vibrate(25);
+          const btnDl = document.getElementById("btn-download-pdf-transcript");
+          if (btnDl) btnDl.click();
+        };
+      }
     } else {
       parentBar.style.display = "none";
       liveAttPill.style.display = "none";
+
+      if (studentGrid) studentGrid.style.display = "grid";
+      if (parentActions) parentActions.style.display = "none";
+      if (parentNotice) parentNotice.style.display = "none";
+      if (studentFooter) studentFooter.style.display = "flex";
+
       currentStudentObj = {
         id: currentUser.id,
         name: currentUser.name || "Amadou Diallo",

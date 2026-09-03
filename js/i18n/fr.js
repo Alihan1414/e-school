@@ -5,7 +5,7 @@ window.i18n_fr = {
   "app.motto": "Un Peuple – Un But – Une Foi",
   "app.title": "E-School Daara",
   "app.tagline": "L'application scolaire intelligente qui connecte toute la communauté éducative.",
-  "app.greeting": "Asalaamu Alaykum,",
+  "app.greeting": "Bienvenue,",
   "app.location": "Campus Dakar Connecté",
   "app.advisor": "Prof. Jean-Marc Fall",
   
@@ -195,6 +195,12 @@ window.i18n_fr = {
   // Parent Multi-Child
   "parent.children_title": "Mes Enfants Inscrits :",
   "parent.status_today": "Présent aujourd'hui (08:15)",
+  "parent.chat_teacher": "Échanger Prof",
+  "parent.send_excuse": "Justifier Absence",
+  "parent.bulletin_pdf": "Bulletin PDF",
+  "parent.official_notice": "COMMUNICATION OFFICIELLE DE L'ÉTABLISSEMENT",
+  "parent.notice_title": "Réunion Pédagogique Trimestrielle & Rapport d'Évaluation",
+  "parent.notice_desc": "La direction et l'équipe pédagogique convient l'ensemble des parents d'élèves pour la remise solennelle des bulletins et l'orientation académique du second semestre.",
 
   // Teacher Workspace
   "teacher.title": "Espace Pédagogique Enseignant",

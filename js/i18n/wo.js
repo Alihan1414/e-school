@@ -5,7 +5,7 @@ window.i18n_wo = {
   "app.motto": "Benn Gàll – Benn Bëgg-bëgg – Benn Gëm-gëm",
   "app.title": "E-School Daara",
   "app.tagline": "Daara bu xarany bi lëkkalale mboolem njàngat mi.",
-  "app.greeting": "Asalaamu Alaykum,",
+  "app.greeting": "Dalal ak jamm,",
   "app.location": "Ndakaaru, Senegaal",
   "app.advisor": "Prof. Jean-Marc Fall",
   
@@ -195,6 +195,12 @@ window.i18n_wo = {
   // Parent Multi-Child
   "parent.children_title": "Samay Doom yi fi Bindu :",
   "parent.status_today": "Teew na tey (08:15)",
+  "parent.chat_teacher": "Waxtaan ak Jàngalekat",
+  "parent.send_excuse": "Wax Lu Tax Bañ Teew",
+  "parent.bulletin_pdf": "Kaye Nattal (PDF)",
+  "parent.official_notice": "YÉGLE BU MAT SÉKK BU DAARA JI",
+  "parent.notice_title": "Ndaje ak Jàngalekat yi ak Joxe Kaye yi",
+  "parent.notice_desc": "Njiitu daara ji ak jàngalekat yi ñoo ngi woo waajur yépp ngir joxe kaye nattal yi ak waxtaan ci njàngum ñaareelu weer yi.",
 
   // Teacher Workspace
   "teacher.title": "Bunt Jàngalekat yi",

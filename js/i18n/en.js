@@ -5,7 +5,7 @@ window.i18n_en = {
   "app.motto": "One People – One Goal – One Faith",
   "app.title": "E-School Daara",
   "app.tagline": "The intelligent school management operating system connecting the entire educational community.",
-  "app.greeting": "Good day,",
+  "app.greeting": "Welcome,",
   "app.location": "Campus Dakar Connected",
   "app.advisor": "Lead Advisor: Prof. Jean-Marc Fall",
   
@@ -195,6 +195,12 @@ window.i18n_en = {
   // Parent Multi-Child
   "parent.children_title": "Enrolled Children :",
   "parent.status_today": "Present today (08:15)",
+  "parent.chat_teacher": "Chat Teacher",
+  "parent.send_excuse": "Absence Excuse",
+  "parent.bulletin_pdf": "Official PDF",
+  "parent.official_notice": "OFFICIAL INSTITUTIONAL ANNOUNCEMENT",
+  "parent.notice_title": "Quarterly Academic Conference & Progress Reports",
+  "parent.notice_desc": "School administration cordially invites all parents for the solemn distribution of term transcripts and second-semester counseling.",
 
   // Teacher Workspace
   "teacher.title": "Faculty Workspace",

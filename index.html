@@ -777,7 +777,7 @@
               <img id="sp-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>
             <div>
-              <div style="font-size: 0.72rem; color: #94A3B8; font-weight: 600;" data-i18n="app.greeting">Asalaamu Alaykum,</div>
+              <div style="font-size: 0.72rem; color: #94A3B8; font-weight: 600;" data-i18n="app.greeting">Bienvenue,</div>
               <div style="font-size: 1.15rem; font-weight: 900; color: #FFFFFF; letter-spacing: -0.3px;" id="sp-header-name">Amadou Diallo</div>
               <div style="font-size: 0.68rem; color: #10B981; font-weight: 700;" id="sp-header-grade">10th Grade – Sc. &amp; Tech</div>
             </div>
@@ -793,8 +793,8 @@
           </div>
         </div>
 
-        <!-- 2. Clean 2x2 Quick Action Cards Grid (Zero Clutter) -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
+        <!-- 2. STUDENT VIEW: Clean 2x2 Quick Action Cards Grid (Zero Clutter) -->
+        <div id="student-actions-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px;">
           
           <!-- Card 1: Attendance -->
           <div class="metric-card-dark" id="btn-metric-absences" style="cursor: pointer; padding: 14px 14px; border-radius: 18px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1.5px solid rgba(16, 185, 129, 0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.35); transition: transform 0.2s ease;">
@@ -838,6 +838,43 @@
             <div style="font-size: 0.75rem; font-weight: 800; color: #C084FC; margin-top: 2px;">Ask Luna / Quiz</div>
           </div>
 
+        </div>
+
+        <!-- 2. PARENT VIEW: 3 Perfectly Fitted Quick Action Cards (Zero Overflow) -->
+        <div id="parent-actions-section" style="display: none; margin-bottom: 18px; width: 100%; box-sizing: border-box;">
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; width: 100%; box-sizing: border-box;">
+            
+            <!-- Quick Action 1: Chat with Teacher -->
+            <div id="btn-parent-action-chat" class="metric-card-dark" style="cursor: pointer; padding: 12px 6px; border-radius: 16px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid rgba(56, 189, 248, 0.35); box-shadow: 0 8px 20px rgba(0,0,0,0.3); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; box-sizing: border-box; transition: transform 0.2s ease;">
+              <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(56, 189, 248, 0.15); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; margin-bottom: 6px; flex-shrink: 0;">
+                💬
+              </div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #FFFFFF; letter-spacing: -0.2px; line-height: 1.2; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" data-i18n="parent.chat_teacher">
+                Échanger Prof
+              </div>
+            </div>
+
+            <!-- Quick Action 2: Absence Excuse Modal -->
+            <div id="btn-parent-action-excuse" class="metric-card-dark" style="cursor: pointer; padding: 12px 6px; border-radius: 16px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid rgba(245, 158, 11, 0.35); box-shadow: 0 8px 20px rgba(0,0,0,0.3); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; box-sizing: border-box; transition: transform 0.2s ease;">
+              <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; margin-bottom: 6px; flex-shrink: 0;">
+                ✉️
+              </div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #FFFFFF; letter-spacing: -0.2px; line-height: 1.2; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" data-i18n="parent.send_excuse">
+                Justifier Absence
+              </div>
+            </div>
+
+            <!-- Quick Action 3: Bulletin PDF Download -->
+            <div id="btn-parent-action-transcript" class="metric-card-dark" style="cursor: pointer; padding: 12px 6px; border-radius: 16px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1.5px solid rgba(16, 185, 129, 0.35); box-shadow: 0 8px 20px rgba(0,0,0,0.3); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-width: 0; box-sizing: border-box; transition: transform 0.2s ease;">
+              <div style="width: 36px; height: 36px; border-radius: 10px; background: rgba(16, 185, 129, 0.15); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; margin-bottom: 6px; flex-shrink: 0;">
+                📄
+              </div>
+              <div style="font-size: 0.7rem; font-weight: 900; color: #FFFFFF; letter-spacing: -0.2px; line-height: 1.2; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" data-i18n="parent.bulletin_pdf">
+                Bulletin PDF
+              </div>
+            </div>
+
+          </div>
         </div>
 
         <!-- 3. "Today's Schedule" Active Card with Countdown -->
@@ -900,8 +937,24 @@
           </div>
         </div>
 
-        <!-- 5. Quick Actions Footer Tray (Bulletin PDF & Mazeret) -->
-        <div style="display: flex; gap: 8px; margin-bottom: 20px;">
+        <!-- 5. PARENT NOTICE CARD (Zero Fees, Institutional Communication) -->
+        <div id="parent-notice-card" style="display: none; margin-bottom: 20px;">
+          <div class="metric-card-dark" style="padding: 14px 16px; border-radius: 18px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.9) 100%); border: 1px solid rgba(16, 185, 129, 0.25); box-shadow: 0 10px 25px rgba(0,0,0,0.35);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <span style="font-size: 0.62rem; font-weight: 900; color: #10B981; letter-spacing: 0.8px; text-transform: uppercase;" data-i18n="parent.official_notice">COMMUNICATION OFFICIELLE DE L'ÉTABLISSEMENT</span>
+              <span style="font-size: 0.6rem; color: #64748B; font-weight: 700;">Conseil #02</span>
+            </div>
+            <div style="font-size: 0.84rem; font-weight: 900; color: #FFFFFF; line-height: 1.3; margin-bottom: 4px;" data-i18n="parent.notice_title">
+              Réunion Pédagogique Trimestrielle &amp; Rapport d'Évaluation
+            </div>
+            <div style="font-size: 0.72rem; color: #94A3B8; line-height: 1.45;" data-i18n="parent.notice_desc">
+              La direction et l'équipe pédagogique convient l'ensemble des parents d'élèves pour la remise solennelle des bulletins et l'orientation académique du second semestre.
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. STUDENT FOOTER ACTION TRAY -->
+        <div id="student-footer-actions" style="display: flex; gap: 8px; margin-bottom: 20px;">
           <button id="btn-download-pdf-transcript" class="btn-emerald-glow" style="flex: 1; padding: 10px; font-size: 0.74rem; border-radius: 12px; display: flex; align-items: center; justify-content: center; gap: 6px;">
             <span>📄</span> <span data-i18n="dash.btn_pdf">Bulletin PDF</span>
           </button>
