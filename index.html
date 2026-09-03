@@ -1553,109 +1553,164 @@
     <!-- =========================================================
          13. PRINCIPAL / ADMINISTRATION OS (Enterprise Management Console)
          ========================================================= -->
-    <div id="view-admin-root" style="display: none; padding: 18px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <div>
-          <h2 style="font-size: 1.15rem; font-weight: 900; color: #A78BFA;" data-i18n="admin.title">Direction de l'Établissement</h2>
-          <span style="font-size: 0.7rem; color: #94A3B8;" data-i18n="admin.subtitle">Console Centrale d'Administration &amp; Audit</span>
+    <div id="view-admin-root" style="display: none; padding: 0 16px;">
+      
+      <!-- 1. Executive Header Profile & Online State Badge -->
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 4px 18px 4px;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; padding: 2px; background: linear-gradient(135deg, #10B981, #F59E0B); box-shadow: 0 0 16px rgba(16, 185, 129, 0.35); display: flex; align-items: center; justify-content: center;">
+            <div style="width: 100%; height: 100%; border-radius: 50%; background: #0F172A; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+              🏛️
+            </div>
+          </div>
+          <div>
+            <div style="font-size: 1.15rem; font-weight: 900; color: #FFFFFF; letter-spacing: -0.3px;" data-i18n="admin.title">Direction Générale</div>
+            <div style="font-size: 0.68rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.subtitle">Console Centrale d'Administration &amp; Audit</div>
+          </div>
         </div>
-        <div style="display: flex; gap: 6px;">
-          <button id="btn-admin-change-pass" style="background: rgba(245, 158, 11, 0.15); border: 1px solid #F59E0B; color: #FBBF24; padding: 4px 8px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; cursor: pointer;" data-i18n="auth.pass_label">
-            Mot de passe
-          </button>
-          <button class="btn-user-logout-trigger" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; cursor: pointer;" data-i18n="auth.logout">
-            Déconnexion
-          </button>
+
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
+          <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34D399; font-size: 0.64rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+            <span data-i18n="admin.system_live">Système En Direct</span>
+          </div>
+          <div style="display: flex; gap: 6px; margin-top: 2px;">
+            <button id="btn-admin-change-pass" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); color: #FBBF24; padding: 3px 8px; border-radius: 6px; font-size: 0.62rem; font-weight: 800; cursor: pointer;" data-i18n="auth.pass_label">
+              Mot de passe
+            </button>
+            <button class="btn-user-logout-trigger" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #FCA5A5; padding: 3px 8px; border-radius: 6px; font-size: 0.62rem; font-weight: 800; cursor: pointer;" data-i18n="auth.logout">
+              Déconnexion
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Admin KPI Stats Grid -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px;">
-        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
-          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_students">Élèves Inscrits</div>
-          <div id="admin-stat-students-val" style="font-size: 1.35rem; font-weight: 900; color: #38BDF8; font-family: monospace; margin-top: 2px;">1,240</div>
+      <!-- 2. Clean 2x2 Executive KPI Grid (Identical to Student & Teacher theme) -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+        
+        <!-- KPI 1: Enrolled Students -->
+        <div class="metric-card-dark" style="padding: 14px; border-radius: 18px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1.5px solid rgba(16, 185, 129, 0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.35);">
+          <div style="font-size: 0.68rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="admin.stat_students">Élèves Inscrits</div>
+          <div id="admin-stat-students-val" style="font-size: 1.35rem; font-weight: 900; color: #10B981; font-family: monospace; margin: 4px 0 6px 0;">1,248</div>
+          <div style="height: 4px; width: 100%; background: rgba(255, 255, 255, 0.1); border-radius: 99px; overflow: hidden;">
+            <div style="height: 100%; width: 88%; background: linear-gradient(90deg, #10B981, #00F5D4); border-radius: 99px;"></div>
+          </div>
         </div>
-        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
-          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_teachers">Corps Enseignant</div>
-          <div id="admin-stat-teachers-val" style="font-size: 1.35rem; font-weight: 900; color: #10B981; font-family: monospace; margin-top: 2px;">68</div>
+
+        <!-- KPI 2: Faculty Members -->
+        <div class="metric-card-dark" style="padding: 14px; border-radius: 18px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1.5px solid rgba(56, 189, 248, 0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.35);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 0.68rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="admin.stat_teachers">Corps Enseignant</div>
+            <span style="font-size: 0.85rem;">👨‍🏫</span>
+          </div>
+          <div id="admin-stat-teachers-val" style="font-size: 1.35rem; font-weight: 900; color: #38BDF8; font-family: monospace; margin: 4px 0 2px 0;">84</div>
+          <div style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;">Enseignants Actifs</div>
         </div>
-        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
-          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_gpa">Moyenne Globale</div>
-          <div id="admin-stat-gpa-val" style="font-size: 1.35rem; font-weight: 900; color: #F59E0B; font-family: monospace; margin-top: 2px;">89.4</div>
+
+        <!-- KPI 3: Attendance Rate -->
+        <div class="metric-card-dark" style="padding: 14px; border-radius: 18px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1.5px solid rgba(245, 158, 11, 0.3); box-shadow: 0 10px 25px rgba(0,0,0,0.35);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 0.68rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="admin.stat_att">Taux d'Assiduité</div>
+            <span style="font-size: 0.85rem;">⏱️</span>
+          </div>
+          <div id="admin-stat-att-val" style="font-size: 1.35rem; font-weight: 900; color: #F59E0B; font-family: monospace; margin: 4px 0 2px 0;">97.4%</div>
+          <div style="font-size: 0.62rem; color: #10B981; font-weight: 700;">+1.2% ce mois</div>
         </div>
-        <div class="metric-card-dark" style="text-align: center; padding: 12px 8px;">
-          <div style="font-size: 0.65rem; color: #94A3B8; font-weight: 700;" data-i18n="admin.stat_att">Taux d'Assiduité</div>
-          <div id="admin-stat-att-val" style="font-size: 1.35rem; font-weight: 900; color: #A78BFA; font-family: monospace; margin-top: 2px;">94.2%</div>
+
+        <!-- KPI 4: Academic Overall GPA -->
+        <div class="metric-card-dark" style="padding: 14px; border-radius: 18px; background: linear-gradient(145deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.85) 100%); border: 1.5px solid rgba(168, 85, 247, 0.35); box-shadow: 0 10px 25px rgba(0,0,0,0.35);">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="font-size: 0.68rem; font-weight: 800; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="admin.stat_gpa">Moyenne Globale</div>
+            <span style="background: rgba(168, 85, 247, 0.2); color: #C084FC; font-size: 0.58rem; padding: 2px 6px; border-radius: 4px; font-weight: 800;">NEON</span>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 4px; margin-top: 4px;">
+            <span id="admin-stat-gpa-val" style="font-size: 1.35rem; font-weight: 900; color: #C084FC; font-family: monospace;">88.6</span>
+            <span style="font-size: 0.65rem; color: #94A3B8; font-weight: 800;">/100</span>
+          </div>
+          <div style="font-size: 0.62rem; color: #94A3B8; font-weight: 700;">Top 5% National</div>
         </div>
+
       </div>
 
-      <!-- Emergency Broadcast Alert -->
-      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(239, 68, 68, 0.4); background: radial-gradient(circle at top right, rgba(239, 68, 68, 0.15), rgba(15, 23, 42, 0.95));">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <strong style="color: #EF4444; font-size: 0.82rem;">Diffusion d'Alerte d'Urgence (SMS / Push)</strong>
-          <span style="font-size: 0.6rem; background: rgba(239, 68, 68, 0.2); color: #FCA5A5; padding: 2px 6px; border-radius: 4px; font-weight: 800;">PRIORITÉ HAUTE</span>
-        </div>
-        <div style="display: flex; gap: 6px;">
-          <input type="text" id="input-emergency-broadcast-msg" class="form-input-dark" placeholder="Ex: Campus fermé ce vendredi (Alerte Météo)..." style="margin: 0; flex: 1; font-size: 0.72rem;">
-          <button type="button" id="btn-send-emergency-broadcast" style="background: #EF4444; border: none; color: #FFF; font-weight: 800; font-size: 0.72rem; padding: 0 12px; border-radius: 8px; cursor: pointer;">
-            Envoyer
-          </button>
-        </div>
+      <!-- 3. Primary Executive Action Buttons (Sleek Stack) -->
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px;">
+        <button id="btn-admin-toggle-broadcast" class="btn-emerald-glow" style="padding: 12px; font-size: 0.82rem; border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.25);">
+          <span>📡</span> <span data-i18n="admin.btn_broadcast">Diffuser Annonce SMS</span>
+        </button>
+        <button id="btn-export-pdf-report" class="quick-action-pill-btn" style="padding: 11px; font-size: 0.8rem; border-radius: 14px; background: rgba(30, 41, 59, 0.65); border: 1.5px solid rgba(255, 255, 255, 0.1); color: #FFFFFF; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 0.2s ease;">
+          <span>📄</span> <span data-i18n="admin.btn_export_pdf">Exporter Rapport PDF</span>
+        </button>
       </div>
 
-      <!-- Absence Excuses Approval Queue -->
-      <div class="metric-card-dark" style="margin-bottom: 14px; border: 1px solid rgba(245, 158, 11, 0.3);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h4 style="color: #F59E0B; font-size: 0.85rem; font-weight: 800;" data-i18n="excuse.admin_title">Demandes de Justificatifs d'Absences</h4>
-          <span style="font-size: 0.62rem; color: #F59E0B; background: rgba(245, 158, 11, 0.15); padding: 2px 6px; border-radius: 4px; font-weight: 800;" data-i18n="excuse.admin_badge">FLUX PARENTS</span>
+      <!-- Emergency / Official Broadcast Tray (Toggleable Drawer) -->
+      <div id="admin-broadcast-drawer" class="metric-card-dark" style="display: none; margin-bottom: 18px; border: 1.5px solid rgba(16, 185, 129, 0.35); background: linear-gradient(135deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.98) 100%);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <strong style="color: #34D399; font-size: 0.82rem;" data-i18n="admin.tab_announcements">Diffuser une Annonce Officielle (SMS / Push)</strong>
+          <button onclick="document.getElementById('admin-broadcast-drawer').style.display='none'" style="background: transparent; border: none; color: #64748B; cursor: pointer; font-size: 1rem;">✕</button>
         </div>
-        <div id="admin-excuses-list-container" style="display: flex; flex-direction: column; gap: 6px;"></div>
-      </div>
-
-      <!-- User Directory & Live Search -->
-      <div class="metric-card-dark" style="margin-bottom: 14px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <h4 style="color: #38BDF8; font-size: 0.85rem; font-weight: 800;" data-i18n="admin.users_title">Annuaire des Utilisateurs &amp; Comptes</h4>
-          <span style="font-size: 0.65rem; color: #10B981; font-weight: 800;" data-i18n="admin.users_badge">BASE SQLITE ACTIVE</span>
-        </div>
-        <input type="text" id="admin-search-users-input" class="form-input-dark" placeholder="Filtrer utilisateurs..." style="padding: 6px; margin-bottom: 8px; font-size: 0.72rem;" data-i18n-placeholder="admin.users_search_ph">
-        <div id="admin-users-table-container" style="max-height: 180px; overflow-y: auto; font-size: 0.72rem; margin-bottom: 10px;"></div>
-      </div>
-
-      <!-- Official Announcement Broadcast -->
-      <div class="metric-card-dark" style="margin-bottom: 14px;">
-        <h4 style="color: #A78BFA; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="admin.tab_announcements">Diffuser une Annonce Officielle</h4>
-        <form id="form-broadcast-announcement" style="display: flex; flex-direction: column; gap: 6px;">
-          <input type="text" id="adm-ann-title" class="form-input-dark" placeholder="Titre de l'annonce" required data-i18n-placeholder="admin.ann_title_ph">
-          <textarea id="adm-ann-content" class="form-input-dark" placeholder="Message officiel diffusé aux élèves et parents..." rows="2" required data-i18n-placeholder="admin.ann_content_ph"></textarea>
-          <button type="submit" class="btn-emerald-glow" style="padding: 8px; font-size: 0.76rem;" data-i18n="admin.send_announcement">
+        <form id="form-broadcast-announcement" style="display: flex; flex-direction: column; gap: 8px;">
+          <input type="text" id="adm-ann-title" class="form-input-dark" placeholder="Titre de l'annonce" required data-i18n-placeholder="admin.ann_title_ph" style="margin: 0; padding: 8px; font-size: 0.74rem;">
+          <textarea id="adm-ann-content" class="form-input-dark" placeholder="Message officiel diffusé aux élèves et parents..." rows="2" required data-i18n-placeholder="admin.ann_content_ph" style="margin: 0; padding: 8px; font-size: 0.74rem;"></textarea>
+          <div style="display: flex; gap: 8px;">
+            <input type="text" id="input-emergency-broadcast-msg" class="form-input-dark" placeholder="Alerte urgente SMS (optionnelle)..." style="margin: 0; flex: 1; font-size: 0.72rem; padding: 8px;">
+            <button type="button" id="btn-send-emergency-broadcast" style="background: rgba(239, 68, 68, 0.2); border: 1px solid #EF4444; color: #FCA5A5; font-weight: 800; font-size: 0.72rem; padding: 0 12px; border-radius: 8px; cursor: pointer;">
+              SMS Urgence
+            </button>
+          </div>
+          <button type="submit" class="btn-emerald-glow" style="padding: 9px; font-size: 0.76rem; border-radius: 10px;" data-i18n="admin.send_announcement">
             Publier l'Annonce
           </button>
         </form>
       </div>
 
-      <button id="btn-export-pdf-report" class="btn-emerald-glow" style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%); padding: 10px; font-size: 0.78rem; margin-bottom: 14px;" data-i18n="admin.export_pdf">
-        Exporter le Rapport Trimestriel (PDF)
-      </button>
-
-      <!-- Institutional User Creation Form -->
-      <div class="metric-card-dark">
-        <h4 style="color: #10B981; margin-bottom: 8px; font-size: 0.85rem;" data-i18n="admin.add_teacher">+ Inscrire un Utilisateur / Enseignant</h4>
-        <form id="form-admin-add-teacher" style="display: flex; flex-direction: column; gap: 6px;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-            <input type="text" id="adm-new-user-id" class="form-input-dark" placeholder="Matricule (Ex: TCH-03, STU-106)" required style="margin: 0;">
-            <select id="adm-new-user-role" class="form-input-dark" style="margin: 0;">
-              <option value="teacher">Professeur (Teacher)</option>
-              <option value="student">Élève (Student)</option>
-              <option value="parent">Parent</option>
-              <option value="admin">Administrateur</option>
-            </select>
-          </div>
-          <input type="text" id="adm-new-teacher-name" class="form-input-dark" placeholder="Nom complet" required data-i18n-placeholder="admin.new_user_ph">
-          <input type="text" id="adm-new-teacher-subject" class="form-input-dark" placeholder="Matière / Rôle" required data-i18n-placeholder="admin.new_role_ph">
-          <button type="submit" class="btn-emerald-glow" style="padding: 8px; font-size: 0.76rem;" data-i18n="admin.save_user_btn">Enregistrer l'Utilisateur</button>
-        </form>
+      <!-- 4. Absence Excuses Workflow Card (Preserved 100% Functionality) -->
+      <div class="metric-card-dark" style="margin-bottom: 18px; border: 1.5px solid rgba(245, 158, 11, 0.3); background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.9) 100%);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <h4 style="color: #F59E0B; font-size: 0.82rem; font-weight: 800; margin: 0;" data-i18n="excuse.admin_title">Demandes de Justificatifs d'Absences</h4>
+          <span style="font-size: 0.62rem; color: #F59E0B; background: rgba(245, 158, 11, 0.15); padding: 2px 8px; border-radius: 12px; font-weight: 800;" data-i18n="excuse.admin_badge">FLUX PARENTS</span>
+        </div>
+        <div id="admin-excuses-list-container" style="display: flex; flex-direction: column; gap: 8px;"></div>
       </div>
+
+      <!-- 5. "Annuaire & Audit Actif" User Directory Card -->
+      <div class="metric-card-dark" style="margin-bottom: 18px; border: 1.5px solid rgba(56, 189, 248, 0.25); background: linear-gradient(135deg, rgba(30, 41, 59, 0.55) 0%, rgba(15, 23, 42, 0.95) 100%);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div>
+            <h4 style="color: #FFFFFF; font-size: 0.85rem; font-weight: 900; margin: 0;" data-i18n="admin.users_title">Annuaire &amp; Audit Actif</h4>
+            <div style="font-size: 0.64rem; color: #94A3B8; margin-top: 1px;">Comptes &amp; Personnel de l'Établissement</div>
+          </div>
+          <span style="font-size: 0.62rem; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 12px; font-weight: 800;" data-i18n="admin.users_badge">BASE SQLITE ACTIVE</span>
+        </div>
+
+        <div style="display: flex; gap: 6px; margin-bottom: 10px;">
+          <input type="text" id="admin-search-users-input" class="form-input-dark" placeholder="Filtrer utilisateurs..." style="margin: 0; flex: 1; padding: 7px 10px; font-size: 0.72rem; border-radius: 10px;" data-i18n-placeholder="admin.users_search_ph">
+          <button id="btn-admin-toggle-add-user" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: #34D399; padding: 0 10px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; cursor: pointer; white-space: nowrap;" data-i18n="admin.btn_add_user">
+            + Inscrire
+          </button>
+        </div>
+
+        <!-- Add User Expandable Drawer -->
+        <div id="admin-add-user-drawer" style="display: none; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; margin-bottom: 10px;">
+          <form id="form-admin-add-teacher" style="display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+              <input type="text" id="adm-new-user-id" class="form-input-dark" placeholder="Matricule (TCH-03, STU-106)" required style="margin: 0; padding: 6px; font-size: 0.7rem;">
+              <select id="adm-new-user-role" class="form-input-dark" style="margin: 0; padding: 6px; font-size: 0.7rem;">
+                <option value="teacher">Professeur (Teacher)</option>
+                <option value="student">Élève (Student)</option>
+                <option value="parent">Parent</option>
+                <option value="admin">Administrateur</option>
+              </select>
+            </div>
+            <input type="text" id="adm-new-teacher-name" class="form-input-dark" placeholder="Nom complet" required data-i18n-placeholder="admin.new_user_ph" style="margin: 0; padding: 6px; font-size: 0.7rem;">
+            <input type="text" id="adm-new-teacher-subject" class="form-input-dark" placeholder="Matière / Rôle" required data-i18n-placeholder="admin.new_role_ph" style="margin: 0; padding: 6px; font-size: 0.7rem;">
+            <button type="submit" class="btn-emerald-glow" style="padding: 7px; font-size: 0.74rem; border-radius: 8px;" data-i18n="admin.save_user_btn">Enregistrer l'Utilisateur</button>
+          </form>
+        </div>
+
+        <!-- User Table / List Container -->
+        <div id="admin-users-table-container" style="max-height: 240px; overflow-y: auto; font-size: 0.72rem;"></div>
+      </div>
+
     </div>
 
 

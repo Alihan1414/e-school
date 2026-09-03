@@ -1992,6 +1992,28 @@ function bootESchoolApp() {
     loadAdminUserDirectory("");
     loadAdminExcusesList();
 
+    // Drawer Toggles for Streamlined Admin UI
+    const btnToggleBroadcast = document.getElementById("btn-admin-toggle-broadcast");
+    const drawerBroadcast = document.getElementById("admin-broadcast-drawer");
+    if (btnToggleBroadcast && drawerBroadcast) {
+      btnToggleBroadcast.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        drawerBroadcast.style.display = drawerBroadcast.style.display === "none" ? "block" : "none";
+        if (drawerBroadcast.style.display === "block") {
+          drawerBroadcast.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+      };
+    }
+
+    const btnToggleAddUser = document.getElementById("btn-admin-toggle-add-user");
+    const drawerAddUser = document.getElementById("admin-add-user-drawer");
+    if (btnToggleAddUser && drawerAddUser) {
+      btnToggleAddUser.onclick = () => {
+        window.HardwareManager.vibrate(25);
+        drawerAddUser.style.display = drawerAddUser.style.display === "none" ? "block" : "none";
+      };
+    }
+
     // Emergency Push Broadcaster
     const btnSendEmergency = document.getElementById("btn-send-emergency-broadcast");
     const inputEmergency = document.getElementById("input-emergency-broadcast-msg");
@@ -2140,33 +2162,42 @@ function bootESchoolApp() {
       }
     } catch (e) {}
 
-    let html = `
-      <table style="width: 100%; border-collapse: collapse; text-align: left;">
-        <thead>
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #94A3B8;">
-            <th style="padding: 4px;">ID</th>
-            <th style="padding: 4px;">Nom</th>
-            <th style="padding: 4px;">Rôle</th>
-            <th style="padding: 4px; text-align: right;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-    `;
+    const roleAvatars = {
+      'admin': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80',
+      'teacher': 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80',
+      'student': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+      'parent': 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80'
+    };
+
+    let html = `<div style="display: flex; flex-direction: column; gap: 8px;">`;
     users.forEach(u => {
+      const avatarUrl = roleAvatars[u.role] || roleAvatars['admin'];
+      const roleColor = u.role === 'admin' ? '#A78BFA' : (u.role === 'teacher' ? '#38BDF8' : (u.role === 'student' ? '#10B981' : '#F59E0B'));
+      const roleBg = u.role === 'admin' ? 'rgba(167, 139, 250, 0.15)' : (u.role === 'teacher' ? 'rgba(56, 189, 248, 0.15)' : (u.role === 'student' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)'));
+
       html += `
-        <tr style="border-bottom: 1px solid rgba(255,255,255,0.04);">
-          <td style="padding: 6px 4px; color: #38BDF8; font-family: monospace;">${u.id}</td>
-          <td style="padding: 6px 4px; color: #FFF; font-weight: 700;">${u.name}</td>
-          <td style="padding: 6px 4px;"><span style="background: rgba(255,255,255,0.08); padding: 2px 6px; border-radius: 4px; font-size: 0.62rem; text-transform: uppercase;">${u.role}</span></td>
-          <td style="padding: 6px 4px; text-align: right;">
-            <button class="btn-delete-user" data-uid="${u.id}" style="background: rgba(239, 68, 68, 0.15); border: 1px solid #EF4444; color: #FCA5A5; padding: 2px 6px; border-radius: 4px; font-size: 0.62rem; cursor: pointer;">
+        <div style="background: rgba(30, 41, 59, 0.45); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 10px 12px; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s ease;">
+          <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+            <div style="position: relative; width: 34px; height: 34px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 1.5px solid ${roleColor};">
+              <img src="${avatarUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar">
+            </div>
+            <div style="min-width: 0;">
+              <div style="font-size: 0.8rem; font-weight: 800; color: #FFFFFF; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${u.name}</div>
+              <div style="display: flex; align-items: center; gap: 6px; margin-top: 1px;">
+                <span style="font-size: 0.62rem; color: #38BDF8; font-family: monospace;">${u.id}</span>
+                <span style="background: ${roleBg}; color: ${roleColor}; padding: 1px 6px; border-radius: 4px; font-size: 0.58rem; font-weight: 800; text-transform: uppercase;">${u.role}</span>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+            <button class="btn-delete-user" data-uid="${u.id}" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #FCA5A5; padding: 4px 8px; border-radius: 6px; font-size: 0.62rem; font-weight: 800; cursor: pointer;">
               Supprimer
             </button>
-          </td>
-        </tr>
+          </div>
+        </div>
       `;
     });
-    html += `</tbody></table>`;
+    html += `</div>`;
     container.innerHTML = html;
 
     container.querySelectorAll(".btn-delete-user").forEach(btn => {
