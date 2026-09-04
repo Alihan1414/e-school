@@ -4,6 +4,7 @@ function bootESchoolApp() {
 
   let currentUser = null;
   let currentChildIndex = 0;
+  let currentActiveChild = null;
   let activeTab = "home";
   let currentSelectedPackage = null;
   let html5QrScannerInstance = null;
@@ -769,8 +770,16 @@ function bootESchoolApp() {
       const box = document.getElementById("chat-messages-stream-box");
       if (!box) return;
 
+      const activeChild = currentActiveChild || (currentUser && currentUser.family && currentUser.family.children && currentUser.family.children[0]) || (window.ESchoolData && window.ESchoolData.parentFamilies && window.ESchoolData.parentFamilies["PAR-101"] && window.ESchoolData.parentFamilies["PAR-101"].children[0]);
+      const childId = activeChild ? activeChild.id : "STU-101";
+      const childThreadId = `thread-${childId.toLowerCase()}`;
+
+      if (activeChild && activeChild.chatMessages && activeChild.chatMessages.length > 0) {
+        localChatMessages = [...activeChild.chatMessages];
+      }
+
       try {
-        const resp = await fetch('/api/chat/messages?threadId=thread-fall-diallo');
+        const resp = await fetch(`/api/chat/messages?threadId=${childThreadId}`);
         const data = await resp.json();
         if (data.success && data.messages && data.messages.length > 0) {
           localChatMessages = data.messages;
@@ -781,7 +790,7 @@ function bootESchoolApp() {
 
       let html = "";
       localChatMessages.forEach(m => {
-        const isMe = (currentUser && m.sender_id === currentUser.id) || (!currentUser && m.sender_id === 'STU-101');
+        const isMe = (currentUser && m.sender_id === currentUser.id) || (!currentUser && (m.sender_id === 'STU-101' || m.sender_id === 'PAR-101'));
         const align = isMe ? "flex-end" : "flex-start";
         const bg = isMe ? "linear-gradient(135deg, #059669 0%, #10B981 100%)" : "rgba(30, 41, 59, 0.9)";
 
@@ -805,9 +814,9 @@ function bootESchoolApp() {
 
         chatInput.value = "";
 
-        const sId = currentUser ? currentUser.id : "STU-101";
-        const sName = currentUser ? currentUser.name : "Amadou Diallo";
-        const sRole = currentUser ? currentUser.role : "student";
+        const sId = currentUser ? currentUser.id : "PAR-101";
+        const sName = currentUser ? currentUser.name : "Moussa Diallo";
+        const sRole = currentUser ? currentUser.role : "Parent";
 
         const newMsg = {
           sender_id: sId,
@@ -817,14 +826,20 @@ function bootESchoolApp() {
         };
 
         localChatMessages.push(newMsg);
+        if (currentActiveChild && currentActiveChild.chatMessages) {
+          currentActiveChild.chatMessages.push(newMsg);
+        }
         loadChatMessages();
+
+        const activeChild = currentActiveChild || (currentUser && currentUser.family && currentUser.family.children && currentUser.family.children[0]);
+        const childThreadId = activeChild ? `thread-${activeChild.id.toLowerCase()}` : 'thread-stu-101';
 
         try {
           await fetch('/api/chat/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              threadId: 'thread-fall-diallo',
+              threadId: childThreadId,
               senderId: sId,
               senderName: sName,
               senderRole: sRole,
@@ -1368,30 +1383,7 @@ function bootESchoolApp() {
     }
 
     if (tabId === "messages") {
-      const chatBox = document.getElementById("chat-messages-stream-box");
-      if (chatBox) {
-        chatBox.innerHTML = `<em>Loading live messages...</em>`;
-        fetch('/api/chat/messages?threadId=thread-fall-diallo')
-          .then(r => r.json())
-          .then(d => {
-            if (d.success && d.messages) {
-              let html = "";
-              d.messages.forEach(m => {
-                const isMe = (currentUser && m.sender_id === currentUser.id) || (!currentUser && m.sender_id === 'STU-101');
-                const align = isMe ? "flex-end" : "flex-start";
-                const bg = isMe ? "linear-gradient(135deg, #059669 0%, #10B981 100%)" : "rgba(30, 41, 59, 0.9)";
-                html += `
-                  <div style="align-self: ${align}; max-width: 82%; background: ${bg}; color: #FFF; padding: 10px 12px; border-radius: 12px; font-size: 0.76rem;">
-                    <div style="font-size: 0.62rem; opacity: 0.85; margin-bottom: 2px; font-weight: 700;">${m.sender_name} (${m.sender_role})</div>
-                    <div>${m.text}</div>
-                  </div>
-                `;
-              });
-              chatBox.innerHTML = html;
-              chatBox.scrollTop = chatBox.scrollHeight;
-            }
-          });
-      }
+      loadChatMessages();
     }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1458,6 +1450,7 @@ function bootESchoolApp() {
       const family = currentUser.family || window.ESchoolData.parentFamilies["PAR-101"];
       const children = family.children;
       currentStudentObj = children[currentChildIndex];
+      currentActiveChild = currentStudentObj;
 
       const pillsContainer = document.getElementById("parent-children-pills-container");
       let pillsHtml = "";
@@ -1534,6 +1527,7 @@ function bootESchoolApp() {
         gpa: 91.32,
         advisor: "Prof. Jean-Marc Fall"
       };
+      currentActiveChild = currentStudentObj;
     }
 
     document.getElementById("sp-header-name").innerText = currentStudentObj.name;
@@ -1547,9 +1541,72 @@ function bootESchoolApp() {
     document.getElementById("sp-hero-gpa-val").innerText = gpaFormatted;
     document.getElementById("metric-avg-val").innerText = gpaFormatted;
 
-    renderLiveGrades(currentStudentObj.id, lang);
-    renderHomeworksAndMaterials(currentStudentObj.id);
-    renderInteractiveTimetable();
+    // Dynamically update 2x2 Home Metrics for this specific child
+    const attRateEl = document.getElementById("student-hero-att-rate");
+    if (attRateEl) attRateEl.innerText = currentStudentObj.attendanceRate || "95.0%";
+
+    const pendingHwEl = document.getElementById("student-hero-pending-hw");
+    if (pendingHwEl) pendingHwEl.innerText = currentStudentObj.unreadHomework !== undefined ? currentStudentObj.unreadHomework : "0";
+
+    const nextExamEl = document.getElementById("student-hero-next-exam");
+    if (nextExamEl) {
+      if (currentStudentObj.upcomingClass) {
+        nextExamEl.innerText = `Next: ${currentStudentObj.upcomingClass.subject}`;
+      } else {
+        nextExamEl.innerText = "Next: Évaluation";
+      }
+    }
+
+    // Dynamically update Today's Schedule Card on Home tab
+    const examTimer = document.getElementById("countdown-exam-timer");
+    const examSubject = document.getElementById("countdown-exam-subject");
+    const examMeta = document.getElementById("countdown-exam-meta");
+    if (currentStudentObj.upcomingClass) {
+      if (examTimer) examTimer.innerText = currentStudentObj.upcomingClass.countdown || "30m";
+      if (examSubject) examSubject.innerText = `${currentStudentObj.upcomingClass.subject} | ${currentStudentObj.upcomingClass.time}`;
+      if (examMeta) examMeta.innerText = `${currentStudentObj.upcomingClass.room} • ${currentStudentObj.upcomingClass.teacher}`;
+    }
+
+    // Dynamically render "Latest Grades" 3 mini cards on Home tab
+    const latestGradesBox = document.getElementById("home-latest-grades-container");
+    if (latestGradesBox) {
+      const qGrades = currentStudentObj.quickGrades || [
+        { subject: "Maths", score: "18/20", pct: 90, color: "#10B981" },
+        { subject: "Physique", score: "15.5/20", pct: 78, color: "#00F5D4" },
+        { subject: "Histoire", score: "17/20", pct: 85, color: "#38BDF8" }
+      ];
+      let lgHtml = "";
+      qGrades.forEach(q => {
+        lgHtml += `
+          <div class="metric-card-dark" onclick="window.switchStudentParentTab('notes')" style="cursor: pointer; padding: 10px 8px; border-radius: 14px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); text-align: center;">
+            <div style="font-size: 0.68rem; font-weight: 800; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${q.subject}</div>
+            <div style="font-size: 0.92rem; font-weight: 900; color: #FFFFFF; font-family: monospace; margin: 4px 0;">${q.score}</div>
+            <div style="height: 4px; width: 100%; background: rgba(255, 255, 255, 0.1); border-radius: 99px; overflow: hidden;">
+              <div style="height: 100%; width: ${q.pct}%; background: ${q.color || '#10B981'}; border-radius: 99px;"></div>
+            </div>
+          </div>
+        `;
+      });
+      latestGradesBox.innerHTML = lgHtml;
+    }
+
+    // Sync official PDF template fields to this child
+    const pdfName = document.getElementById("pdf-student-name");
+    const pdfId = document.getElementById("pdf-student-id");
+    const pdfGpa = document.getElementById("pdf-gpa-val");
+    if (pdfName) pdfName.innerText = currentStudentObj.name;
+    if (pdfId) pdfId.innerText = currentStudentObj.id;
+    if (pdfGpa) pdfGpa.innerText = `${gpaFormatted} / 100`;
+
+    // Sync Chat Tab advisor subtitle
+    const chatSubtitle = document.getElementById("chat-advisor-subtitle");
+    if (chatSubtitle && currentStudentObj.advisor) {
+      chatSubtitle.innerText = `Fil de discussion en direct avec ${currentStudentObj.advisor}`;
+    }
+
+    renderLiveGrades(currentStudentObj, lang);
+    renderHomeworksAndMaterials(currentStudentObj);
+    renderInteractiveTimetable("all", currentStudentObj);
     renderAttendanceHeatmap();
 
     // 3D Smart Card Flip Event
@@ -1598,9 +1655,12 @@ function bootESchoolApp() {
   }
 
   // 1. Live Grades Renderer
-  async function renderLiveGrades(studentId, lang) {
+  async function renderLiveGrades(studentParam, lang) {
     const container = document.getElementById("sp-grades-live-container");
     if (!container) return;
+
+    const studentObj = (typeof studentParam === 'object' && studentParam !== null) ? studentParam : null;
+    const studentId = studentObj ? studentObj.id : studentParam;
 
     let data = null;
     try {
@@ -1610,13 +1670,28 @@ function bootESchoolApp() {
     } catch (e) {
       console.warn("Grade fetch fallback:", e);
     }
-    const grades = (data && data.grades) ? data.grades : [
-      { subjectId: "math", name_fr: "Mathématiques", name_en: "Mathematics", name_wo: "Xayma", name_es: "Matemáticas", code: "MAT-101", hours: 6, exam1: 95, exam2: 94, oral: 90, project: 92 },
-      { subjectId: "phys", name_fr: "Physique-Chimie", name_en: "Physics", name_wo: "Fisik", name_es: "Física y Química", code: "PHY-102", hours: 4, exam1: 89, exam2: 92, oral: 88, project: 90 },
-      { subjectId: "lit", name_fr: "Français & Littérature", name_en: "Literature", name_wo: "Litteratir", name_es: "Literatura", code: "LIT-105", hours: 5, exam1: 88, exam2: 90, oral: 92, project: 89 },
-      { subjectId: "bio", name_fr: "Sciences de la Vie (SVT)", name_en: "Biology", name_wo: "SVT", name_es: "Biología (SVT)", code: "BIO-104", hours: 3, exam1: 94, exam2: 96, oral: 95, project: 98 },
-      { subjectId: "eng", name_fr: "Langue Anglaise", name_en: "English Language", name_wo: "Làkku Angale", name_es: "Lengua Inglesa", code: "ENG-107", hours: 4, exam1: 98, exam2: 100, oral: 100, project: 95 }
-    ];
+
+    let grades = [];
+    if (data && data.grades) {
+      grades = data.grades;
+    } else if (studentObj && studentObj.grades && studentObj.grades.length > 0) {
+      grades = studentObj.grades;
+    } else {
+      // Find from parentFamilies if available
+      const fam = (currentUser && currentUser.family) || (window.ESchoolData && window.ESchoolData.parentFamilies && window.ESchoolData.parentFamilies["PAR-101"]);
+      const foundChild = fam && fam.children && fam.children.find(c => c.id === studentId);
+      if (foundChild && foundChild.grades) {
+        grades = foundChild.grades;
+      } else {
+        grades = [
+          { subjectId: "math", name_fr: "Mathématiques", name_en: "Mathematics", name_wo: "Xayma", name_es: "Matemáticas", code: "MAT-101", hours: 6, exam1: 95, exam2: 94, oral: 90, project: 92 },
+          { subjectId: "phys", name_fr: "Physique-Chimie", name_en: "Physics", name_wo: "Fisik", name_es: "Física y Química", code: "PHY-102", hours: 4, exam1: 89, exam2: 92, oral: 88, project: 90 },
+          { subjectId: "lit", name_fr: "Français & Littérature", name_en: "Literature", name_wo: "Litteratir", name_es: "Literatura", code: "LIT-105", hours: 5, exam1: 88, exam2: 90, oral: 92, project: 89 },
+          { subjectId: "bio", name_fr: "Sciences de la Vie (SVT)", name_en: "Biology", name_wo: "SVT", name_es: "Biología (SVT)", code: "BIO-104", hours: 3, exam1: 94, exam2: 96, oral: 95, project: 98 },
+          { subjectId: "eng", name_fr: "Langue Anglaise", name_en: "English Language", name_wo: "Làkku Angale", name_es: "Lengua Inglesa", code: "ENG-107", hours: 4, exam1: 98, exam2: 100, oral: 100, project: 95 }
+        ];
+      }
+    }
 
     let html = "";
     grades.forEach(g => {
@@ -1649,16 +1724,53 @@ function bootESchoolApp() {
     });
 
     container.innerHTML = html;
+
+    // Also sync the PDF Transcript Table rows
+    const pdfTbody = document.getElementById("pdf-grades-table-body");
+    if (pdfTbody) {
+      let pdfRowsHtml = "";
+      grades.forEach((g, idx) => {
+        const rowBg = idx % 2 === 1 ? ' style="background: #F8FAFC;"' : '';
+        const avg = ((g.exam1 + g.exam2 + g.oral + g.project) / 4).toFixed(1);
+        pdfRowsHtml += `
+          <tr${rowBg}>
+            <td style="padding: 6px 8px; border: 1px solid #E2E8F0;">${g.name_fr || g.subjectId}</td>
+            <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">${g.exam1}</td>
+            <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">${g.exam2}</td>
+            <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">${g.oral}</td>
+            <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center;">${g.project}</td>
+            <td style="padding: 6px 8px; border: 1px solid #E2E8F0; text-align: center; font-weight: 800; color: #00853F;">${avg}</td>
+          </tr>
+        `;
+      });
+      pdfTbody.innerHTML = pdfRowsHtml;
+    }
   }
 
   // 2. Homework & Course Materials Renderer
-  function renderHomeworksAndMaterials(studentId) {
+  function renderHomeworksAndMaterials(studentParam) {
     const hwContainer = document.getElementById("homeworks-list-container");
     const matContainer = document.getElementById("course-materials-container");
 
+    const studentObj = (typeof studentParam === 'object' && studentParam !== null) ? studentParam : null;
+    const studentId = studentObj ? studentObj.id : studentParam;
+
+    let homeworksList = [];
+    if (studentObj && studentObj.homeworks && studentObj.homeworks.length > 0) {
+      homeworksList = studentObj.homeworks;
+    } else {
+      const fam = (currentUser && currentUser.family) || (window.ESchoolData && window.ESchoolData.parentFamilies && window.ESchoolData.parentFamilies["PAR-101"]);
+      const foundChild = fam && fam.children && fam.children.find(c => c.id === studentId);
+      if (foundChild && foundChild.homeworks) {
+        homeworksList = foundChild.homeworks;
+      } else {
+        homeworksList = window.ESchoolData.homeworks || [];
+      }
+    }
+
     if (hwContainer) {
       let hwHtml = "";
-      window.ESchoolData.homeworks.forEach(hw => {
+      homeworksList.forEach(hw => {
         const isSubmitted = hw.status === "submitted";
         const badgeColor = isSubmitted ? "#10B981" : (hw.status === "new" ? "#38BDF8" : "#F59E0B");
         const statusLabel = isSubmitted ? (window.i18n.t("hw.status_submitted") || "Submitted") : (window.i18n.t("hw.status_todo") || "To Do");
@@ -1716,12 +1828,15 @@ function bootESchoolApp() {
   // 3. Interactive Timetable Renderer with Day Filter
   let activeTimetableDayFilter = "all";
 
-  async function renderInteractiveTimetable(filterDay = "all") {
+  async function renderInteractiveTimetable(filterDay = "all", studentParam = null) {
     activeTimetableDayFilter = filterDay;
     const container = document.getElementById("timetable-interactive-container");
     if (!container) return;
 
-    let entries = [
+    const studentObj = (typeof studentParam === 'object' && studentParam !== null) ? studentParam : null;
+    const currentClassId = (studentObj && studentObj.classId) ? studentObj.classId : '10-A';
+
+    let entries = (studentObj && studentObj.timetable && studentObj.timetable.length > 0) ? studentObj.timetable : [
       { day_name: 'Lundi', time_slot: '08:00 - 10:00', subject: 'Mathématiques', teacher: 'Prof. Jean-Marc Fall', room: 'Salle B-104', isCurrent: true },
       { day_name: 'Lundi', time_slot: '10:15 - 12:15', subject: 'Physique-Chimie', teacher: 'Mme. Aïssatou Sow', room: 'Labo Sciences 2' },
       { day_name: 'Mardi', time_slot: '08:00 - 10:00', subject: 'Français & Littérature', teacher: 'Mme. Mariama Ba', room: 'Salle A-201' },
@@ -1732,7 +1847,7 @@ function bootESchoolApp() {
     ];
 
     try {
-      const resp = await fetch('/api/timetable?classId=10-A');
+      const resp = await fetch(`/api/timetable?classId=${currentClassId}`);
       const data = await resp.json();
       if (data && data.success && data.entries && data.entries.length > 0) {
         entries = data.entries;
