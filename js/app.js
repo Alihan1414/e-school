@@ -388,12 +388,12 @@ function bootESchoolApp() {
         window.HardwareManager.vibrate(25);
         document.querySelectorAll(".auth-role-tab-btn").forEach(b => {
           b.classList.remove("active");
-          b.style.background = "transparent";
-          b.style.color = "#94A3B8";
+          b.style.background = "";
+          b.style.color = "";
         });
         btn.classList.add("active");
-        btn.style.background = "#10B981";
-        btn.style.color = "#FFF";
+        btn.style.background = "";
+        btn.style.color = "";
 
         const rId = btn.getAttribute("data-role-id");
         const rPass = btn.getAttribute("data-role-pass");
@@ -1099,14 +1099,14 @@ function bootESchoolApp() {
         window.HardwareManager.vibrate(20);
         document.querySelectorAll(".trim-pill").forEach(b => {
           b.classList.remove("active");
-          b.style.background = "rgba(255,255,255,0.05)";
-          b.style.color = "#94A3B8";
-          b.style.border = "1px solid var(--border-glass)";
+          b.style.background = "";
+          b.style.color = "";
+          b.style.border = "";
         });
         btn.classList.add("active");
-        btn.style.background = "var(--senegal-green)";
-        btn.style.color = "#FFF";
-        btn.style.border = "none";
+        btn.style.background = "";
+        btn.style.color = "";
+        btn.style.border = "";
         const trim = btn.dataset.trim;
         showToast(`Relevé affiché : Trimestre ${trim}`);
       });
@@ -1790,14 +1790,14 @@ function bootESchoolApp() {
           window.HardwareManager.vibrate(20);
           pillBox.querySelectorAll(".tt-filter-pill").forEach(btn => {
             btn.classList.remove("active");
-            btn.style.background = "var(--bg-card-subtle)";
-            btn.style.color = "var(--text-slate)";
-            btn.style.border = "1px solid var(--border-glass)";
+            btn.style.background = "";
+            btn.style.color = "";
+            btn.style.border = "";
           });
           p.classList.add("active");
-          p.style.background = "var(--senegal-green)";
-          p.style.color = "#FFF";
-          p.style.border = "none";
+          p.style.background = "";
+          p.style.color = "";
+          p.style.border = "";
           renderInteractiveTimetable(p.dataset.day);
         };
       });
