@@ -551,10 +551,69 @@ body:not([data-theme="light"]) .phone-viewport-wrapper {
 }
 
 body[data-theme="dark"] h1, body[data-theme="dark"] h2, body[data-theme="dark"] h3,
-body[data-theme="dark"] h4, body[data-theme="dark"] strong, body[data-theme="dark"] b,
+body[data-theme="dark"] h4, body[data-theme="dark"] h5, body[data-theme="dark"] h6,
+body[data-theme="dark"] strong, body[data-theme="dark"] b,
 body:not([data-theme="light"]) h1, body:not([data-theme="light"]) h2,
 body:not([data-theme="light"]) h3, body:not([data-theme="light"]) strong {
   color: #FFFFFF !important;
+}
+
+/* Dark Mode Brand Title & Login Portal Card */
+body:not([data-theme="light"]) .auth-brand-title {
+  color: #FFFFFF !important;
+  background: linear-gradient(135deg, #FFFFFF 0%, #A7F3D0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body:not([data-theme="light"]) .auth-login-card {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+}
+
+body:not([data-theme="light"]) .auth-role-switcher-box {
+  background: rgba(0, 0, 0, 0.35) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+body:not([data-theme="light"]) .auth-role-tab-btn:not(.active) {
+  background: transparent !important;
+  color: #94A3B8 !important;
+}
+
+body:not([data-theme="light"]) .auth-role-tab-btn.active {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4) !important;
+}
+
+body:not([data-theme="light"]) .auth-field-label {
+  color: #CBD5E1 !important;
+}
+
+body:not([data-theme="light"]) .form-input-dark {
+  background: rgba(15, 23, 42, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #FFFFFF !important;
+}
+
+body:not([data-theme="light"]) .form-input-dark:focus {
+  border-color: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+}
+
+body:not([data-theme="light"]) .demo-chip-dark {
+  background: rgba(30, 41, 59, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body:not([data-theme="light"]) .demo-chip-name {
+  color: #FFFFFF !important;
+}
+
+body:not([data-theme="light"]) .auth-demo-header-label {
+  color: #94A3B8 !important;
 }
 
 @keyframes spinRing {
