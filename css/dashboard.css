@@ -243,9 +243,10 @@
   transition: all 0.2s ease;
 }
 
-body.light-mode .mobile-course-card {
-  background: #f8fafc;
-  border-color: rgba(0, 0, 0, 0.06);
+body[data-theme="light"] .mobile-course-card {
+  background: #FFFFFF;
+  border-color: #E2E8F0;
+  color: #0F172A;
 }
 
 .mobile-course-card:hover {
@@ -291,8 +292,8 @@ body.light-mode .mobile-course-card {
   overflow: visible;
 }
 
-body.light-mode .comparison-bar-track {
-  background: #e2e8f0;
+body[data-theme="light"] .comparison-bar-track {
+  background: #E2E8F0;
 }
 
 .comparison-bar-fill {

@@ -149,7 +149,23 @@ body[data-theme="light"] textarea:focus {
   box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
 }
 
-/* Light Mode Typography & Visibility (Eliminate Invisible Text) */
+/* Light Mode Typography & Visibility (Universal High-Contrast Black/Dark Text & Icons) */
+body[data-theme="light"] {
+  --text-white: #0F172A;
+  --text-slate: #334155;
+  --text-dim: #475569;
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+  --border-color: #E2E8F0;
+  --border-glass: #E2E8F0;
+  --bg-card: #FFFFFF;
+  --bg-card-dark: #FFFFFF;
+  --bg-card-subtle: #F8FAFC;
+  --bg-input: #FFFFFF;
+  color: #0F172A !important;
+}
+
 body[data-theme="light"] h1,
 body[data-theme="light"] h2,
 body[data-theme="light"] h3,
@@ -158,30 +174,143 @@ body[data-theme="light"] h5,
 body[data-theme="light"] h6,
 body[data-theme="light"] strong,
 body[data-theme="light"] b,
+body[data-theme="light"] th,
 body[data-theme="light"] .user-text-fullname,
-body[data-theme="light"] .metric-val {
+body[data-theme="light"] .metric-val,
+body[data-theme="light"] .stat-val,
+body[data-theme="light"] .card-title,
+body[data-theme="light"] .auth-brand-title,
+body[data-theme="light"] .m-course-title,
+body[data-theme="light"] .cert-student-name {
   color: #0F172A !important;
 }
 
-/* Force inline white text to dark slate in light mode (except on emerald/blue buttons) */
-body[data-theme="light"] [style*="color: #FFFFFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
-body[data-theme="light"] [style*="color: rgb(255, 255, 255)"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
-body[data-theme="light"] [style*="color:#FFFFFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
-body[data-theme="light"] [style*="color:#fff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active),
-body[data-theme="light"] [style*="color: #fff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active) {
+/* Force all white and light-colored text to deep crisp black in light mode (excluding active colored buttons) */
+body[data-theme="light"] [style*="color: #FFFFFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color: #ffffff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color: rgb(255, 255, 255)"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color:#FFFFFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color:#ffffff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color: #FFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color:#FFF"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color: #fff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active),
+body[data-theme="light"] [style*="color:#fff"]:not(.btn-emerald-glow):not(.btn-emerald-glow *):not(.btn-pwa-top-install):not(.lang-pill-btn.active):not(.auth-role-tab-btn.active):not(.tt-filter-pill.active):not(.trim-pill.active) {
   color: #0F172A !important;
 }
 
-/* Light Mode Subtitle & Dim Text */
+/* Light Mode Subtitle, Label & Dim Text: Ensure crisp dark slate #334155 for high legibility */
 body[data-theme="light"] [style*="color: #94A3B8"],
+body[data-theme="light"] [style*="color: #94a3b8"],
 body[data-theme="light"] [style*="color: #CBD5E1"],
+body[data-theme="light"] [style*="color: #cbd5e1"],
 body[data-theme="light"] [style*="color: #64748B"],
+body[data-theme="light"] [style*="color: #64748b"],
+body[data-theme="light"] [style*="color: #E2E8F0"],
+body[data-theme="light"] [style*="color: #e2e8f0"],
 body[data-theme="light"] .user-text-greeting,
 body[data-theme="light"] .metric-lbl,
-body[data-theme="light"] .sub-caption-text {
-  color: #475569 !important;
+body[data-theme="light"] .stat-lbl,
+body[data-theme="light"] .stat-sub,
+body[data-theme="light"] .sub-caption-text,
+body[data-theme="light"] .comparison-labels,
+body[data-theme="light"] label {
+  color: #334155 !important;
 }
 
+/* Light Mode Card & Container Overrides */
+body[data-theme="light"] .metric-card-dark,
+body[data-theme="light"] .hero-gpa-card,
+body[data-theme="light"] .ai-assistant-card,
+body[data-theme="light"] .permissions-modal-card,
+body[data-theme="light"] .pwa-install-banner-card,
+body[data-theme="light"] .section-card,
+body[data-theme="light"] .stat-card,
+body[data-theme="light"] .mobile-course-card,
+body[data-theme="light"] .action-chip-btn,
+body[data-theme="light"] .feature-tile-btn,
+body[data-theme="light"] .modal-card-luxury,
+body[data-theme="light"] .profile-header-section,
+body[data-theme="light"] .homework-card-item,
+body[data-theme="light"] .timetable-slot-card,
+body[data-theme="light"] .attendance-roster-row,
+body[data-theme="light"] .child-tab-pill:not(.active),
+body[data-theme="light"] .spotlight-item,
+body[data-theme="light"] .chat-message-bubble.incoming {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Light Mode Overrides for Dark Background Inlines */
+body[data-theme="light"] [style*="background: #1E293B"],
+body[data-theme="light"] [style*="background: #0F172A"],
+body[data-theme="light"] [style*="background: #080E1E"],
+body[data-theme="light"] [style*="background: rgba(30, 41, 59"],
+body[data-theme="light"] [style*="background: rgba(15, 23, 42"],
+body[data-theme="light"] [style*="background: rgba(0, 0, 0, 0.35)"],
+body[data-theme="light"] [style*="background: rgba(0, 0, 0, 0.3)"],
+body[data-theme="light"] [style*="background: rgba(0, 0, 0, 0.4)"],
+body[data-theme="light"] [style*="background: rgba(0, 0, 0, 0.6)"],
+body[data-theme="light"] [style*="background: rgba(0,0,0,0.3)"],
+body[data-theme="light"] [style*="background: rgba(0,0,0,0.35)"],
+body[data-theme="light"] [style*="background: rgba(0,0,0,0.4)"],
+body[data-theme="light"] [style*="background: rgba(255, 255, 255, 0.03)"],
+body[data-theme="light"] [style*="background: rgba(255, 255, 255, 0.05)"],
+body[data-theme="light"] [style*="background: rgba(255, 255, 255, 0.06)"],
+body[data-theme="light"] [style*="background: rgba(255, 255, 255, 0.08)"],
+body[data-theme="light"] [style*="background: rgba(255, 255, 255, 0.1)"] {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Light Mode Inner Wells / Data Strips */
+body[data-theme="light"] .grade-row-well,
+body[data-theme="light"] [style*="background: #080E1E"] {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* Light Mode Progress Bar Tracks */
+body[data-theme="light"] .progress-bar-bg,
+body[data-theme="light"] .grade-chart-bar-bg,
+body[data-theme="light"] .comparison-bar-track,
+body[data-theme="light"] [style*="background: rgba(255, 255, 255, 0.1)"] {
+  background: #E2E8F0 !important;
+}
+
+/* Light Mode GPA Ring & Countdown Timers */
+body[data-theme="light"] #btn-metric-average > div:first-child {
+  background: #FFFFFF !important;
+  border-color: #10B981 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2) !important;
+}
+
+body[data-theme="light"] #sp-hero-gpa-val {
+  color: #0F172A !important;
+}
+
+body[data-theme="light"] .phone-top-bar span#live-phone-clock {
+  color: #0F172A !important;
+}
+
+body[data-theme="light"] #btn-global-quick-search-trigger {
+  background: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #334155 !important;
+}
+
+body[data-theme="light"] #btn-global-quick-search-trigger svg {
+  stroke: #334155 !important;
+}
+
+body[data-theme="light"] #btn-theme-quick-toggle {
+  background: #F1F5F9 !important;
+  border-color: #CBD5E1 !important;
+  color: #D97706 !important;
+}
+
+/* Light Mode Language Pills */
 body[data-theme="light"] .lang-pill-btn {
   background: #F1F5F9 !important;
   color: #334155 !important;
@@ -194,21 +323,39 @@ body[data-theme="light"] .lang-pill-btn.active {
   border-color: #10B981 !important;
 }
 
+/* Light Mode Bottom Navigation Bar */
 body[data-theme="light"] .bottom-navigation-bar {
-  background: rgba(255, 255, 255, 0.96) !important;
+  background: rgba(255, 255, 255, 0.98) !important;
   border-color: #E2E8F0 !important;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06) !important;
 }
 
-body[data-theme="light"] .nav-tab-btn {
+body[data-theme="light"] .bottom-tab-item {
   color: #64748B !important;
 }
 
-body[data-theme="light"] .nav-tab-btn.active {
-  color: #10B981 !important;
-  background: rgba(16, 185, 129, 0.12) !important;
+body[data-theme="light"] .bottom-tab-item svg {
+  stroke: #64748B !important;
 }
 
+body[data-theme="light"] .bottom-tab-item.active {
+  color: #10B981 !important;
+}
+
+body[data-theme="light"] .bottom-tab-item.active svg {
+  stroke: #10B981 !important;
+}
+
+body[data-theme="light"] .bottom-tab-label {
+  color: #64748B !important;
+}
+
+body[data-theme="light"] .bottom-tab-item.active .bottom-tab-label {
+  color: #10B981 !important;
+  font-weight: 800 !important;
+}
+
+/* Light Mode Tables & Lists */
 body[data-theme="light"] table.data-table-dark {
   background: #FFFFFF !important;
   border-color: #E2E8F0 !important;
@@ -229,10 +376,19 @@ body[data-theme="light"] table.data-table-dark tr:hover td {
   background: #F8FAFC !important;
 }
 
+/* Light Mode Filter Pills & Chips */
+body[data-theme="light"] .trim-pill:not(.active),
+body[data-theme="light"] .tt-filter-pill:not(.active) {
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+  border-color: #CBD5E1 !important;
+}
+
 /* Light Mode Drawer & Popups */
 body[data-theme="light"] #teacher-attendance-drawer,
 body[data-theme="light"] #teacher-gradebook-drawer,
 body[data-theme="light"] #admin-broadcast-drawer,
+body[data-theme="light"] #admin-add-user-drawer,
 body[data-theme="light"] .chat-input-footer-glass,
 body[data-theme="light"] .corporate-brand-header > div:first-child {
   background: #FFFFFF !important;
